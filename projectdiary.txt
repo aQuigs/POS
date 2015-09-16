@@ -1,0 +1,33 @@
+09/16/2015
+
+Realized that it was Oakland's Network preventing issues, the 3 hours of
+troubleshooting and creating the database in different ways was no use,
+but Anthony checked at his Oakland apartment and it was fine.
+
+Continue the conversion and replacement of methods in order. Mel has done
+alot of database stuff in C# and SQL Server but syntax and ways to connect
+are different in Java and MySQL.
+
+Continued to research how to connect to the Amazon MySQL DB. Hopefully
+we can figure out a way. Mel has a VPN he can use to bypass oakland stuff.
+
+Question is if there is a place to get a server on Oakland's campus.
+
+
+09/15/2015
+
+Created AWS Account
+Trying to figure out how to connect to the database.
+sg-2c6cee48 ip allowed removed, allow all traffic, did not work.
+Deleted the AWS default VPC account on Amazon West Oregon, should not have done that
+Switch Port numbers on AWS
+
+Setup MySQL on Mel's server, works if needed as a backup
+
+Created the template for the SRS
+
+
+09/09/2015
+
+Presentation finished
+Worked on all the functional requirements that we can think of for the project
