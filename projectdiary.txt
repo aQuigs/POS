@@ -1,0 +1,12 @@
+09/15/2015
+
+Created AWS Account
+Trying to figure out how to connect to the database.
+sg-2c6cee48 ip allowed removed, allow all traffic, did not work.
+Deleted the AWS default VPC account on Amazon West Oregon, should not have done that
+
+
+09/09/2015
+
+Presentation finished
+Worked on all the functional requirements that we can think of for the project
