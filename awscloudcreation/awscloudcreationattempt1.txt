@@ -1,0 +1,87 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Mappings" : {
+    "Region2Principal" : {
+      "us-east-1"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "us-west-2"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "us-west-1"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "eu-west-1"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "ap-southeast-1" : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "ap-northeast-1" : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "ap-southeast-2" : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "sa-east-1"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
+      "cn-north-1"     : { "EC2Principal" : "ec2.amazonaws.com.cn", "OpsWorksPrincipal" : "opsworks.amazonaws.com.cn" },
+      "eu-central-1"   : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" }
+    }
+
+  },
+
+  "Conditions" : {
+    "Is-EC2-VPC"     : { "Fn::Or" : [ {"Fn::Equals" : [{"Ref" : "AWS::Region"}, "eu-central-1" ]},
+                                      {"Fn::Equals" : [{"Ref" : "AWS::Region"}, "cn-north-1" ]}]},
+    "Is-EC2-Classic" : { "Fn::Not" : [{ "Condition" : "Is-EC2-VPC"}]}
+  },
+
+  "Resources": {
+
+    "InstanceSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Hey Bitch",
+        "SecurityGroupIngress": []
+      }
+    },
+
+    "DBEC2SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Condition" : "Is-EC2-VPC",
+      "Properties" : {
+        "GroupDescription": "Open database for access",
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "3306", 
+          "ToPort" : "3306",
+          "SourceSecurityGroupName" : { "Ref" : "InstanceSecurityGroup" }
+        }]
+      }
+    },
+
+    "DBSecurityGroup": {
+      "Type": "AWS::RDS::DBSecurityGroup",
+      "Condition" : "Is-EC2-Classic",
+      "Properties": {
+        "DBSecurityGroupIngress": {
+          "EC2SecurityGroupName": { "Ref": "InstanceSecurityGroup" }
+        },
+        "GroupDescription": "database access"
+      }
+    },
+
+    "CSE480DB": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "Engine": "MySQL",
+        "DBName": "cse480pos",
+        "MasterUsername": "cse480username",
+        "DBInstanceClass": "db.t1.micro",
+        "AllocatedStorage": "5",
+        "MasterUserPassword": "fuckyoubitch",
+        "VPCSecurityGroups": { "Fn::If" : [ "Is-EC2-VPC", [ { "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ] } ], { "Ref" : "AWS::NoValue" }]},
+        "DBSecurityGroups": { "Fn::If" : [ "Is-EC2-Classic", [ { "Ref": "DBSecurityGroup" } ], { "Ref" : "AWS::NoValue" }]}
+      }
+    }
+   }
+},
+
+  "Outputs": {
+    "URL": {
+      "Description": "URL of the AWS Elastic Beanstalk Environment",
+      "Value": { "Fn::Join": ["", ["http://", { "Fn::GetAtt": ["SampleEnvironment", "EndpointURL"] }]]
+      }
+    }
+  }
+}
+
+
+
