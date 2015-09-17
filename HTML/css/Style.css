@@ -1,0 +1,65 @@
+body {
+  padding-top: 50px;
+}
+
+ul li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.tempBtn {
+	color:white;
+}
+
+.orderQueue {
+	list-style: none;
+}
+
+.orderList {
+	border-top: solid 1px black;
+	padding: 10px 0 10px 0;
+}
+
+.alignCenter {
+	float: right;
+	margin-right: 40%;
+}
+
+.tables {
+	margin-left: 20%;
+}
+
+.emptyTable {
+	width:10%;
+	border-radius: 100%;
+	background-color: blue;
+	padding: 20px;
+	margin: 5px;
+}
+
+.takenTable {
+	width:10%;
+	border-radius: 100%;
+	background-color: red;
+	padding: 20px;
+	margin:5px;
+}
+
+.emptySpace {
+	width:10%;
+	border-radius: 100%;
+	background-color: white;
+	padding: 20px;
+	margin: 5px;
+}
+
+.floatRight {
+	float: right;
+}
