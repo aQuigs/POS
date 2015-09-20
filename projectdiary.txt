@@ -1,3 +1,17 @@
+
+09/20/2015
+Realized some of the .NET framework libraries are not in java so the SQL utility class
+will not be as complete in Java as what we've done before in C#. The basic MySQLUtilities
+class is complete and is uploaded to Oakland.
+
+Trying to finalize all tables by tonight.
+
+09/19/2015
+
+09/18/2015
+
+09/17/2015
+
 09/16/2015
 
 Realized that it was Oakland's Network preventing issues, the 3 hours of
