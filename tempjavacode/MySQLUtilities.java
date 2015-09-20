@@ -11,33 +11,41 @@ public class MySQLUtilities{
 
 		private Connection theConnection;
 
-		public MySQLUtilities() throws SQLException, ClassNotFoundException {
-	    	Class.forName(jdbcDriver); //set Java database connectivity driver
+		public MySQLUtilities() throws SQLException, ClassNotFoundException
+		{
+	    	Class.forName(jdbcDriver);
 	    	theConnection = DriverManager.getConnection(Url, Username, Password);
 		}
 
-		public ResultSet SelectSQL(String SelectSQLQuery)throws SQLException {
+		public ResultSet SelectSQL(String SelectSQLQuery)throws SQLException
+		{
 		    PreparedStatement thePreparedStatement  = theConnection.prepareStatement(SelectSQLQuery);
 		    return thePreparedStatement.executeQuery();
 		}
 
-		public int UpdateSQL(String UpdateSQLStatement)throws SQLException {
+		public int UpdateSQL(String UpdateSQLStatement)throws SQLException
+		{
 			PreparedStatement thePreparedStatement  = theConnection.prepareStatement(UpdateSQLStatement);
 		    return thePreparedStatement.executeUpdate();
 		}
 		
-		public int InsertSQL(String InsertSQLStatement)throws SQLException {
+		public int InsertSQL(String InsertSQLStatement)throws SQLException
+		{
 			PreparedStatement thePreparedStatement  = theConnection.prepareStatement(InsertSQLStatement, Statement.RETURN_GENERATED_KEYS);
 			thePreparedStatement.executeUpdate();
 			ResultSet theResultSet = thePreparedStatement.getGeneratedKeys();
-			if(theResultSet.next()) {
+			if(theResultSet.next())
+			{
 				return theResultSet.getInt(1);
-			} else {
+			}
+			else
+			{
 				return 0;
 			}
 		}
 		
-		public void close() {
+		public void close()
+		{
 			try
 		    {
 				theConnection.close();
