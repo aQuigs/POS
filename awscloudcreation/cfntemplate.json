@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
 
-  "Mappings" : {
+ "Mappings" : {
     "Region2Principal" : {
       "us-east-1"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
       "us-west-2"      : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" },
@@ -14,7 +14,6 @@
       "cn-north-1"     : { "EC2Principal" : "ec2.amazonaws.com.cn", "OpsWorksPrincipal" : "opsworks.amazonaws.com.cn" },
       "eu-central-1"   : { "EC2Principal" : "ec2.amazonaws.com", "OpsWorksPrincipal" : "opsworks.amazonaws.com" }
     }
-
   },
 
   "Conditions" : {
@@ -57,7 +56,15 @@
         "GroupDescription": "database access"
       }
     },
-
+    "EC2Instance": {
+       "Type" : "AWS::EC2::Instance",
+       "Properties" : {
+          "InstanceType" : "t2.micro",
+          "KeyName": "CSE480KeyPair",
+          "ImageId" : "ami-d05e75b8",
+          "Monitoring" : true
+       }
+    },
     "CSE480DB": {
       "Type": "AWS::RDS::DBInstance",
       "Properties": {
@@ -72,16 +79,5 @@
       }
     }
    }
-},
 
-  "Outputs": {
-    "URL": {
-      "Description": "URL of the AWS Elastic Beanstalk Environment",
-      "Value": { "Fn::Join": ["", ["http://", { "Fn::GetAtt": ["SampleEnvironment", "EndpointURL"] }]]
-      }
-    }
-  }
 }
-
-
-

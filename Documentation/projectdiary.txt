@@ -1,4 +1,9 @@
 
+09/21/2015
+
+Updated CloudFormation stack to include a EC2 instance that we can use to connect to our MySQL database
+Begin working on configuring server to receive calls from the front end and modify the database as appropriate
+
 09/20/2015
 Realized some of the .NET framework libraries are not in java so the SQL utility class
 will not be as complete in Java as what we've done before in C#. The basic MySQLUtilities
