@@ -1,0 +1,53 @@
+
+09/20/2015
+Realized some of the .NET framework libraries are not in java so the SQL utility class
+will not be as complete in Java as what we've done before in C#. The basic MySQLUtilities
+class is complete and is uploaded to Oakland.
+
+Added SRS to the GitHUB. This will be annoying because Google Drive does not format this well.
+Mel would love to move the SRS to OneDrive for easier Word Formatting. The cascading numbering
+system on the SRS is good to go. Just need to copy the level that you want to paste and put it in
+The numbers will automatically update. The original copies of the SRS documents that I could find
+do not do a good job on this.
+
+Trying to finalize all tables by tonight.
+
+09/19/2015
+
+09/18/2015
+
+09/17/2015
+
+09/16/2015
+
+Realized that it was Oakland's Network preventing issues, the 3 hours of
+troubleshooting and creating the database in different ways was no use,
+but Anthony checked at his Oakland apartment and it was fine.
+
+Continue the conversion and replacement of methods in order. Mel has done
+alot of database stuff in C# and SQL Server but syntax and ways to connect
+are different in Java and MySQL.
+
+Continued to research how to connect to the Amazon MySQL DB. Hopefully
+we can figure out a way. Mel has a VPN he can use to bypass oakland stuff.
+
+Question is if there is a place to get a server on Oakland's campus.
+
+
+09/15/2015
+
+Created AWS Account
+Trying to figure out how to connect to the database.
+sg-2c6cee48 ip allowed removed, allow all traffic, did not work.
+Deleted the AWS default VPC account on Amazon West Oregon, should not have done that
+Switch Port numbers on AWS
+
+Setup MySQL on Mel's server, works if needed as a backup
+
+Created the template for the SRS
+
+
+09/09/2015
+
+Presentation finished
+Worked on all the functional requirements that we can think of for the project
