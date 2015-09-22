@@ -1,4 +1,3 @@
-package cse480;
 
 import java.sql.*;
 
@@ -13,15 +12,15 @@ public class MySQLUtilities{
 	/**
 	 * Url is the url of where the server is
 	 */
-	public String Url = "";
+	public String Url = "jdbc:mysql://ccl5zwj6cgtotm.c6af5bvxbhrs.us-east-1.rds.amazonaws.com:3306/CSE480";
 	/**
 	 * Username is the username
 	 */
-	public String Username  = "";
+	public String Username  = "cse480username";
 	/**
 	 * Password, password will be stored here when the object is created
 	 */
-    public String Password  = "";
+    public String Password  = "fuckyoubitch";
 
     /**
      * MySQL connection, global so every function can use it
@@ -38,6 +37,24 @@ public class MySQLUtilities{
     	Class.forName(jdbcDriver);
     	theConnection = DriverManager.getConnection(Url, Username, Password);
 	}
+	
+	/**
+	 * 
+	 * @param Url
+	 * @param Username
+	 * @param Password
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public MySQLUtilities(String Url, String Username, String Password) throws SQLException, ClassNotFoundException
+	{
+		this.Url = Url;
+		this.Username = Username;
+		this.Password = Password;
+    	Class.forName(jdbcDriver);
+    	theConnection = DriverManager.getConnection(Url, Username, Password);		
+	}
+	
 
 	/**
 	 * 
