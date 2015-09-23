@@ -1,2 +1,8 @@
 *.class
 bin
+/build/
+.classpath
+*~
+*.swp
+.project
+
