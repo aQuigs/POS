@@ -22,13 +22,6 @@ public class loginVerification extends HttpServlet
         super();
     }
 
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-//    {
-//        // TODO Auto-generated method stub
-//        // response.getWriter().append("Served at: ");
-//        doPost(request, response);
-//    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
@@ -41,25 +34,29 @@ public class loginVerification extends HttpServlet
                     + request.getParameter("username") + "' and password='" + request.getParameter("password") + "'");
             if (rs.next())
             {
-                String rv;
-                if (rs.getString(4) == null)
+                if (rs.getString(4) != null)
                 {
-                    rv = "unverified";
+                    writer.append("unverified");
                 }
                 else
                 {
-                    rv = rs.getString(3);
+                    writer.append(rs.getString(3));
                 }
-                writer.append(rv);
+            }
+            else
+            {
+                writer.append("invalid");
             }
         }
         catch (ClassNotFoundException e1)
         {
             e1.printStackTrace();
+            writer.append("error");
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            writer.append("error");
         }
     }
 }
