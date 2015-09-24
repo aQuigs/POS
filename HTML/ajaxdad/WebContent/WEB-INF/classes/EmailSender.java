@@ -5,25 +5,9 @@ import javax.mail.internet.*;
 public class EmailSender
 {
 
-    static final String FROM = "aquigley1777@gmail.com"; // Replace with your "From" address. This
-                                                         // address must be verified.
-    // static final String TO = "ajquigle@oakland.edu"; // Replace with a "To" address. If your
-    // account is still in the
-    // sandbox, this address must be verified.
-
-    // static final String BODY =
-    // "This email was sent through the Amazon SES SMTP interface by using Java.";
-    static final String SUBJECT = "Verify Your Email Address";
-
-    // Supply your SMTP credentials below. Note that your SMTP credentials are different from your
-    // AWS credentials.
-    static final String SMTP_USERNAME = "AKIAILK7KE44MV3ZQDBQ"; // Replace with your SMTP username.
-    static final String SMTP_PASSWORD = "Aou+Dg5o3NZsQvsEXv1vJq1C4EipxvQLcGY6/XfW0/sA"; // Replace
-                                                                                        // with your
-                                                                                        // SMTP
-                                                                                        // password.
-
-    // Amazon SES SMTP host name. This example uses the US West (Oregon) region.
+    static final String FROM = "aquigley1777@gmail.com";
+    static final String SMTP_USERNAME = "AKIAILK7KE44MV3ZQDBQ";
+    static final String SMTP_PASSWORD = "Aou+Dg5o3NZsQvsEXv1vJq1C4EipxvQLcGY6/XfW0/sA";
     static final String HOST = "email-smtp.us-east-1.amazonaws.com";
 
     // Port we will connect to on the Amazon SES SMTP endpoint. We are choosing port 25 because we
@@ -31,7 +15,7 @@ public class EmailSender
     // STARTTLS to encrypt the connection.
     static final int PORT = 25;
 
-    public static void sendEmail(String to, String body) throws MessagingException, NoSuchProviderException
+    public static void sendEmail(String to, String subject, String body) throws MessagingException, NoSuchProviderException
     {
         // Create a Properties object to contain connection configuration information.
         Properties props = System.getProperties();
@@ -52,7 +36,7 @@ public class EmailSender
         MimeMessage msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(FROM));
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        msg.setSubject(SUBJECT);
+        msg.setSubject(subject);
         msg.setContent(body, "text/plain");
 
         // Create a transport.

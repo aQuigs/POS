@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
-/**
- * Servlet implementation class loginVerification
- */
 @WebServlet("/registration")
 public class registration extends HttpServlet
 {
@@ -74,7 +71,9 @@ public class registration extends HttpServlet
                 writer.append("success");
                 try
                 {
-                    EmailSender.sendEmail(email, "HEY BRO");
+                    EmailSender.sendEmail(email, "Verify Your Email Address",
+                            "To verify your email, please go to the following URL: http://ec2-54-210-239-232.compute-1.amazonaws.com:8080/loginVerification/ValidateEmail?validatecode="
+                                    + hashString);
                 }
                 catch (MessagingException e)
                 {
