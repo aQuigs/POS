@@ -24,7 +24,7 @@ myApp.onPageInit('about', function (page) {
 
 function login()
 {
-    xmlHttpRequest.open("POST", "loginVerification?username=" + document.getElementById('username').value + "&password=" + document.getElementById('password').value, true);
+    xmlHttpRequest.open("POST", "LoginVerification?username=" + document.getElementById('username').value + "&password=" + document.getElementById('password').value, true);
     xmlHttpRequest.onreadystatechange = processLogin;
     xmlHttpRequest.send();
 }
@@ -105,7 +105,7 @@ function processReset()
 }
 function register()
 {
-    xmlHttpRequest.open("POST", "registration?username=" + document.getElementById('username').value + "&password=" + document.getElementById('password').value + "&email=" + document.getElementById('email').value, true);
+    xmlHttpRequest.open("POST", "Registration?username=" + document.getElementById('username').value + "&password=" + document.getElementById('password').value + "&email=" + document.getElementById('email').value, true);
     xmlHttpRequest.onreadystatechange = processReset;
     xmlHttpRequest.send();
 }

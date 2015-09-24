@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
-@WebServlet("/registration")
-public class registration extends HttpServlet
+@WebServlet("/Registration")
+public class Registration extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
-    public registration()
+    public Registration()
     {
         super();
     }
