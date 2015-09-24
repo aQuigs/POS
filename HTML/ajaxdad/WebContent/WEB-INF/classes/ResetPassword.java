@@ -22,40 +22,12 @@ public class ResetPassword extends HttpServlet
         super();
     }
 
-    private String generatePassword()
-    {
-        String chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        while (sb.length() < 9)
-        {
-            int index = (int) (random.nextFloat() * chars.length());
-            sb.append(chars.charAt(index));
-        }
-
-        return sb.toString();
-
-    }
-
-    private boolean checkInputs(HttpServletRequest request, String[] params)
-    {
-        Map<String, String[]> args = request.getParameterMap();
-        for (String key : params)
-        {
-            if (!args.containsKey(key) || args.get(key).length != 1)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!checkInputs(request, new String[] { "email" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "email" }))
         {
             writer.append("error");
             return;
@@ -73,7 +45,7 @@ public class ResetPassword extends HttpServlet
             }
 
             String username = rs.getString(1);
-            String password = generatePassword();
+            String password = ServletUtilities.generatePassword();
 
             sql.UpdateSQL("UPDATE UserInfo SET password='" + password + "' WHERE username='" + username + "';");
             writer.append("success");
@@ -81,17 +53,14 @@ public class ResetPassword extends HttpServlet
         }
         catch (MessagingException e)
         {
-            e.printStackTrace();
             writer.append("error");
         }
         catch (ClassNotFoundException e1)
         {
-            e1.printStackTrace();
             writer.append("error");
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
             writer.append("error");
         }
     }

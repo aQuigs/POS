@@ -24,25 +24,12 @@ public class ValidateEmail extends HttpServlet
         super();
     }
 
-    private boolean checkInputs(HttpServletRequest request, String[] params)
-    {
-        Map<String, String[]> args = request.getParameterMap();
-        for (String key : params)
-        {
-            if (!args.containsKey(key) || args.get(key).length != 1)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!checkInputs(request, new String[] { "validatecode" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "validatecode" }))
         {
             writer.append("error");
             return;
@@ -65,12 +52,10 @@ public class ValidateEmail extends HttpServlet
         }
         catch (ClassNotFoundException e1)
         {
-            e1.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
-            e.printStackTrace(writer);
             writer.append("error");
         }
     }

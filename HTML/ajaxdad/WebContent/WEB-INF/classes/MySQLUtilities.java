@@ -21,7 +21,7 @@ public class MySQLUtilities{
 	/**
 	 * Password, password will be stored here when the object is created
 	 */
-    public static String Password  = "fuckyoubitch";
+    public static String Password  = "cse480password";
 
     /**
      * MySQL connection, global so every function can use it
@@ -35,7 +35,7 @@ public class MySQLUtilities{
 	 */
 	public MySQLUtilities() throws SQLException, ClassNotFoundException
 	{
-	    if (theConnection == null) {
+	    if (theConnection == null || theConnection.isClosed()) {
         	Class.forName(jdbcDriver);
         	theConnection = DriverManager.getConnection(Url, Username, Password);
 	    }

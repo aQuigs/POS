@@ -24,25 +24,12 @@ public class registration extends HttpServlet
         super();
     }
 
-    private boolean checkInputs(HttpServletRequest request, String[] params)
-    {
-        Map<String, String[]> args = request.getParameterMap();
-        for (String key : params)
-        {
-            if (!args.containsKey(key) || args.get(key).length != 1)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!checkInputs(request, new String[] { "username", "password", "email" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password", "email" }))
         {
             writer.append("error");
             return;

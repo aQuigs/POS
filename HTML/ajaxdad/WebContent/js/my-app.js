@@ -58,7 +58,11 @@ function processLogin()
         else if (accountType == "unverified")
         {
             alert('Please activate your account first; see your email for the activation link');
-        }   
+        }
+        else if (accountType == "error")
+        {
+            alert('An error occurred');
+        }
     }
 }
 

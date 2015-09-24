@@ -26,10 +26,16 @@ public class loginVerification extends HttpServlet
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
-        MySQLUtilities sql;
+
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password" }))
+        {
+            writer.append("error");
+            return;
+        }
+
         try
         {
-            sql = new MySQLUtilities();
+            MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql.SelectSQL("select username,password,type,unverifiedHash from UserInfo where username='"
                     + request.getParameter("username") + "' and password='" + request.getParameter("password") + "'");
             if (rs.next())
@@ -50,12 +56,10 @@ public class loginVerification extends HttpServlet
         }
         catch (ClassNotFoundException e1)
         {
-            e1.printStackTrace();
             writer.append("error");
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
             writer.append("error");
         }
     }

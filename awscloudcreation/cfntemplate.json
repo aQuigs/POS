@@ -27,7 +27,7 @@
     "InstanceSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "Hey Bitch",
+        "GroupDescription": "Server securty group",
         "SecurityGroupIngress": []
       }
     },
@@ -73,7 +73,7 @@
         "MasterUsername": "cse480username",
         "DBInstanceClass": "db.t1.micro",
         "AllocatedStorage": "5",
-        "MasterUserPassword": "fuckyoubitch",
+        "MasterUserPassword": "cse480password",
         "VPCSecurityGroups": { "Fn::If" : [ "Is-EC2-VPC", [ { "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ] } ], { "Ref" : "AWS::NoValue" }]},
         "DBSecurityGroups": { "Fn::If" : [ "Is-EC2-Classic", [ { "Ref": "DBSecurityGroup" } ], { "Ref" : "AWS::NoValue" }]}
       }
