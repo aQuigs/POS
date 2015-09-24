@@ -1,5 +1,6 @@
-
 import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * MySQL Utilites is the basic Select, Update, Insert and Delete
@@ -112,6 +113,152 @@ public class MySQLUtilities{
 			return 0;
 		}
 	}
+	
+	/**
+	 * Inserts into the TableName given and giving a hashmap of <String, String> Column Name and Value
+	 * @param TableName
+	 * @param TableColumnNameAndValue HashMap < String , String>    which is <Column Name, Value>
+	 * @return returns 1 if success, 0 if failure
+	 * @throws SQLException
+	 */
+	public int InsertSQL(String TableName, HashMap<String,String> TableColumnNameAndValue) throws SQLException
+	{
+    	//sql.InsertSQL("INSERT INTO Mel (melcolumn1, melcolumn2) values ('String1', 'String2')");
+		String insideTheColumnInsert = "";
+		String insideTheValueInsert = "";
+				
+		for (Map.Entry<String, String> theMap : TableColumnNameAndValue.entrySet())
+		{
+			String columnName = theMap.getKey();
+			String value = theMap.getValue();
+			
+			if (insideTheColumnInsert.length() > 0)
+			{
+				insideTheColumnInsert = " , " + insideTheColumnInsert;
+				insideTheValueInsert = " , " + insideTheValueInsert;
+			}
+			
+			insideTheColumnInsert = columnName + insideTheColumnInsert;
+			insideTheValueInsert = SQLFormat(value) + insideTheValueInsert;
+		}
+    	
+		String insertSQL = "INSERT INTO " + TableName + " (" + insideTheColumnInsert + ") values (" + insideTheValueInsert + ")";
+		
+		return InsertSQL(insertSQL);
+		
+	}
+	
+	/**
+	 * Formatting value with ' and '
+	 * @param Value
+	 * @return
+	 */
+	public String SQLFormat(String Value)
+	{
+		if(Value.length() > 0)
+		{
+			return "'"+ Value + "'";
+		}
+		else
+		{
+			return "''";
+		}
+	}
+	
+	/**
+	 * Generic Table without null or ascending declarations
+	 * @param TableName
+	 * @param TableColumnNameAndType
+	 * @return 0 if can not do, 1 if successful
+	 * @throws SQLException
+	 */
+	public int CreateTableNoRestrictions(String TableName, HashMap<String,Object> TableColumnNameAndType) throws SQLException
+	{
+		if (TableName.length() <= 0 || TableColumnNameAndType.size() == 0)
+		{
+			return 0;
+		}
+		String createTableSQL = "CREATE TABLE " + TableName + " (";
+		String insideTheInsert = "";
+
+		for (Map.Entry<String, Object> theMap : TableColumnNameAndType.entrySet())
+		{
+			String preparedAddition = "";
+			String columnName = theMap.getKey();
+			Object columnType = theMap.getValue();
+
+			preparedAddition = preparedAddition + columnName + " ";
+			
+			if (columnType == String.class)
+			{
+				preparedAddition = preparedAddition + " VARCHAR(255)";
+				
+			}
+			else if (columnType == int.class)
+			{
+				preparedAddition = preparedAddition + " INT(5)";
+			}
+			else if (columnType == double.class)
+			{
+				preparedAddition = preparedAddition + " DOUBLE(5, 2)";
+			}
+			else if (columnType == Date.class)
+			{
+				preparedAddition = preparedAddition + " DATETIME()";
+			}
+			else
+			{
+				preparedAddition = preparedAddition + " TEXT";
+			}
+			
+			if (insideTheInsert.length() > 0)
+			{
+				preparedAddition = preparedAddition + " , ";
+			}
+			
+			insideTheInsert = preparedAddition + insideTheInsert;
+	
+		}
+		
+		createTableSQL = createTableSQL + insideTheInsert + ")";
+		PreparedStatement thePreparedStatement  = theConnection.prepareStatement(createTableSQL);
+	    thePreparedStatement.executeUpdate();
+		
+		return 1;
+	}
+	
+	/**
+	 * Private dropTable
+	 * @param TableName
+	 * @return
+	 * @throws SQLException
+	 */
+	private int dropTable(String TableName) throws SQLException
+	{
+		PreparedStatement thePreparedStatement  = theConnection.prepareStatement("DROP TABLE " + TableName);
+		thePreparedStatement.executeUpdate();
+		return 1;
+	}
+	
+	/**
+	 * 
+	 * @param TableName TableName
+	 * @param Password Password to get the drop table
+	 * @return
+	 * @throws SQLException
+	 */
+	public int DropTable(String TableName, String Password) throws SQLException
+	{
+		if (Password == "POS")
+		{
+			return dropTable(TableName);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
 	
 	/**
 	 * Closes the connection
