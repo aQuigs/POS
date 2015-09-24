@@ -13,20 +13,20 @@ public class MySQLUtilities{
 	/**
 	 * Url is the url of where the server is
 	 */
-	public String Url = "jdbc:mysql://ccl5zwj6cgtotm.c6af5bvxbhrs.us-east-1.rds.amazonaws.com:3306/CSE480";
+	public static String Url = "jdbc:mysql://ccl5zwj6cgtotm.c6af5bvxbhrs.us-east-1.rds.amazonaws.com:3306/CSE480";
 	/**
 	 * Username is the username
 	 */
-	public String Username  = "cse480username";
+	public static String Username  = "cse480username";
 	/**
 	 * Password, password will be stored here when the object is created
 	 */
-    public String Password  = "fuckyoubitch";
+    public static String Password  = "fuckyoubitch";
 
     /**
      * MySQL connection, global so every function can use it
      */
-	private Connection theConnection;
+	private static Connection theConnection = null;
 
 	/**
 	 * Public constructor
@@ -35,8 +35,10 @@ public class MySQLUtilities{
 	 */
 	public MySQLUtilities() throws SQLException, ClassNotFoundException
 	{
-    	Class.forName(jdbcDriver);
-    	theConnection = DriverManager.getConnection(Url, Username, Password);
+	    if (theConnection == null) {
+        	Class.forName(jdbcDriver);
+        	theConnection = DriverManager.getConnection(Url, Username, Password);
+	    }
 	}
 	
 	/**

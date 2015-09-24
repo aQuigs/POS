@@ -81,16 +81,17 @@ public class ResetPassword extends HttpServlet
         }
         catch (MessagingException e)
         {
-            e.printStackTrace(writer);
+            e.printStackTrace();
+            writer.append("error");
         }
         catch (ClassNotFoundException e1)
         {
-            e1.printStackTrace(writer);
+            e1.printStackTrace();
             writer.append("error");
         }
         catch (SQLException e)
         {
-            e.printStackTrace(writer);
+            e.printStackTrace();
             writer.append("error");
         }
     }
