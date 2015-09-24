@@ -27,12 +27,6 @@ public class registration extends HttpServlet
         super();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-    {
-        doPost(req,resp);
-    }
-
     private boolean checkInputs(HttpServletRequest request, String[] params)
     {
         Map<String, String[]> args = request.getParameterMap();
@@ -63,7 +57,7 @@ public class registration extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT username FROM UserInfo WHERE username='" + username + "';");
+            ResultSet rs = sql.SelectSQL("SELECT username FROM UserInfo WHERE username='" + username + "' or email='" + email + "';");
             if (rs.next())
             {
                 writer.append("taken");
@@ -74,13 +68,13 @@ public class registration extends HttpServlet
             byte[] hash = digest.digest(email.getBytes("UTF-8"));
             String hashString = DatatypeConverter.printHexBinary(hash);
 
-            if (0 == sql.InsertSQL("INSERT INTO UserInfo (username,password,email,type,unverifiedHash) VALUES ('" + username + "','" + password
+            if (1 == sql.InsertSQL("INSERT INTO UserInfo (username,password,email,type,unverifiedHash) VALUES ('" + username + "','" + password
                     + "','" + email + "','customer','" + hashString + "');"))
             {
                 writer.append("success");
                 try
                 {
-                    EmailSender.sendEmail("ajquigle@oakland.edu", "HEY BRO");
+                    EmailSender.sendEmail(email, "HEY BRO");
                 }
                 catch (MessagingException e)
                 {
