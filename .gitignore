@@ -6,4 +6,5 @@ bin
 *.swp
 .project
 .settings
+*.war
 
