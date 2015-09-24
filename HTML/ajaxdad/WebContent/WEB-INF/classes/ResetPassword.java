@@ -30,7 +30,7 @@ public class ResetPassword extends HttpServlet
         while (sb.length() < 9)
         {
             int index = (int) (random.nextFloat() * chars.length());
-            sb.append(Characters.charAt(index));
+            sb.append(chars.charAt(index));
         }
 
         return sb.toString();
