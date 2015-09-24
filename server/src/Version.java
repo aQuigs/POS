@@ -5,6 +5,7 @@ public class Version {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
+   	
     	MySQLUtilities sql = new MySQLUtilities("jdbc:mysql://ccl5zwj6cgtotm.c6af5bvxbhrs.us-east-1.rds.amazonaws.com:3306/CSE480", "cse480username", "fuckyoubitch");;
     	ResultSet rs = sql.SelectSQL("SELECT * From Persons");
 
