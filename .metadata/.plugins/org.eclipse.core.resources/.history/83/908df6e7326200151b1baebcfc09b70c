@@ -1,0 +1,30 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Version {
+
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+    	MySQLUtilities sql = new MySQLUtilities("jdbc:mysql://ccl5zwj6cgtotm.c6af5bvxbhrs.us-east-1.rds.amazonaws.com:3306/CSE480", "cse480username", "fuckyoubitch");;
+    	ResultSet rs = sql.SelectSQL("SELECT * From Persons");
+
+    	while (rs.next())
+        {
+    		System.out.println(rs.getString(1));
+            System.out.println(rs.getString(2));
+        }
+
+    	MySQLUtilities mysql = new MySQLUtilities("jdbc:mysql://69.164.213.163:3306/cse480", "melfurd", "R@t@T@t42");
+    	ResultSet myrs = mysql.SelectSQL("SELECT * From stuff");
+
+        while (myrs.next())
+        {
+            System.out.println(rs.getString(1));
+        }
+    }
+}
