@@ -48,7 +48,7 @@ public class GetUnfinishedOrders extends HttpServlet
                 writer.append(',');
                 String miscInfo = rs.getString(3);
                 writer.append(miscInfo == null ? "" : miscInfo);
-                writer.append("<br>");
+                writer.append('\n');
             }
         }
         catch (ClassNotFoundException e)
