@@ -19,7 +19,7 @@ public class GetUnfinishedOrders extends HttpServlet
         super();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
@@ -33,20 +33,22 @@ public class GetUnfinishedOrders extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo "
+            ResultSet rs = sql.SelectSQL("SELECT OrderList.orderId,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo "
                     + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
                     + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                     + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
                     + "WHERE UserInfo.username='" + request.getParameter("username") + "' "
                     + "AND (OrderDetails.status='placed' OR OrderDetails.status='cooked') "
-                    + "ORDER BY OrderDetails.status;");
+                    + "ORDER BY OrderList.orderId,OrderDetails.status;");
             while (rs.next())
             {
                 writer.append(rs.getString(1));
                 writer.append(',');
                 writer.append(rs.getString(2));
                 writer.append(',');
-                String miscInfo = rs.getString(3);
+                writer.append(rs.getString(3));
+                writer.append(',');
+                String miscInfo = rs.getString(4);
                 writer.append(miscInfo == null ? "" : miscInfo);
                 writer.append('\n');
             }
