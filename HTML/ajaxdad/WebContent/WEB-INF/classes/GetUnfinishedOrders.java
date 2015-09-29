@@ -19,7 +19,7 @@ public class GetUnfinishedOrders extends HttpServlet
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void doPush(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
