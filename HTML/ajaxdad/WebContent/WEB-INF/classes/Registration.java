@@ -59,7 +59,7 @@ public class Registration extends HttpServlet
                 try
                 {
                     EmailSender.sendEmail(email, "Verify Your Email Address",
-                            "To verify your email, please go to the following URL: http://ec2-54-210-239-232.compute-1.amazonaws.com:8080/POS/ValidateEmail?validatecode="
+                            "To verify your email, please go to the following URL: http://ec2-52-23-188-89.compute-1.amazonaws.com:8080/POS/ValidateEmail?validatecode="
                                     + hashString);
                 }
                 catch (MessagingException e)
