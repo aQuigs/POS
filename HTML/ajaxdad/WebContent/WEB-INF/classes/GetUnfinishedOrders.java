@@ -34,7 +34,7 @@ public class GetUnfinishedOrders extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT OrderList.orderId,OrderDetails.detailId,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo "
+            ResultSet rs = sql.SelectSQL("SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo "
                     + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
                     + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                     + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
@@ -51,7 +51,9 @@ public class GetUnfinishedOrders extends HttpServlet
                 writer.append(',');
                 writer.append(rs.getString(4));
                 writer.append(',');
-                String miscInfo = rs.getString(5);
+                writer.append(rs.getString(5));
+                writer.append(',');
+                String miscInfo = rs.getString(6);
                 writer.append(miscInfo == null ? "" : miscInfo);
                 writer.append('\n');
             }
