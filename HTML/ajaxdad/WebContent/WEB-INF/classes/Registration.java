@@ -41,8 +41,7 @@ public class Registration extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT username FROM UserInfo WHERE username='" + username + "' or email='" + email + "';");
-            if (rs.next())
+            if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
             {
                 writer.append("taken");
                 return;

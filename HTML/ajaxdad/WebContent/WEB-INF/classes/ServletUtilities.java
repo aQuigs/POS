@@ -72,4 +72,18 @@ public class ServletUtilities
 
         return false;
     }
+    
+    public static boolean isUsernameEmailTaken(MySQLUtilities sql, String username, String email) throws SQLException
+    {
+        ResultSet rs = sql.SelectSQL("SELECT username FROM UserInfo WHERE username='" + username + "' or email='" + email + "';");
+        return rs.next();
+    }
+    
+    public static String getRestaurantFromAdmin(MySQLUtilities sql, String adminUsername) throws SQLException
+    {
+        ResultSet rs = sql.SelectSQL("SELECT restaurantId FROM UserInfo WHERE username='" + adminUsername + "' AND type='admin';");
+        if (rs.next())
+            return rs.getString(1);
+        return null;
+    }
 }
