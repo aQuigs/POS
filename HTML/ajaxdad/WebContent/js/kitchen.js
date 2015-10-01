@@ -102,7 +102,7 @@ function orderStatusChanged()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
-    	var result = XmlHttpRequest.responseText;
+    	var result = xmlHttpRequest.responseText;
     	
     	myApp.alert(result);
     }
