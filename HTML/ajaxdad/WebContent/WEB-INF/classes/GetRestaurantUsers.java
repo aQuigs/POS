@@ -43,12 +43,16 @@ public class GetRestaurantUsers extends HttpServlet
                 return;
             }
 
-            ResultSet rs = sql.SelectSQL("SELECT username,password FROM UserInfo WHERE restaurantId=" + restaurantId + " AND username!='" + username + "';");
+            ResultSet rs = sql.SelectSQL("SELECT username,password,email,type FROM UserInfo WHERE restaurantId=" + restaurantId + ";");
             while (rs.next())
             {
                 writer.append(rs.getString(1));
                 writer.append(',');
                 writer.append(rs.getString(2));
+                writer.append(',');
+                writer.append(rs.getString(3));
+                writer.append(',');
+                writer.append(rs.getString(4));
                 writer.append('\n');
             }
         }
