@@ -1,4 +1,4 @@
-
+var xmlHttpRequest = new XMLHttpRequest();
 var orders = 5
 var newOrder = "";
 
@@ -98,7 +98,7 @@ function orderCooked(orderId)
     xmlHttpRequest.send();
 }
 
-function orderStatuschanged()
+function orderStatusChanged()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
@@ -117,12 +117,3 @@ function orderStarted(orderId)
     xmlHttpRequest.send();
 }
 
-function orderStatuschanged()
-{
-    if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
-    {
-    	var result = XmlHttpRequest.responseText;
-    	
-    	myApp.alert(result);
-    }
-}
