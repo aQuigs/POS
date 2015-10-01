@@ -39,7 +39,7 @@ public class GetUnfinishedOrders extends HttpServlet
                     + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                     + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
                     + "WHERE UserInfo.username='" + request.getParameter("username") + "' "
-                    + "AND (OrderDetails.status='placed' OR OrderDetails.status='cooked') "
+                    + "AND (OrderDetails.status='PLACED' OR OrderDetails.status='STARTED' OR OrderDetails.status='COOKED') "
                     + "ORDER BY OrderList.orderId,OrderDetails.status;");
             while (rs.next())
             {
