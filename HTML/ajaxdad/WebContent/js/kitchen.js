@@ -37,7 +37,8 @@ function fillQueue()
         	{
         		currentItem = orders[i].split(",");
         	}
-        	
+
+			console.log(JSON.stringify(currentItem));
         	if(currentItem[0] != "")
         	{
         		if(currentItem[0] == currentOrder)
