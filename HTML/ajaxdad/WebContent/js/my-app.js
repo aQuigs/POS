@@ -37,18 +37,22 @@ function processLogin()
         
         if(accountType == "admin")
         {
+        	setCookie("username", document.getElementById('username').value, 1);
             window.location.replace("/POS/admin.html");
         }
         else if(accountType == "kitchen")
         {
+        	setCookie("username", document.getElementById('username').value, 1);
             window.location.replace("/POS/kitchen.html");
         }
         else if(accountType == "wait")
         {
+        	setCookie("username", document.getElementById('username').value, 1);
             window.location.replace("/POS/wait.html");
         }
         else if(accountType == "customer")
         {
+        	setCookie("username", document.getElementById('username').value, 1);
             window.location.replace("/POS/index.html");
         }
         else if(accountType == "invalid")
@@ -130,3 +134,32 @@ function processReset()
         }
     }
 }
+
+//Kitchen Interface Swipe Notifications
+$$('.in-progress').on('click', function () {
+	  myApp.alert('The order has been updated to in progress!');
+	}); 
+
+$$('.order-finished').on('click', function () {
+	  myApp.alert('Waitress has been notified!');
+	});
+
+//Cookie Functions
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+

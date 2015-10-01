@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Phood Ordering Service</title>
     <!-- Path to Framework7 Library CSS-->
-    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7.material.min.css">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/my-app.css">
   </head>
@@ -42,17 +42,9 @@
                 <div class="content-block-title">Left View Links</div>
                 <div class="list-block">
                   <ul>
-                    <li><a href="left-page-1.html" class="item-link">
+                    <li onclick="logOff()"><a href="#" class="item-link">
                         <div class="item-content">
-                          <div class="item-inner">
-                            <div class="item-title">Left Page 1</div>
-                          </div>
-                        </div></a></li>
-                    <li><a href="left-page-2.html" class="item-link">
-                        <div class="item-content">
-                          <div class="item-inner">
-                            <div class="item-title">Left Page 2</div>
-                          </div>
+                            <div class="item-title">Log Off</div>
                         </div></a></li>
                   </ul>
                 </div>
@@ -69,12 +61,6 @@
                         <div class="item-content">
                           <div class="item-inner">
                             <div class="item-title">Services</div>
-                          </div>
-                        </div></a></li>
-                    <li><a href="#" data-view=".view-main" class="back item-link close-panel">
-                        <div class="item-content">
-                          <div class="item-inner">
-                            <div class="item-title">Back in history</div>
                           </div>
                         </div></a></li>
                   </ul>
@@ -110,9 +96,7 @@
                 <ul>
                   <li><a href="about.html" class="item-link">
                       <div class="item-content">
-                        <div class="item-inner">
                           <div class="item-title">About</div>
-                        </div>
                       </div></a></li>
                   <li><a href="services.html" class="item-link">
                       <div class="item-content">
@@ -129,7 +113,8 @@
     </div>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
-    <!-- Path to your app js-->
     <script type="text/javascript" src="js/my-app.js"></script>
+    <script type="text/javascript" src="js/customer.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   </body>
 </html>
