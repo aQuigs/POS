@@ -47,6 +47,7 @@ function fillQueue()
         		else
         		{
         			currentOrder = currentItem[0];
+        			console.log(JSON.stringify(currentItem));
         			orderQueue += '</ul>'
    	 		         		+ '</div>'
    	 		         		+ '</div>'
@@ -104,7 +105,7 @@ function orderStatusChanged()
     {
     	var result = xmlHttpRequest.responseText;
     	
-    	myApp.alert(result);
+    	console.log(result);
     }
 }
 
