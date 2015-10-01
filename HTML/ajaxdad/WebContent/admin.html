@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>My App</title>
+    <title>Phoodie Ordering Service</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.material.min.css">
     <!-- Path to your custom app styles-->
@@ -14,6 +14,12 @@
   <body>
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
+    <!-- Right panel with cover effect-->
+    <div class="panel panel-right panel-reveal">
+      <div class="content-block">
+        <p>Right panel content goes here</p>
+      </div>
+    </div>
     <!-- Views-->
     <div class="views">
       <!-- Put panels-overlay and left-panel with view inside of views-->
@@ -26,14 +32,14 @@
           <div class="navbar">
             <div class="navbar-inner">
               <div class="left"></div>
-              <div class="center sliding"></div>
+              <div class="center sliding">Menu</div>
               <div class="right"></div>
             </div>
           </div>
           <div class="pages">
             <div data-page="index-left" class="page">
               <div class="page-content">
-                <div class="content-block-title">Menu Options</div>
+                <div class="content-block-title"></div>
                 <div class="list-block">
                   <ul>
                     <li onclick="logOff()"><a href="#" class="item-link" onclick="logoff()">
@@ -42,18 +48,19 @@
                         </div></a></li>
                   </ul>
                 </div>
+                <div class="content-block-title"></div>
                 <div class="list-block">
                   <ul>
-                    <li><a href="menu.html" data-view=".view-main" class="item-link close-panel">
+                    <li><a href="manageUsers.html" data-view=".view-main" class="item-link close-panel">
                         <div class="item-content">
                           <div class="item-inner">
-                            <div class="item-title">Menu</div>
+                            <div class="item-title">Manage Users</div>
                           </div>
                         </div></a></li>
-                    <li><a href="services.html" data-view=".view-main" class="item-link close-panel">
+                    <li><a href="manageMenu.html" data-view=".view-main" class="item-link close-panel">
                         <div class="item-content">
                           <div class="item-inner">
-                            <div class="item-title">Request Ingredients</div>
+                            <div class="item-title">Manage Menu</div>
                           </div>
                         </div></a></li>
                   </ul>
@@ -77,15 +84,19 @@
           <div data-page="index-1" class="page">
             <!-- Scrollable page content-->
             <div class="page-content">
-              <div class="content-block-title">Hello</div>
+              <div class="content-block-title">Shalom</div>
               <div class="content-block">
                 <div class="content-block-inner">
-                  <h3>The Order Queue!</h3>
+                  <p><strong>Welcome Admin!</strong> Here you are able to make changes to your restaurant's system.</p>
+                  <p>This system is meant to make your life easier. If there is something you would like to see differently, let us know!!</p>
                 </div>
               </div>
               <div class="list-block">
-                <ul id="order-queue">
-					
+                <ul>
+                  <li><a href="help.html" class="item-link">
+                      <div class="item-content">
+                          <div class="item-title">Help</div>
+                      </div></a></li>
                 </ul>
               </div>
             </div>
@@ -95,9 +106,8 @@
     </div>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
-    <!-- Path to your app js-->
     <script type="text/javascript" src="js/my-app.js"></script>
-    <script type="text/javascript" src="js/kitchen.js"></script>
+    <script type="text/javascript" src="js/admin.js"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   </body>
 </html>
