@@ -10,3 +10,9 @@ Mel - Requirements and Developmental Engineer, Project Manager
 Anthony - Requirements and Developmental Engineer
 Tim - Requirements and Quality Assurance
 Mitch - Requirements and Developmental Engineer
+
+Iteration 2 Roles:
+Mel - Developmental Engineer, Project Manager
+Anthony - Requirements and Developmental Engineer
+Tim - Requirements
+Mitch - Requirements and Developmental Engineer

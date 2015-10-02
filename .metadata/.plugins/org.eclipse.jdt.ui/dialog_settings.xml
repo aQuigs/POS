@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item value="C:\Users\Mel Chi\Projects\POS\server" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="C:\Users\Mel Chi\OneDrive\Projects" key="org.eclipse.jdt.ui.last.external.project"/>
 	<section name="javadoc">
 		<item value="private" key="access"/>
 		<item value="false" key="noindex"/>

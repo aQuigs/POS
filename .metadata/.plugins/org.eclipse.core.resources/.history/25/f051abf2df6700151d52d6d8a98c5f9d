@@ -1,0 +1,13 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class TestStringUtilities {
+	StringUtilities su = new StringUtilities();
+	@Test
+	public void testDoesItContainCertainWord() {
+		System.out.println(su.DoesItContainCertainWord(" Drop ", "DROP TABLE WHERE"));
+		assertTrue(su.DoesItContainCertainWord(" Drop ", "DROP TABLE WHERE"));
+	}
+
+}

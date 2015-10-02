@@ -1,0 +1,18 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class TestStringUtilities {
+	StringUtilities su = new StringUtilities();
+	@Test
+	public void testDoesItContainCertainWord() {
+		assertTrue(su.DoesItContainCertainWord(" Drop ", "DROP TABLE WHERE"));
+	}
+	
+	@Test
+	public void testReplaceDoubleQuotes(){
+		System.out.println(su.ReplaceDoubleQuotes("HELLO\"\""));
+	}
+	
+
+}

@@ -1,3 +1,15 @@
+10/01/2015
+Finished documentation. Move last weeks code into a zip file, and left this weeks code open.
+Probably should do this as time goes on.
+QA was not done this week.
+
+09/30/2015
+Kitchen Interface is working
+Admin Page still needs to be merged
+
+09/29/2015
+Remade EC2 Instance after we were hacked and our server was used to DDOS
+
 09/24/2015
 Completed Documentation for everything that needs to be turned in.
 Figured out 8080 port works.
