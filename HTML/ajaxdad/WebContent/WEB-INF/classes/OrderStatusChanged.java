@@ -24,7 +24,7 @@ public abstract class OrderStatusChanged extends HttpServlet
 
         if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "orderId" }))
         {
-            writer.append("error");
+            writer.append("error1");
             return;
         }
 
@@ -50,10 +50,13 @@ public abstract class OrderStatusChanged extends HttpServlet
         }
         catch (ClassNotFoundException e)
         {
+        	
+        	e.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
+        	e.printStackTrace(writer);
             writer.append("error");
         }
     }

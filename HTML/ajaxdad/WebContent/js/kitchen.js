@@ -1,4 +1,4 @@
-
+var xmlHttpRequest = new XMLHttpRequest();
 var orders = 5
 var newOrder = "";
 
@@ -37,7 +37,8 @@ function fillQueue()
         	{
         		currentItem = orders[i].split(",");
         	}
-        	
+
+			console.log(JSON.stringify(currentItem));
         	if(currentItem[0] != "")
         	{
         		if(currentItem[0] == currentOrder)
@@ -47,14 +48,15 @@ function fillQueue()
         		else
         		{
         			currentOrder = currentItem[0];
+        			console.log(JSON.stringify(currentItem));
         			orderQueue += '</ul>'
    	 		         		+ '</div>'
    	 		         		+ '</div>'
    	 		         		+ '<div class="swipeout-actions-left">'
-   	 		         		+ '<a href="#" onclick="orderStarted(' + currentItem[1] + ')" class="in-progess bg-green">In Progress</a>'
+   	 		         		+ '<a href="#" onclick="orderStarted(1)" class="in-progess bg-green">In Progress</a>'
    	 		         		+ '</div>'
    	 		         		+ '<div class="swipeout-actions-right">'
-   	 		         		+ '<a href="#" onclick="orderCooked(' + currentItem[1] + ')" class="order-finished swipeout-delete">Order Up!</a>'
+   	 		         		+ '<a href="#" onclick="orderCooked(1)" class="order-finished swipeout-delete">Order Up!</a>'
    	 		         		+ '</div>'
    	 		         		+ '</li>'
    	 		         		+ '<li class="swipeout">'
@@ -76,7 +78,7 @@ function fillQueue()
 	         + '</div>'
 	       + '</div>'
 	       + '<div class="swipeout-actions-left">'
-	         + '<a href="#" onclick="orderStarted(' + currentItem[1] + ')" class="in-progess bg-green">In Progress</a>'
+	         + '<a href="#" onclick="orderStarted(1)" class="in-progess bg-green">In Progress</a>'
 	       + '</div>'
 	       + '<div class="swipeout-actions-right">'
 	         + '<a href="#" onclick="orderCooked(1)" class="order-finished swipeout-delete">Order Up!</a>'
@@ -98,13 +100,13 @@ function orderCooked(orderId)
     xmlHttpRequest.send();
 }
 
-function orderStatuschanged()
+function orderStatusChanged()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
-    	var result = XmlHttpRequest.responseText;
+    	var result = xmlHttpRequest.responseText;
     	
-    	myApp.alert(result);
+    	console.log(result);
     }
 }
 
@@ -117,12 +119,3 @@ function orderStarted(orderId)
     xmlHttpRequest.send();
 }
 
-function orderStatuschanged()
-{
-    if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
-    {
-    	var result = XmlHttpRequest.responseText;
-    	
-    	myApp.alert(result);
-    }
-}
