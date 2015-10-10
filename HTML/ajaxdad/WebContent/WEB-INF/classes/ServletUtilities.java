@@ -29,6 +29,24 @@ public class ServletUtilities
         return true;
     }
 
+    public static boolean checkExactlyOneSingletonInput(HttpServletRequest request, String[] params)
+    {
+        boolean found = false;
+        Map<String, String[]> args = request.getParameterMap();
+        for (String key : params)
+        {
+            if (args.containsKey(key))
+            {
+                if (found || args.get(key).length != 1)
+                {
+                    return false;
+                }
+                found = true;
+            }
+        }
+        return found;
+    }
+
     public static String generatePassword()
     {
         String chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
@@ -72,13 +90,13 @@ public class ServletUtilities
 
         return false;
     }
-    
+
     public static boolean isUsernameEmailTaken(MySQLUtilities sql, String username, String email) throws SQLException
     {
         ResultSet rs = sql.SelectSQL("SELECT username FROM UserInfo WHERE username='" + username + "' or email='" + email + "';");
         return rs.next();
     }
-    
+
     public static String getRestaurantFromAdmin(MySQLUtilities sql, String adminUsername) throws SQLException
     {
         ResultSet rs = sql.SelectSQL("SELECT restaurantId FROM UserInfo WHERE username='" + adminUsername + "' AND type='admin';");

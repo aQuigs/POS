@@ -25,7 +25,7 @@ public class GetMenuDetails extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuId" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "menuId" }))
         {
             writer.append("error");
             return;
@@ -34,10 +34,8 @@ public class GetMenuDetails extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT MenuDetails.menuItemId,MenuDetails.itemName,MenuDetails.itemDescription,MenuDetails.cost "
-                    + "FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='" + request.getParameter("adminUsername")
-                    + "' AND UserInfo.restaurantId=MenuList.restaurantId "
-                    + "INNER JOIN MenuDetails ON MenuList.menuId=MenuDetails.menuId;");
+            ResultSet rs = sql.SelectSQL("SELECT menuItemId,itemName,itemDescription,cost FROM MenuDetails WHERE MenuDetails.menuId="
+                    + request.getParameter("menuId") + ";");
             while (rs.next())
             {
                 writer.append(rs.getString(1));
