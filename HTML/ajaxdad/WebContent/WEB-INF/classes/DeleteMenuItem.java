@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/DeleteMenu")
-public class DeleteMenu extends HttpServlet
+@WebServlet("/DeleteMenuItem")
+public class DeleteMenuItem extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
-    public DeleteMenu()
+    public DeleteMenuItem()
     {
         super();
     }
@@ -24,14 +24,14 @@ public class DeleteMenu extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuId" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuItemId" }))
         {
             writer.append("error");
             return;
         }
 
         String username = request.getParameter("adminUsername");
-        String menuId = request.getParameter("menuId");
+        String itemId = request.getParameter("menuItemId");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
@@ -39,10 +39,8 @@ public class DeleteMenu extends HttpServlet
                     .DeleteSQL("DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.type='" + username
                             + "' AND UserInfo.username='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
                             + "INNER JOIN MenuDetails ON MenuDetails.menuId=MenuList.menuId "
-                            + "WHERE MenuList.menuId=" + menuId + ";");
-            rowsChanged += sql.DeleteSQL("DELETE MenuList FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='"
-                    + username + "' AND UserInfo.restaurantId=MenuList.restaurantId AND menuId=" + menuId + ";");
-            
+                            + "WHERE MenuDetails.menuItemId=" + itemId + ";");
+
             if (rowsChanged != 0)
             {
                 writer.append("success");
