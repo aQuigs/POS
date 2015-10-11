@@ -29,6 +29,34 @@ public class ServletUtilities
         return true;
     }
 
+    public static int checkEqualSizeInputs(HttpServletRequest request, String[] params)
+    {
+        int expectedSize = 0;
+        Map<String, String[]> args = request.getParameterMap();
+        for (String key : params)
+        {
+            if (!args.containsKey(key))
+            {
+                return 0;
+            }
+
+            int len = args.get(key).length;
+            if (len == 0)
+            {
+                return 0;
+            }
+            if (expectedSize == 0)
+            {
+                expectedSize = len;
+            }
+            else if (expectedSize != len)
+            {
+                return 0;
+            }
+        }
+        return expectedSize;
+    }
+
     public static boolean checkExactlyOneSingletonInput(HttpServletRequest request, String[] params)
     {
         boolean found = false;

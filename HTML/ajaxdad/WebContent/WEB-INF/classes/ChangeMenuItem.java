@@ -42,7 +42,7 @@ public class ChangeMenuItem extends HttpServlet
             MySQLUtilities sql = new MySQLUtilities();
 
             // Ensure new menuId is valid for particular restaurant
-            ResultSet rs = sql.SelectSQL("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.username='" + username
+            ResultSet rs = sql.SelectSQL("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='" + username
                     + "' AND UserInfo.restaurantId=MenuList.restaurantId AND MenuList.menuId=" + menuId + ";");
             if (!rs.next())
             {

@@ -36,8 +36,8 @@ public class DeleteMenu extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             int rowsChanged = sql
-                    .DeleteSQL("DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.type='" + username
-                            + "' AND UserInfo.username='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
+                    .DeleteSQL("DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.username='" + username
+                            + "' AND UserInfo.type='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
                             + "INNER JOIN MenuDetails ON MenuDetails.menuId=MenuList.menuId "
                             + "WHERE MenuList.menuId=" + menuId + ";");
             rowsChanged += sql.DeleteSQL("DELETE MenuList FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='"
