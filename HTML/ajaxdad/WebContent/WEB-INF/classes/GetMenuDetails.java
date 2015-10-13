@@ -34,7 +34,7 @@ public class GetMenuDetails extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT menuItemId,itemName,itemDescription,cost FROM MenuDetails WHERE MenuDetails.menuId="
+            ResultSet rs = sql.SelectSQL("SELECT menuItemId,itemName,itemDescription,cost,submenu FROM MenuDetails WHERE MenuDetails.menuId="
                     + request.getParameter("menuId") + ";");
             while (rs.next())
             {
@@ -42,10 +42,13 @@ public class GetMenuDetails extends HttpServlet
                 writer.append(',');
                 writer.append(rs.getString(2));
                 writer.append(',');
-                String description = rs.getString(3);
-                writer.append(description == null ? "" : description);
+                String temp = rs.getString(3);
+                writer.append(temp == null ? "" : temp);
                 writer.append(',');
                 writer.append(rs.getString(4));
+                writer.append(',');
+                temp = rs.getString(5);
+                writer.append(temp == null ? "" : temp);
                 writer.append('\n');
             }
         }

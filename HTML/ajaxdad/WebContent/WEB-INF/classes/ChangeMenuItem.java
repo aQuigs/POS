@@ -36,13 +36,15 @@ public class ChangeMenuItem extends HttpServlet
         String menuId = request.getParameter("menuId");
         String itemName = request.getParameter("name");
         String cost = request.getParameter("cost");
+        String submenu = request.getParameter("submenu");
         String description = request.getParameter("description");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
 
             // Ensure new menuId is valid for particular restaurant
-            ResultSet rs = sql.SelectSQL("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='" + username
+            ResultSet rs = sql.SelectSQL("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='"
+                    + username
                     + "' AND UserInfo.restaurantId=MenuList.restaurantId AND MenuList.menuId=" + menuId + ";");
             if (!rs.next())
             {
@@ -50,15 +52,34 @@ public class ChangeMenuItem extends HttpServlet
                 return;
             }
 
-            String statement = "UPDATE UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='"
-                    + username
-                    + "' AND UserInfo.restaurantId=MenuList.restaurantId INNER JOIN MenuDetails ON MenuList.menuId=MenuDetails.menuId AND MenuDetails.menuItemId="
-                    + menuItemId + " SET MenuDetails.menuId=" + menuId + ",MenuDetails.itemName='" + itemName + "',MenuDetails.cost=" + cost;
+            StringBuilder statement = new StringBuilder();
+            statement.append("UPDATE UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='");
+            statement.append(username);
+            statement
+                    .append("' AND UserInfo.restaurantId=MenuList.restaurantId INNER JOIN MenuDetails ON MenuList.menuId=MenuDetails.menuId AND MenuDetails.menuItemId=");
+            statement.append(menuItemId);
+            statement.append(" SET MenuDetails.menuId=");
+            statement.append(menuId);
+            statement.append(",MenuDetails.itemName='");
+            statement.append(itemName);
+            statement.append("',MenuDetails.cost=");
+            statement.append(cost);
             if (description != null)
-                statement += ",MenuDetails.itemDescription='" + description + "'";
-            statement += ';';
+            {
+                statement.append(",MenuDetails.itemDescription='");
+                statement.append(description);
+                statement.append("'");
+            }
+            if (submenu != null)
+            {
+                statement.append(",MenuDetails.submenu='");
+                statement.append(submenu);
+                statement.append("'");
+            }
 
-            int rowsChanged = sql.UpdateSQL(statement);
+            statement.append(';');
+
+            int rowsChanged = sql.UpdateSQL(statement.toString());
 
             if (rowsChanged != 0)
             {

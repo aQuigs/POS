@@ -20,7 +20,7 @@ public class AddMenuItem extends HttpServlet
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
@@ -35,6 +35,7 @@ public class AddMenuItem extends HttpServlet
         String menuId = request.getParameter("menuId");
         String itemName = request.getParameter("itemName");
         String cost = request.getParameter("cost");
+        String submenu = request.getParameter("submenu");
         String description = request.getParameter("description");
         try
         {
@@ -44,17 +45,34 @@ public class AddMenuItem extends HttpServlet
                             + username + "' AND MenuList.menuId=" + menuId + ";");
             if (rs.next())
             {
-                int rowsAdded;
-                if (description == null)
+                StringBuilder insertStatement = new StringBuilder();
+                insertStatement.append("INSERT INTO MenuDetails (menuId,itemName,cost");
+                if (description != null)
+                    insertStatement.append(",itemDescription");
+                if (submenu != null)
+                    insertStatement.append(",submenu");
+
+                insertStatement.append(") VALUES (");
+                insertStatement.append(menuId);
+                insertStatement.append(",'");
+                insertStatement.append(itemName);
+                insertStatement.append("',");
+                insertStatement.append(cost);
+                if (description != null)
                 {
-                    rowsAdded = sql.InsertSQL("INSERT INTO MenuDetails (menuId,itemName,cost) VALUES (" + menuId + ",'" + itemName
-                            + "'," + cost + ");");
+                    insertStatement.append(",'");
+                    insertStatement.append(description);
+                    insertStatement.append("'");
                 }
-                else
+                if (submenu != null)
                 {
-                    rowsAdded = sql.InsertSQL("INSERT INTO MenuDetails (menuId,itemName,cost,itemDescription) VALUES (" + menuId + ",'" + itemName
-                            + "'," + cost + ",'" + description + "');");
+                    insertStatement.append(",'");
+                    insertStatement.append(submenu);
+                    insertStatement.append("'");
                 }
+                insertStatement.append(");");
+
+                int rowsAdded=sql.InsertSQL(insertStatement.toString());
 
                 if (rowsAdded != 0)
                 {
