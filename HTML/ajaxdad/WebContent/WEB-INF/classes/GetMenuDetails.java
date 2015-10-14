@@ -35,7 +35,7 @@ public class GetMenuDetails extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql.SelectSQL("SELECT menuItemId,itemName,itemDescription,cost,submenu FROM MenuDetails WHERE MenuDetails.menuId="
-                    + request.getParameter("menuId") + ";");
+                    + request.getParameter("menuId") + " ORDER BY submenu;");
             while (rs.next())
             {
                 writer.append(rs.getString(1));
