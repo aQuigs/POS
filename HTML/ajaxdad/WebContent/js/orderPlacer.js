@@ -53,11 +53,11 @@ function populateMenus(responseText) {
 	var menus = responseText.split("\n");
 	ulParent.empty();
 	for (var i = 0; i < menus.length; ++i) {
-		var menus = menus[i].split(',');
-		if (menus.length == 2) {	
-			ulParent.append('<li><a href="ordering.html" onclick="selectMenu('+menus[0]+',\''+menus[1]
+		var menu = menus[i].split(',');
+		if (menu.length == 2) {	
+			ulParent.append('<li><a href="ordering.html" onclick="selectMenu('+menu[0]+',\''+menu[1]
 				+'\');" data-view=".view-main" class="item-link close-panel"><div class="item-content"><div class=item-inner><div class="item-title">'
-				+ menus[1]+'</div></div></div></a></li>');
+				+ menu[1]+'</div></div></div></a></li>');
 		}
 	}
 }
@@ -164,7 +164,7 @@ function fillMenu()
 
 function submitOrder()
 {
-	var uri = "PlaceOrder?restaurantId=1"
+	var uri = "PlaceOrder?restaurantId=" + restaurantId;
 		
 	for(i = 0; i < orderQuantity.length; i++)
 	{
