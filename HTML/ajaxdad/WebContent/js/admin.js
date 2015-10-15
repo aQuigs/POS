@@ -7,8 +7,12 @@ function logOff()
 //AJAX for Adding User
 //Parameters:adminUsername, username, password, email, accountType
 function addRestaurantUser()
-{
-    xmlHttpRequest.open("POST", "AddRestaurantUser?adminUsername=" + getCookie("username") + "&username=" + document.getElementById('username') + "&password=" + document.getElementById('password') + "&email=" + document.getElementById('email') + "&accountType=" + document.getElementById('accountType'), true);
+{ 
+	alert("shalom");
+	var username = document.getElementById('username').value.toString();
+	var password = document.getElementById('password').value.toString();
+	myApp.alert(username + " " + password);
+    xmlHttpRequest.open("POST", "AddRestaurantUser?adminUsername=" + getCookie("username").toString() + "&username=" + document.getElementById('username').value.toString() + "&password=" + document.getElementById('password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('accountType').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addUser;
     xmlHttpRequest.send();
 }
@@ -76,7 +80,7 @@ function addUser()
 function getRestaurantUsers()
 {
 	setCookie("username", "admin", 1);
-	myApp.alert(getCookie("username"));
+	//myApp.alert(getCookie("username"));
     xmlHttpRequest.open("POST", "GetRestaurantUsers?username=" + getCookie("username"), true);
     xmlHttpRequest.onreadystatechange = getUsers;
     xmlHttpRequest.send();
@@ -87,8 +91,6 @@ function getUsers()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
     	var result = xmlHttpRequest.responseText;
-    	
-    	myApp.alert(result);
     	
     	if(result == "error")
     	{

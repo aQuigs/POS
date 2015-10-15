@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,12 +14,6 @@
   <body>
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
-    <!-- Right panel with cover effect-->
-    <div class="panel panel-right panel-reveal">
-      <div class="content-block">
-        <p>Right panel content goes here</p>
-      </div>
-    </div>
     <!-- Views-->
     <div class="views">
       <!-- Put panels-overlay and left-panel with view inside of views-->
@@ -52,16 +45,10 @@
                 <div class="content-block-title"></div>
                 <div class="list-block">
                   <ul>
-                    <li><a href="manageUsers.html" data-view=".view-main" class="item-link close-panel">
+                    <li><a href="currentOrder.html" data-view=".view-main" class="item-link close-panel">
                         <div class="item-content">
                           <div class="item-inner">
-                            <div class="item-title">Manage Users</div>
-                          </div>
-                        </div></a></li>
-                    <li><a href="manageMenu.html" data-view=".view-main" class="item-link close-panel">
-                        <div class="item-content">
-                          <div class="item-inner">
-                            <div class="item-title">Manage Menu</div>
+                            <div class="item-title">Current Order</div>
                           </div>
                         </div></a></li>
                   </ul>
@@ -85,18 +72,25 @@
           <div data-page="index-1" class="page">
             <!-- Scrollable page content-->
             <div class="page-content">
-              <div class="content-block-title">Shalom</div>
+              <div class="content-block-title"></div>
               <div class="content-block">
                 <div class="content-block-inner">
-                  <p><strong>Welcome Admin!</strong> Here you are able to make changes to your restaurant's system.</p>
-                  <p>This system is meant to make your life easier. If there is something you would like to see differently, let us know!!</p>
+                  <p><strong>Welcome Restaurant Employees!</strong> Lets get the ball rolling!!</p>
                 </div>
               </div>
               <div class="list-block">
                 <ul>
-                  <li><a href="help.html" class="item-link">
+                  <li><a href="pickMenu.html" class="item-link">
                       <div class="item-content">
-                          <div class="item-title">Help</div>
+                          <div class="item-title">Place Order</div>
+                      </div></a></li>
+                   <li><a href="seating.html" class="item-link">
+                      <div class="item-content">
+                          <div class="item-title">Seating</div>
+                      </div></a></li>
+                   <li><a href="menu.html" class="item-link">
+                      <div class="item-content">
+                          <div class="item-title">View Menu</div>
                       </div></a></li>
                 </ul>
               </div>
@@ -106,9 +100,10 @@
       </div>
     </div>
     <!-- Path to Framework7 Library JS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="js/framework7.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>
-    <script type="text/javascript" src="js/admin.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="js/orderPlacer.js"></script>
+    <script type="text/javascript" src="js/waitstaff.js"></script>
   </body>
 </html>

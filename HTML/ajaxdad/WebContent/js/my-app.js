@@ -45,10 +45,10 @@ function processLogin()
         	setCookie("username", document.getElementById('username').value, 1);
             window.location.replace("/POS/kitchen.html");
         }
-        else if(accountType == "wait")
+        else if(accountType == "waitstaff")
         {
         	setCookie("username", document.getElementById('username').value, 1);
-            window.location.replace("/POS/wait.html");
+            window.location.replace("/POS/waitstaff.html");
         }
         else if(accountType == "customer")
         {
@@ -162,4 +162,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
