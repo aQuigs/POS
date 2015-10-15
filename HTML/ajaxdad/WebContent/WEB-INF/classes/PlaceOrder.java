@@ -21,7 +21,7 @@ public class PlaceOrder extends HttpServlet
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         // TODO make sure all order details are from the same restaurant (or menu?)
         // TODO make sure username is valid
