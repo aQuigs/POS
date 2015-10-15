@@ -162,4 +162,3 @@ function getCookie(cname) {
     }
     return "";
 }
-

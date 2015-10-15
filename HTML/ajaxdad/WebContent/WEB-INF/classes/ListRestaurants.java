@@ -28,9 +28,7 @@ public class ListRestaurants extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs;
-            
-                rs = sql.SelectSQL("SELECT restaurantId,restaurantName FROM RestaurantList;");
+            ResultSet rs = sql.SelectSQL("SELECT restaurantId,restaurantName FROM RestaurantList;");
 
             while (rs.next())
             {
