@@ -6,7 +6,7 @@
   </div>
 </div>
 <div class="pages">
-  <div data-page="services" class="page">
+  <div data-page="manageUsers" class="page">
     <div class="page-content">
       <div class="content-block-title"></div>
       <div class="content-block">
@@ -17,16 +17,13 @@
 		  <ul>
 		    <li>
 		      <a href="#" class="item-link smart-select" data-searchbar="true" data-searchbar-placeholder="Search Users" data-back-on-select="true">
-		        <select name="Users">
-		          <option value="mitch" selected>Mitch</option>
-		          <option value="anthony">Anthony</option>
-		          <option value="mel" selected>Mel</option>
-		          <option value="tim">Tim</option>
+		        <select name="Users" id="userSearch" onChange="updateUserInfo()">
+		          <!-- Dynamically create in admin.js -->
 		        </select>
 		        <div class="item-content">
 		          <div class="item-inner">
 		            <div class="item-title">Users</div>
-		            <div class="item-after">Tim</div>
+		            <div id="tester" class="item-after"></div>
 		          </div>
 		        </div>
 		      </a>
@@ -43,7 +40,7 @@
               <div class="item-inner">
                 <div class="item-title label">Password</div>
                 <div class="item-input">
-                  <input type="password" id="password" name="password" placeholder="password">
+                  <input type="text" id="password" name="password" placeholder="password">
                 </div>
               </div>
             </li>
@@ -64,6 +61,10 @@
               </div>
             </li>
 		  </ul>
+		  <p class="buttons-row">
+			  <a href="#" class="button button-raised" onclick="changeRestaurantUser()">Save</a>
+			  <a href="#" class="confirm-ok button button-raised" onclick="">Delete</a>
+			</p>  
 		</div>
       </div>
     </div>

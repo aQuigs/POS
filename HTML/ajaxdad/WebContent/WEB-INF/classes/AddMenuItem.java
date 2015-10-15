@@ -79,7 +79,8 @@ public class AddMenuItem extends HttpServlet
                     rs = sql.SelectSQL("SELECT LAST_INSERT_ID();");
                     if (rs.next())
                     {
-                        writer.append(rs.getString(1));
+                        //writer.append(rs.getString(1));
+                    	writer.append("success");
                         return;
                     }
                 }

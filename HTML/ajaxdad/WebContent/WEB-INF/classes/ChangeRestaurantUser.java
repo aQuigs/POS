@@ -53,17 +53,18 @@ public class ChangeRestaurantUser extends HttpServlet
                 return;
             }
             
-            if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
-            {
-                writer.append("taken");
-                return;
-            }
+            //if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
+            //{
+                //writer.append("taken");
+                //return;
+            //}
 
             int result = sql.UpdateSQL("UPDATE UserInfo SET username='" + username + "',password='" + password + "',type='" + type + "',email='"
                     + email + "' WHERE restaurantId=" + restaurantId + " AND username='" + oldUsername + "';");
 
             if (result == 0)
             {
+            	//writer.append("success");
                 writer.append("invalid");
             }
             else

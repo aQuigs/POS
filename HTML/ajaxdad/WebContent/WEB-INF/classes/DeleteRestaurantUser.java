@@ -38,6 +38,7 @@ public class DeleteRestaurantUser extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername);
+            //String restaurantId = "1";
             if (restaurantId == null)
             {
                 writer.append("Invalid admin account");
