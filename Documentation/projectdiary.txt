@@ -1,3 +1,6 @@
+10/15/2015
+Started using tasks with github so this was not updated. Finished documentation by tomorrow.
+
 10/01/2015
 Finished documentation. Move last weeks code into a zip file, and left this weeks code open.
 Probably should do this as time goes on.

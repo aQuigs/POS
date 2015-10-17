@@ -1,0 +1,81 @@
+<div class="navbar">
+  <div class="navbar-inner">
+  	<div class="center sliding"></div>
+    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+    <div class="right"><a href="#" data-panel="left" class="link open-panel icon-only"><i class="icon icon-bars"></i></a></div>
+  </div>
+</div>
+<div class="pages">
+  <div data-page="manageMenu" class="page">
+    <div class="page-content">
+      <div class="content-block-title"></div>
+      <div class="content-block">
+        <h3>Manage The Menu</h3>
+        <p>Add, Delete and Edit the Menu!</p>
+        
+        <div class="list-block">
+		  <ul>
+		    <li>
+		      <a href="#" class="item-link smart-select" data-searchbar="true" data-searchbar-placeholder="Search Menu Items" data-back-on-select="true">
+		        <select name="MenuItems" id="menuSearch" onChange="updateMenuInfo()">
+		          <!-- Dynamically create in admin.js -->
+		        </select>
+		        <div class="item-content">
+		          <div class="item-inner">
+		            <div class="item-title">Menu Items</div>
+		            <div id="tester" class="item-after"></div>
+		          </div>
+		        </div>
+		      </a>
+		    </li>
+		    <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">Item</div>
+                <div class="item-input">
+                  <input type="text" id="item" name="item" placeholder="menu item">
+                </div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">Item ID</div>
+                <div class="item-input">
+                  <input type="text" id="itemId" name="itemId" placeholder="item ID">
+                </div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">Sub-Menu</div>
+                <div class="item-input">
+                  <input type="text" id="submenu" name="submenu" placeholder="sub-menu">
+                </div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">Description</div>
+                <div class="item-input">
+                  <input type="text" id="description" name="description" placeholder="item description">
+                </div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">price</div>
+                <div class="item-input">
+                  <input type="text" id="price" name="price" placeholder="item price">
+                </div>
+              </div>
+            </li>
+		  </ul>
+		  <p class="buttons-row">
+		  	  <a href="#" class="button button-raised" onclick="addMenuItem()">Add</a>
+			  <a href="#" class="button button-raised" onclick="changeMenuItem()">Save</a>
+			  <a href="#" class="confirm-ok button button-raised" onclick="">Delete</a>
+			</p>  
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
