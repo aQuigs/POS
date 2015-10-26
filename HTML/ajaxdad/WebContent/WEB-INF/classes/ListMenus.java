@@ -25,19 +25,20 @@ public class ListMenus extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkExactlyOneSingletonInput(request, new String[] { "adminUsername", "restaurantId" }))
+        if (!ServletUtilities.checkExactlyOneSingletonInput(request, new String[] { "adminUsername", "adminPassword", "restaurantId" }))
         {
             writer.append("error");
             return;
         }
 
         String username = request.getParameter("adminUsername");
+        String password = request.getParameter("adminPassword");
         String restaurantId = request.getParameter("restaurantId");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs;
-            if (username == null)
+            if (username == null && password == null)
             {
                 // use restaurantId
                 rs = sql.SelectSQL("SELECT menuId,menuName FROM MenuList WHERE restaurantId=" + restaurantId + ";");
@@ -45,10 +46,12 @@ public class ListMenus extends HttpServlet
             else
             {
                 // use username
-                rs = sql.SelectSQL("SELECT MenuList.menuId,MenuList.menuName "
-                        + "FROM MenuList INNER JOIN UserInfo "
-                        + "ON UserInfo.restaurantId=MenuList.restaurantId AND UserInfo.type='admin' WHERE UserInfo.username='"
-                        + request.getParameter("adminUsername") + "';");
+                rs = sql.SelectSQL(String
+                        .format("SELECT MenuList.menuId,MenuList.menuName "
+                                + "FROM MenuList INNER JOIN UserInfo "
+                                + "ON UserInfo.restaurantId=MenuList.restaurantId AND UserInfo.type='admin' "
+                                + "WHERE UserInfo.username='%s' AND UserInfo.password='%s';",
+                                username, password));
             }
 
             while (rs.next())

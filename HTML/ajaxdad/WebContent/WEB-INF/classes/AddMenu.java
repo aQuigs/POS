@@ -25,7 +25,7 @@ public class AddMenu extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuName" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuName", "password" }))
         {
             writer.append("error");
             return;
@@ -33,17 +33,19 @@ public class AddMenu extends HttpServlet
 
         String username = request.getParameter("adminUsername");
         String menuName = request.getParameter("menuName");
+        String password = request.getParameter("password");
         try
         {
 
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT restaurantId FROM UserInfo WHERE type='admin' AND username='" + username + "';");
+            ResultSet rs = sql.SelectSQL(String.format("SELECT restaurantId FROM UserInfo WHERE type='admin' AND username='%s' AND password='%s';",
+                    username, password));
             if (rs.next())
             {
                 String restaurantId = rs.getString(1);
                 if (restaurantId != null)
                 {
-                    int rowsAdded = sql.InsertSQL("INSERT MenuList (restaurantId,menuName) VALUES (" + restaurantId + ",'" + menuName + "');");
+                    int rowsAdded = sql.InsertSQL(String.format("INSERT MenuList (restaurantId,menuName) VALUES (%s,'%s');", restaurantId, menuName));
                     if (rowsAdded != 0)
                     {
                         rs = sql.SelectSQL("SELECT LAST_INSERT_ID();");

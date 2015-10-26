@@ -22,23 +22,23 @@ public abstract class DetailStatusChanged extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "itemId" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password", "itemId" }))
         {
             writer.append("error");
             return;
         }
 
         String username = request.getParameter("username");
+        String password = request.getParameter("password");
         String detailId = request.getParameter("itemId");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int rowsAffected = sql.UpdateSQL("UPDATE UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
+            int rowsAffected = sql.UpdateSQL(String.format("UPDATE UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
+                    + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kitchen' "
                     + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
-                    + "SET OrderDetails.status='" + newStatus.name() + "' "
-                    + "WHERE UserInfo.username='" + username + "' AND OrderDetails.status='" + prevStatus.name() + "' AND OrderDetails.detailId="
-                    + detailId
-                    + ";");
+                    + "SET OrderDetails.status='%s' WHERE OrderDetails.status='%s' AND OrderDetails.detailId=%s;",
+                    username, password, newStatus.name(), prevStatus.name(), detailId));
 
             if (rowsAffected != 0)
             {

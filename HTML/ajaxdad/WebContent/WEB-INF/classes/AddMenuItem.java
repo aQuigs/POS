@@ -25,7 +25,7 @@ public class AddMenuItem extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuId", "itemName", "cost" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuId", "itemName", "cost", "password" }))
         {
             writer.append("error");
             return;
@@ -37,12 +37,15 @@ public class AddMenuItem extends HttpServlet
         String cost = request.getParameter("cost");
         String submenu = request.getParameter("submenu");
         String description = request.getParameter("description");
+        String password = request.getParameter("password");
+
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql
-                    .SelectSQL("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON MenuList.restaurantId=UserInfo.restaurantId AND UserInfo.type='admin' AND UserInfo.username='"
-                            + username + "' AND MenuList.menuId=" + menuId + ";");
+                  .SelectSQL(String
+                            .format("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON MenuList.restaurantId=UserInfo.restaurantId AND UserInfo.type='admin' AND UserInfo.username='%s' AND UserInfo.password='%s' AND MenuList.menuId=%s;",
+                                    username, password, menuId));
             if (rs.next())
             {
                 StringBuilder insertStatement = new StringBuilder();
@@ -72,15 +75,14 @@ public class AddMenuItem extends HttpServlet
                 }
                 insertStatement.append(");");
 
-                int rowsAdded=sql.InsertSQL(insertStatement.toString());
+                int rowsAdded = sql.InsertSQL(insertStatement.toString());
 
                 if (rowsAdded != 0)
                 {
                     rs = sql.SelectSQL("SELECT LAST_INSERT_ID();");
                     if (rs.next())
                     {
-                        //writer.append(rs.getString(1));
-                    	writer.append("success");
+                        writer.append("success");
                         return;
                     }
                 }

@@ -25,25 +25,26 @@ public class GetRestaurantUsers extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[]
-        { "username" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password" }))
         {
             writer.append("error");
             return;
         }
 
         String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, username);
+            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, username, password);
             if (restaurantId == null)
             {
-                writer.append("Invalid admin account");
+                writer.append("invalid");
                 return;
             }
 
-            ResultSet rs = sql.SelectSQL("SELECT username,password,email,type FROM UserInfo WHERE restaurantId=" + restaurantId + ";");
+            ResultSet rs = sql.SelectSQL("SELECT username,restaurantPassword,email,type FROM UserInfo WHERE restaurantId=" + restaurantId + ";");
             while (rs.next())
             {
                 writer.append(rs.getString(1));

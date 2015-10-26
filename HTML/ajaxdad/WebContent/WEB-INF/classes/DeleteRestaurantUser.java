@@ -25,26 +25,26 @@ public class DeleteRestaurantUser extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[]
-        { "adminUsername", "username" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "adminPassword", "username" }))
         {
             writer.append("error");
             return;
         }
 
         String adminUsername = request.getParameter("adminUsername");
+        String adminPassword = request.getParameter("adminPassword");
         String todelete = request.getParameter("username");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername);
-            //String restaurantId = "1";
+            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
+            // String restaurantId = "1";
             if (restaurantId == null)
             {
                 writer.append("Invalid admin account");
                 return;
             }
-            
+
             int numDeleted = sql.DeleteSQL("DELETE FROM UserInfo WHERE username='" + todelete + "' AND restaurantId=" + restaurantId
                     + " AND username!='" + adminUsername + "';");
             if (numDeleted == 0)

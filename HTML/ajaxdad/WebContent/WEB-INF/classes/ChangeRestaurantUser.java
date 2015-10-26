@@ -25,13 +25,14 @@ public class ChangeRestaurantUser extends HttpServlet
         PrintWriter writer = response.getWriter();
 
         if (!ServletUtilities.checkSingletonInputs(request, new String[]
-        { "adminUsername", "oldUsername", "username", "password", "email", "accountType" }))
+        { "adminUsername", "adminPassword", "oldUsername", "username", "password", "email", "accountType" }))
         {
             writer.append("error");
             return;
         }
 
         String adminUsername = request.getParameter("adminUsername");
+        String adminPassword = request.getParameter("adminPassword");
         String oldUsername = request.getParameter("oldUsername");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -40,7 +41,7 @@ public class ChangeRestaurantUser extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername);
+            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
             if (restaurantId == null)
             {
                 writer.append("Invalid admin account");
@@ -52,19 +53,24 @@ public class ChangeRestaurantUser extends HttpServlet
                 writer.append("admin");
                 return;
             }
-            
-            //if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
-            //{
-                //writer.append("taken");
-                //return;
-            //}
 
-            int result = sql.UpdateSQL("UPDATE UserInfo SET username='" + username + "',password='" + password + "',type='" + type + "',email='"
-                    + email + "' WHERE restaurantId=" + restaurantId + " AND username='" + oldUsername + "';");
+            // TODO
+            // if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
+            // {
+            // writer.append("taken");
+            // return;
+            // }
+
+            String salt = ServletUtilities.generateSalt();
+            String passwordHash = ServletUtilities.generateHash(password, salt);
+            int result = sql
+                    .UpdateSQL(String
+                            .format(
+                                    "UPDATE UserInfo SET username='%s',restaurantPassword='%s',password='%s',salt='%s',type='%s',email='%s' WHERE restaurantId=%s AND username='%s';",
+                                    username, password, passwordHash, salt, type, email, restaurantId, oldUsername));
 
             if (result == 0)
             {
-            	//writer.append("success");
                 writer.append("invalid");
             }
             else
@@ -74,12 +80,10 @@ public class ChangeRestaurantUser extends HttpServlet
         }
         catch (ClassNotFoundException e)
         {
-            e.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
-            e.printStackTrace(writer);
             writer.append("error");
         }
     }

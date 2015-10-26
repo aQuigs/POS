@@ -47,9 +47,11 @@ public class ResetPassword extends HttpServlet
             String username = rs.getString(1);
             String password = ServletUtilities.generatePassword();
 
-            sql.UpdateSQL("UPDATE UserInfo SET password='" + password + "' WHERE username='" + username + "';");
-            writer.append("success");
+            String salt = ServletUtilities.generateSalt();
+            String hashedPassword = ServletUtilities.generateHash(password, salt);
+            ServletUtilities.storePasswordAndSalt(sql, username, hashedPassword, salt);
             EmailSender.sendEmail(email, "Password Reset", "Per your request, your password has been reset to " + password);
+            writer.append("success");
         }
         catch (MessagingException e)
         {

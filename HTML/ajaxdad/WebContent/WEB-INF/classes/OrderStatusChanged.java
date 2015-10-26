@@ -22,22 +22,22 @@ public abstract class OrderStatusChanged extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "orderId" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password", "orderId" }))
         {
-            writer.append("error1");
+            writer.append("error");
             return;
         }
 
         String username = request.getParameter("username");
+        String password = request.getParameter("password");
         String orderId = request.getParameter("orderId");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int rowsAffected = sql.UpdateSQL("UPDATE UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
-                    + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
-                    + "SET OrderList.status='" + newStatus.name() + "',OrderDetails.status='" + newStatus.name() + "' "
-                    + "WHERE UserInfo.username='" + username + "' AND OrderList.orderId=" + orderId + " "
-                    + "AND OrderDetails.orderId=" + orderId + " AND OrderList.status='" + prevStatus.name() + "';");
+            int rowsAffected = sql
+                    .UpdateSQL(String
+                            .format("UPDATE UserInfo INNER JOIN OrderList ON UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kitchen' AND UserInfo.restaurantId=OrderList.restaurantId INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId SET OrderList.status='%s',OrderDetails.status='%s' WHERE OrderList.orderId=%s AND OrderDetails.orderId=%s AND OrderList.status='%s';",
+                                    username, password, newStatus.name(), newStatus.name(), orderId, orderId, prevStatus.name()));
 
             if (rowsAffected != 0)
             {
@@ -50,13 +50,13 @@ public abstract class OrderStatusChanged extends HttpServlet
         }
         catch (ClassNotFoundException e)
         {
-        	
-        	e.printStackTrace(writer);
+
+            e.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
-        	e.printStackTrace(writer);
+            e.printStackTrace(writer);
             writer.append("error");
         }
     }

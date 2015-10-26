@@ -48,11 +48,18 @@ public class PlaceOrder extends HttpServlet
 
         String restaurantId = request.getParameter("restaurantId");
         String username = request.getParameter("customerUsername");
+        String password = request.getParameter("customerPassword");
         try
         {
+            MySQLUtilities sql = new MySQLUtilities();
+            if ((username != null || password != null) && !ServletUtilities.checkPassword(sql, username, password))
+            {
+                writer.append("invalid");
+                return;
+            }
+
             // TODO make transaction
             int rowsChanged;
-            MySQLUtilities sql = new MySQLUtilities();
             if (username == null)
             {
                 rowsChanged = sql.InsertSQL("INSERT INTO OrderList (restaurantId,status) VALUES (" + restaurantId + ",'PLACED');");

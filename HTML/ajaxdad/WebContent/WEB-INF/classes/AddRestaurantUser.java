@@ -25,13 +25,14 @@ public class AddRestaurantUser extends HttpServlet
         PrintWriter writer = response.getWriter();
 
         if (!ServletUtilities.checkSingletonInputs(request, new String[]
-        { "adminUsername", "username", "password", "email", "accountType" }))
+        { "adminUsername", "adminPassword", "username", "password", "email", "accountType" }))
         {
             writer.append("error");
             return;
         }
 
         String adminUsername = request.getParameter("adminUsername");
+        String adminPassword = request.getParameter("adminPassword");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
@@ -39,7 +40,7 @@ public class AddRestaurantUser extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername);
+            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
             if (restaurantId == null)
             {
                 writer.append("Invalid admin account");
@@ -51,8 +52,9 @@ public class AddRestaurantUser extends HttpServlet
                 writer.append("taken");
                 return;
             }
-            int result = sql.InsertSQL("INSERT INTO UserInfo (username,password,type,email,restaurantId) VALUES ('" + username + "','" + password
-                    + "','" + type + "','" + email + "'," + restaurantId + ");");
+            int result = sql.InsertSQL(String.format(
+                    "INSERT INTO UserInfo (username,password,type,email,restaurantId) VALUES ('%s','%s','%s','%s',%s);", username, password, type,
+                    email, restaurantId));
 
             if (result == 0)
             {

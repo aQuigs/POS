@@ -24,20 +24,21 @@ public class DeleteMenuItem extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuItemId" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "adminPassword", "menuItemId" }))
         {
             writer.append("error");
             return;
         }
 
         String username = request.getParameter("adminUsername");
+        String password = request.getParameter("adminPassword");
         String itemId = request.getParameter("menuItemId");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
             int rowsChanged = sql
                     .DeleteSQL("DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.username='" + username
-                            + "' AND UserInfo.type='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
+                            + "' AND UserInfo.password='" + password + "' AND UserInfo.type='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
                             + "INNER JOIN MenuDetails ON MenuDetails.menuId=MenuList.menuId "
                             + "WHERE MenuDetails.menuItemId=" + itemId + ";");
 

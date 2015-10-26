@@ -25,22 +25,26 @@ public class GetUnfinishedOrders extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password" }))
         {
             writer.append("error");
             return;
         }
 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL("SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.submenu "
-                    + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
-                    + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
-                    + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
-                    + "WHERE UserInfo.username='" + request.getParameter("username") + "' "
-                    + "AND (OrderDetails.status='PLACED' OR OrderDetails.status='STARTED' OR OrderDetails.status='COOKED') "
-                    + "ORDER BY OrderList.orderId,OrderDetails.status;");
+            ResultSet rs = sql.SelectSQL(String.format(
+                    "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.submenu "
+                            + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
+                            + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kicthen' "
+                            + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
+                            + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
+                            + "WHERE OrderDetails.status='PLACED' OR OrderDetails.status='STARTED' OR OrderDetails.status='COOKED' "
+                            + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", username, password));
             while (rs.next())
             {
                 writer.append(rs.getString(1));

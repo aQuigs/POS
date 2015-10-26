@@ -25,13 +25,15 @@ public class ChangeMenuItem extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuItemId", "menuId", "name", "cost" }))
+        if (!ServletUtilities
+                .checkSingletonInputs(request, new String[] { "adminUsername", "adminPassword", "menuItemId", "menuId", "name", "cost" }))
         {
             writer.append("error");
             return;
         }
 
         String username = request.getParameter("adminUsername");
+        String password = request.getParameter("adminPassword");
         String menuItemId = request.getParameter("menuItemId");
         String menuId = request.getParameter("menuId");
         String itemName = request.getParameter("name");
@@ -43,12 +45,13 @@ public class ChangeMenuItem extends HttpServlet
             MySQLUtilities sql = new MySQLUtilities();
 
             // Ensure new menuId is valid for particular restaurant
-            ResultSet rs = sql.SelectSQL("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='"
-                    + username
-                    + "' AND UserInfo.restaurantId=MenuList.restaurantId AND MenuList.menuId=" + menuId + ";");
+            ResultSet rs = sql
+                    .SelectSQL(String
+                            .format("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.restaurantId=MenuList.restaurantId AND MenuList.menuId=%s;",
+                                    username, password, menuId));
             if (!rs.next())
             {
-                writer.append("invalid menuId");
+                writer.append("invalid");
                 return;
             }
 

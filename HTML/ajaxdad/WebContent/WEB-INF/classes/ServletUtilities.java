@@ -131,9 +131,10 @@ public class ServletUtilities
         return rs.next();
     }
 
-    public static String getRestaurantFromAdmin(MySQLUtilities sql, String adminUsername) throws SQLException
+    public static String getRestaurantFromAdmin(MySQLUtilities sql, String adminUsername, String adminPassword) throws SQLException
     {
-        ResultSet rs = sql.SelectSQL(String.format("SELECT restaurantId FROM UserInfo WHERE username='%s' AND type='admin';", adminUsername));
+        ResultSet rs = sql.SelectSQL(String.format("SELECT restaurantId FROM UserInfo WHERE username='%s' AND password='%s' AND type='admin';",
+                adminUsername, adminPassword));
         if (rs.next())
             return rs.getString(1);
         return null;
@@ -175,5 +176,10 @@ public class ServletUtilities
         if (rs.next())
             return rs.getString(1);
         return null;
+    }
+
+    public static boolean checkPassword(MySQLUtilities sql, String username, String password) throws SQLException
+    {
+        return sql.SelectSQL(String.format("SELECT username FROM UserInfo WHERE username='%s' AND password='%s';", username, password)).next();
     }
 }
