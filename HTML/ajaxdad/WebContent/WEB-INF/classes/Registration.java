@@ -47,9 +47,7 @@ public class Registration extends HttpServlet
                 return;
             }
 
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(email.getBytes("UTF-8"));
-            String unverifiedHash = DatatypeConverter.printHexBinary(hash);
+            String unverifiedHash = ServletUtilities.generateHash(email, ServletUtilities.generateSalt());
 
             String salt = ServletUtilities.generateSalt();
             String passwordHash = ServletUtilities.generateHash(password, salt);
@@ -79,10 +77,6 @@ public class Registration extends HttpServlet
             writer.append("error");
         }
         catch (SQLException e)
-        {
-            writer.append("error");
-        }
-        catch (NoSuchAlgorithmException e)
         {
             writer.append("error");
         }
