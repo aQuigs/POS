@@ -8,6 +8,63 @@ function logOff()
 	window.location.replace("/POS/login.html");
 }
 
+function accordItem(orderNum)
+{
+	return '<li class="accordion-item">'
+		 	+ '<a href="#" class="item-content item-link">'
+		 		+ '<div class="item-inner">'
+		 			+ '<div class="item-title">'
+		 				+ 'Order ' + orderNum + ':'
+		 				+ '<p class="buttons-row">'
+		 					+ '<input type="button" value="In Progress" class="button button-fill">'
+		 					+ '<input type="button" value="Order Finished" class="button button-fill">'
+		 				+ '</p>' 		          	
+		 			+ '</div>'
+		 		+ '</div>'
+		 	+ '</a>'
+		 	+ '<div class="accordion-item-content">'
+		 		+ '<div class="content-block">'
+		 			+ '<div class="list-block">'
+		 				+ '<ul id="order' + orderNum + '-items">'
+		 				+ '</ul>'
+		 			+ '</div>'
+		 		+ '</div>'
+		 	+ '</div>'
+		 + '</li>';
+}
+
+function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
+{
+	var itemColor = "deeppurple";
+	
+	if(subMenu == "appetizer")	
+	{
+		itemColor = "red";
+	}
+	else if(subMenu == "entree")
+	{
+		itemColor = "yellow";
+	}
+	else if(subMenu == "dessert")
+	{
+		itemColor = "green";
+	}
+	else
+	{
+		itemColor = "indigo";
+	}
+	
+	return '<li class="swipeout color-' + itemColor + '">'
+			+ '<div class="swipeout-content item-content border-red">'
+				+ '<div class="item-inner">(' + itemStatus + ') ' + itemName + ': ' + miscInfo + '</div>'
+			+ '</div>'
+			+ '<div class="swipeout-actions-left"></div>'
+			+ '<div class="swipeout-actions-right">'
+				+ '<a href="#" class="swipeout-delete">Finished</a>'
+			+ '</div>'
+		+'</li>';
+}
+
 //AJAX for filling order queue
 function fillOrderQueue()
 {
@@ -21,71 +78,29 @@ function fillQueue()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
         var result = xmlHttpRequest.responseText;
-        var orders = result.split("\n");
-        var currentItem = orders[0].split(",");
-        var compareItem;
-        var currentOrder = currentItem[0];
-        var orderQueue = '<li class="swipeout">'
-		       				+ '<div class="swipeout-content item-content">'
-		       					+ '<div class="item-media">'
-		       						+ '<ul>'
-		       							+ '<li><h4>Order' + currentItem[0] + '(' + currentItem[2] + '):</h4></li>'
         
-        for(i = 0; i < orders.length; i++)	
+        var orders = result.split("\n");
+        var currentItem;
+        var compareItem;
+        var currentOrder = 0;
+        var currentOrderId = "";
+        
+        for(i = 0; i < orders.length; i++)
         {
-        	if(i > 0)
-        	{
-        		currentItem = orders[i].split(",");
-        	}
-
-			console.log(JSON.stringify(currentItem));
+        	currentItem = orders[i].split(",");
+        	
         	if(currentItem[0] != "")
         	{
-        		if(currentItem[0] == currentOrder)
-        		{
-        			orderQueue += '<li><h5>(' + currentItem[3] + ')' + currentItem[4] + '</h5></li>'
-        		}
-        		else
-        		{
-        			currentOrder = currentItem[0];
-        			console.log(JSON.stringify(currentItem));
-        			orderQueue += '</ul>'
-   	 		         		+ '</div>'
-   	 		         		+ '</div>'
-   	 		         		+ '<div class="swipeout-actions-left">'
-   	 		         		+ '<a href="#" onclick="orderStarted(1)" class="in-progess bg-green">In Progress</a>'
-   	 		         		+ '</div>'
-   	 		         		+ '<div class="swipeout-actions-right">'
-   	 		         		+ '<a href="#" onclick="orderCooked(1)" class="order-finished swipeout-delete">Order Up!</a>'
-   	 		         		+ '</div>'
-   	 		         		+ '</li>'
-   	 		         		+ '<li class="swipeout">'
-   	 		         			+ '<div class="swipeout-content item-content">'
-   	 		         				+ '<div class="item-media">'
-   	 		         					+ '<ul>'
-   	 		         						+ '<li><h4>Order' + currentItem[0] + '(' + currentItem[2] + '):</h4></li>'
-   	 		         						+ '<li><h5>(' + currentItem[3] + ')' + currentItem[4] + '</h5></li>'
-        		}
-        		
-        		if(currentItem[5] != "")
-        		{
-        			orderQueue += '<p>-' + currentItem[5] + '</p>'
-        		}
+        		if(currentItem[0] != currentOrder )
+            	{
+            		$('#order-queue').append(accordItem(currentItem[0]));
+            		currentOrder = currentItem[0];
+            		currentOrderId = '#order' + currentOrder + '-items';
+            	}
+
+        		$(currentOrderId).append(accordInnerItem(i, currentItem[3], currentItem[4], currentItem[5], currentItem[6]));
         	}
         }
-        
-        orderQueue += '</ul>'
-	         + '</div>'
-	       + '</div>'
-	       + '<div class="swipeout-actions-left">'
-	         + '<a href="#" onclick="orderStarted(1)" class="in-progess bg-green">In Progress</a>'
-	       + '</div>'
-	       + '<div class="swipeout-actions-right">'
-	         + '<a href="#" onclick="orderCooked(1)" class="order-finished swipeout-delete">Order Up!</a>'
-	       + '</div>'
-	     + '</li>'
-        
-        document.getElementById("order-queue").innerHTML = orderQueue;
     }
 }
 
