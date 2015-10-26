@@ -49,17 +49,20 @@ public class Registration extends HttpServlet
 
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(email.getBytes("UTF-8"));
-            String hashString = DatatypeConverter.printHexBinary(hash);
+            String unverifiedHash = DatatypeConverter.printHexBinary(hash);
 
-            if (1 == sql.InsertSQL("INSERT INTO UserInfo (username,password,email,type,unverifiedHash) VALUES ('" + username + "','" + password
-                    + "','" + email + "','customer','" + hashString + "');"))
+            String salt = ServletUtilities.generateSalt();
+            String passwordHash = ServletUtilities.generateHash(password, salt);
+            if (1 == sql.InsertSQL(String.format(
+                    "INSERT INTO UserInfo (username,password,salt,email,type,unverifiedHash) VALUES ('%s','%s','%s','%s','customer','%s');",
+                    username, passwordHash, salt, email, unverifiedHash)))
             {
                 writer.append("success");
                 try
                 {
                     EmailSender.sendEmail(email, "Verify Your Email Address",
-                            "To verify your email, please go to the following URL: http://ec2-52-23-188-89.compute-1.amazonaws.com:8080/POS/ValidateEmail?validatecode="
-                                    + hashString);
+                            "To verify your email, please go to the following URL: http://ec2-54-152-96-171.compute-1.amazonaws.com:8080/POS/ValidateEmail?validatecode="
+                                    + unverifiedHash);
                 }
                 catch (MessagingException e)
                 {
@@ -71,9 +74,8 @@ public class Registration extends HttpServlet
                 writer.append("failure");
             }
         }
-        catch (ClassNotFoundException e1)
+        catch (ClassNotFoundException e)
         {
-            e1.printStackTrace();
             writer.append("error");
         }
         catch (SQLException e)
@@ -82,7 +84,6 @@ public class Registration extends HttpServlet
         }
         catch (NoSuchAlgorithmException e)
         {
-            e.printStackTrace();
             writer.append("error");
         }
     }

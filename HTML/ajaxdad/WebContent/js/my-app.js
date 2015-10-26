@@ -33,7 +33,7 @@ function processLogin()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
-        var accountType = xmlHttpRequest.responseText;
+        var accountType = xmlHttpRequest.responseText.split(',')[0];
         
         if(accountType == "admin")
         {
