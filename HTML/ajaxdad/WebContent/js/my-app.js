@@ -39,37 +39,41 @@ function processLogin()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
-        var accountType = xmlHttpRequest.responseText.split(',')[0];
-        
-        if(accountType == "admin")
+        var results = xmlHttpRequest.responseText.split(',');
+        if (results.length == 2)
         {
-        	setCookie("username", document.getElementById('username').value, 1);
-            window.location.replace("/POS/admin.html");
+            var accountType = results[0];
+
+            if(accountType == "admin")
+            {
+                window.location.replace("/POS/admin.html");
+            }
+            else if(accountType == "kitchen")
+            {
+                window.location.replace("/POS/kitchen.html");
+            }
+            else if(accountType == "waitstaff")
+            {
+                window.location.replace("/POS/waitstaff.html");
+            }
+            else if(accountType == "customer")
+            {
+                window.location.replace("/POS/index.html");
+            }
+
+            setCookie("username", document.getElementById('username').value, 1);
+            setCookie("password", results[1], 1);
+            setCookie("accountType", accountType);
         }
-        else if(accountType == "kitchen")
-        {
-        	setCookie("username", document.getElementById('username').value, 1);
-            window.location.replace("/POS/kitchen.html");
-        }
-        else if(accountType == "waitstaff")
-        {
-        	setCookie("username", document.getElementById('username').value, 1);
-            window.location.replace("/POS/waitstaff.html");
-        }
-        else if(accountType == "customer")
-        {
-        	setCookie("username", document.getElementById('username').value, 1);
-            window.location.replace("/POS/index.html");
-        }
-        else if(accountType == "invalid")
+        else if(xmlHttpRequest.responseText == "invalid")
         {
             alert('Invalid username/password combination');
         }
-        else if (accountType == "unverified")
+        else if (xmlHttpRequest.responseText == "unverified")
         {
             alert('Please activate your account first; see your email for the activation link');
         }
-        else if (accountType == "error")
+        else if (xmlHttpRequest.responseText == "error")
         {
             alert('An error occurred');
         }

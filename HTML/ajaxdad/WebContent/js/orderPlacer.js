@@ -4,6 +4,8 @@ var restaurantId, restaurantName, menuId, menuName;
 function logOff()
 {
 	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
+	setCookie("password", "", -1);	//Set cookie to expire in -1 days to delete
+	setCookie("accountType", "", -1);	//Set cookie to expire in -1 days to delete
 	window.location.replace("/POS/login.html");
 }
 
@@ -165,7 +167,11 @@ function fillMenu()
 function submitOrder()
 {
 	var uri = "PlaceOrder?restaurantId=" + restaurantId;
-		
+	if (getCookie("accountType").toString() === "customer")
+	{
+		uri += "&customerUsername=" + getCookie("username").toString() + "&customerPassword=" + getCookie("password").toString();
+	}	
+	
 	for(i = 0; i < orderQuantity.length; i++)
 	{
 		uri += "&itemId=" + orderItemID[i] + "&quantity=" + orderQuantity[i] + "&miscInfo=" + orderSpecialInfo[i];

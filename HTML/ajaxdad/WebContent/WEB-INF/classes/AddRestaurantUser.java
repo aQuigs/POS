@@ -27,7 +27,7 @@ public class AddRestaurantUser extends HttpServlet
         if (!ServletUtilities.checkSingletonInputs(request, new String[]
         { "adminUsername", "adminPassword", "username", "password", "email", "accountType" }))
         {
-            writer.append("error");
+            writer.append("error1");
             return;
         }
 
@@ -43,7 +43,7 @@ public class AddRestaurantUser extends HttpServlet
             String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
             if (restaurantId == null)
             {
-                writer.append("Invalid admin account");
+                writer.append("invalid");
                 return;
             }
 
@@ -52,13 +52,16 @@ public class AddRestaurantUser extends HttpServlet
                 writer.append("taken");
                 return;
             }
+
+            String salt = ServletUtilities.generateSalt();
+            String passwordHash = ServletUtilities.generateHash(password, salt);
             int result = sql.InsertSQL(String.format(
-                    "INSERT INTO UserInfo (username,password,type,email,restaurantId) VALUES ('%s','%s','%s','%s',%s);", username, password, type,
-                    email, restaurantId));
+                    "INSERT INTO UserInfo (username,restaurantPassword,password,salt,type,email,restaurantId) VALUES ('%s','%s','%s','%s','%s','%s',%s);",
+                    username, password, passwordHash, salt, type, email, restaurantId));
 
             if (result == 0)
             {
-                writer.append("invalid");
+                writer.append("failed");
             }
             else
             {
@@ -67,10 +70,12 @@ public class AddRestaurantUser extends HttpServlet
         }
         catch (ClassNotFoundException e)
         {
+            e.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
+            e.printStackTrace(writer);
             writer.append("error");
         }
     }

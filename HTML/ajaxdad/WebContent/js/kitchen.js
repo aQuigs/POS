@@ -68,7 +68,7 @@ function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 //AJAX for filling order queue
 function fillOrderQueue()
 {
-    xmlHttpRequest.open("POST", "GetUnfinishedOrders?username=" + getCookie("username"), true);
+    xmlHttpRequest.open("POST", "GetUnfinishedOrders?username=" + getCookie("username") + "&password=" + getCookie("password").toString(), true);
     xmlHttpRequest.onreadystatechange = fillQueue;
     xmlHttpRequest.send();
 }
@@ -110,7 +110,7 @@ window.onload = fillOrderQueue;
 function orderCooked(orderId)
 {
 	myApp.alert("Waitress has been notified!");
-    xmlHttpRequest.open("POST", "OrderCooked?username=" + getCookie("username") + "&orderId=" + orderId, true);
+    xmlHttpRequest.open("POST", "OrderCooked?username=" + getCookie("username") + "&password=" + getCookie("password") + "&orderId=" + orderId, true);
     xmlHttpRequest.onreadystatechange = orderStatusChanged;
     xmlHttpRequest.send();
 }
@@ -129,7 +129,7 @@ function orderStatusChanged()
 function orderStarted(orderId)
 {
 	myApp.alert("Current order has been updated");
-    xmlHttpRequest.open("POST", "OrderStarted?username=" + getCookie("username") + "&orderId=" + orderId, true);
+    xmlHttpRequest.open("POST", "OrderStarted?username=" + getCookie("username") + "&password=" + getCookie("password") + "&orderId=" + orderId, true);
     xmlHttpRequest.onreadystatechange = orderStatusChanged;
     xmlHttpRequest.send();
 }

@@ -41,7 +41,7 @@ public class DeleteRestaurantUser extends HttpServlet
             // String restaurantId = "1";
             if (restaurantId == null)
             {
-                writer.append("Invalid admin account");
+                writer.append("invalid");
                 return;
             }
 
@@ -49,7 +49,7 @@ public class DeleteRestaurantUser extends HttpServlet
                     + " AND username!='" + adminUsername + "';");
             if (numDeleted == 0)
             {
-                writer.append("invalid");
+                writer.append("failed");
             }
             else
             {

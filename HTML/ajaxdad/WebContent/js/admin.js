@@ -5,6 +5,8 @@ var oldUsername;
 function logOff()
 {
 	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
+    setCookie("password", "", -1);  //Set cookie to expire in -1 days to delete
+    setCookie("accountType", "", -1);   //Set cookie to expire in -1 days to delete
 	window.location.replace("/POS/login.html");
 }
 
@@ -15,7 +17,7 @@ function addRestaurantUser()
 	var username = document.getElementById('username').value.toString();
 	var password = document.getElementById('password').value.toString();
 	
-    xmlHttpRequest.open("POST", "AddRestaurantUser?adminUsername=" + getCookie("username").toString() + "&username=" + document.getElementById('username').value.toString() + "&password=" + document.getElementById('password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('accountType').value.toString(), true);
+    xmlHttpRequest.open("POST", "AddRestaurantUser?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&username=" + document.getElementById('username').value.toString() + "&password=" + document.getElementById('password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('accountType').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addUser;
     xmlHttpRequest.send();
 }
@@ -26,10 +28,14 @@ function addUser()
     {
     	var result = xmlHttpRequest.responseText;
     	
-    	if(result == "Invalid admin account")
+    	if(result == "invalid")
     	{
     		myApp.alert("You are not authorized to make the requested change.");
     	}
+        else if (result == "failed")
+        {
+            myApp.alert("The action failed");
+        }
     	else if(result == "taken")
     	{
     		myApp.alert("The username selected is already taken. Please choose a different username.");
@@ -49,7 +55,7 @@ function addUser()
   //Parameters:adminUsername, username, password, email, accountType
  function deleteRestaurantUser()
  {
-     xmlHttpRequest.open("POST", "DeleteRestaurantUser?adminUsername=" + getCookie("username") + "&username=" + document.getElementById('username').value.toString(), true);
+     xmlHttpRequest.open("POST", "DeleteRestaurantUser?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&username=" + document.getElementById('username').value.toString(), true);
      xmlHttpRequest.onreadystatechange = deleteUser;
      xmlHttpRequest.send();
  }
@@ -61,12 +67,12 @@ function addUser()
       {
       	var result = xmlHttpRequest.responseText;
       	
-      	if(result == "Invalid admin account")
+      	if(result == "invalid")
       	{
       		myApp.alert("You don't have access to this. You are now leaving.");
       		setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
       	}
-      	else if(result == "invalid")
+      	else if(result == "failed")
       	{
       		myApp.alert("The request you are trying to make is invalid.");
       	}
@@ -86,7 +92,7 @@ function getRestaurantUsers()
 {
 	setCookie("username", "admin", 1);	//Need to take out eventually
 	//myApp.alert(getCookie("username"));
-    xmlHttpRequest.open("POST", "GetRestaurantUsers?username=" + getCookie("username"), true);
+    xmlHttpRequest.open("POST", "GetRestaurantUsers?username=" + getCookie("username") + "&password=" + getCookie("password").toString(), true);
     xmlHttpRequest.onreadystatechange = getUsers;
     xmlHttpRequest.send();
 }
@@ -140,7 +146,7 @@ function updateUserInfo()
 
 function changeRestaurantUser()
 {
-	xmlHttpRequest.open("POST", "ChangeRestaurantUser?adminUsername=" + getCookie("username") + "&oldUsername=" + oldUsername + "&username=" + document.getElementById('username').value.toString() + "&password=" + document.getElementById('password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('usertype').value.toString(), true);
+	xmlHttpRequest.open("POST", "ChangeRestaurantUser?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&oldUsername=" + oldUsername + "&username=" + document.getElementById('username').value.toString() + "&password=" + document.getElementById('password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('usertype').value.toString(), true);
     xmlHttpRequest.onreadystatechange = changeUser;
     xmlHttpRequest.send();
 }
@@ -230,7 +236,7 @@ function updateMenuInfo()
 
 function addMenuItem()
 { 
-    xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&menuId=1&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
+    xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=1&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addItem;
     xmlHttpRequest.send();
 }
@@ -261,7 +267,7 @@ function addItem()
 
 function deleteMenuItem()
 {
-    xmlHttpRequest.open("POST", "DeleteMenuItem?adminUsername=" + getCookie("username") + "&menuItemId=" + document.getElementById('itemId').value.toString(), true);
+    xmlHttpRequest.open("POST", "DeleteMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + document.getElementById('itemId').value.toString(), true);
     xmlHttpRequest.onreadystatechange = deleteItem;
     xmlHttpRequest.send();
 }
@@ -295,7 +301,7 @@ function deleteItem()
 
 function changeMenuItem()
 {
-	xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username") + "&menuItemId=" + document.getElementById('itemId').value.toString() + "&menuId=1&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
+	xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + document.getElementById('itemId').value.toString() + "&menuId=1&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = changeItem;
     xmlHttpRequest.send();
 }
