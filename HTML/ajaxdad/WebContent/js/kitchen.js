@@ -5,6 +5,8 @@ var newOrder = "";
 function logOff()
 {
 	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
+	setCookie("password", "", -1);	//Set cookie to expire in -1 days to delete
+	setCookie("accountType", "", -1);	//Set cookie to expire in -1 days to delete
 	window.location.replace("/POS/login.html");
 }
 

@@ -40,7 +40,7 @@ public class GetUnfinishedOrders extends HttpServlet
             ResultSet rs = sql.SelectSQL(String.format(
                     "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.submenu "
                             + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
-                            + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kicthen' "
+                            + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kitchen' "
                             + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                             + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
                             + "WHERE OrderDetails.status='PLACED' OR OrderDetails.status='STARTED' OR OrderDetails.status='COOKED' "
