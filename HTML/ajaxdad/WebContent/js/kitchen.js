@@ -8,13 +8,13 @@ function logOff()
 	window.location.replace("/POS/login.html");
 }
 
-function accordItem(orderNum)
+function accordItem(orderNum, orderStatus)
 {
 	return '<li class="accordion-item">'
 		 	+ '<a href="#" class="item-content item-link">'
 		 		+ '<div class="item-inner">'
 		 			+ '<div class="item-title">'
-		 				+ 'Order ' + orderNum + ':'
+		 				+ 'Order ' + orderNum + ': ' + orderStatus
 		 				+ '<p class="buttons-row">'
 		 					+ '<input type="button" value="In Progress" class="button button-fill">'
 		 					+ '<input type="button" value="Order Finished" class="button button-fill">'
@@ -78,7 +78,7 @@ function fillQueue()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
         var result = xmlHttpRequest.responseText;
-        
+        myApp.alert(result);
         var orders = result.split("\n");
         var currentItem;
         var compareItem;
@@ -93,7 +93,7 @@ function fillQueue()
         	{
         		if(currentItem[0] != currentOrder )
             	{
-            		$('#order-queue').append(accordItem(currentItem[0]));
+            		$('#order-queue').append(accordItem(currentItem[0], currentItem[2]));
             		currentOrder = currentItem[0];
             		currentOrderId = '#order' + currentOrder + '-items';
             	}
