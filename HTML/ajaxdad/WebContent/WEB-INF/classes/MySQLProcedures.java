@@ -76,7 +76,7 @@ public class MySQLUtilities{
     
     public int ProcedureAddMenuItem(String username, String password, int menuId, String itemName, double cost, String subMenu, String description)
     {
-        String query = "{CALL AddMenu(?,?,?,?,?,?,?,?)}"
+        String query = "{CALL AddMenuItem(?,?,?,?,?,?,?,?)}"
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
@@ -93,7 +93,7 @@ public class MySQLUtilities{
     
     public int ProcedureAddRestaurantUser(String username, String password, String newUsername, String newPassword, String newEmail, String newType)
     {
-        String query = "{CALL AddMenu(?,?,?,?,?,?,?)}"
+        String query = "{CALL AddRestaurantUser(?,?,?,?,?,?,?)}"
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
