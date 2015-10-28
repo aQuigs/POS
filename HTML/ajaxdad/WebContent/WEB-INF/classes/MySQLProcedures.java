@@ -61,13 +61,46 @@ public class MySQLUtilities{
     	theConnection = DriverManager.getConnection(Url, Username, Password);		
 	}
 	
-	public int ProcedureAddMenu(String Username, String Password, String MenuName)
+	public int ProcedureAddMenu(String username, String password, String menuName)
     {
         String query = "{CALL AddMenu(?,?,?,?,?)}"
         CallableStatement cs = theConnection.prepareCall(query);
-        cs.setString(1, Username);
-        cs.setString(2, Password);
-        cs.setString(3, MenuName);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("IMenuName", menuName);
+        cs.registerOutParameter("OReturnCode", Types.Integer);
+        boolean hadResults = cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureAddMenuItem(String username, String password, int menuId, String itemName, double cost, String subMenu, String description)
+    {
+        String query = "{CALL AddMenu(?,?,?,?,?,?,?,?)}"
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setInt("IMenuId", MenuId);
+        cs.setString("IItemName", itemName);
+        cs.setDouble("ICost", cost);
+        cs.setString("ISubMenu", subMenu);
+        cs.setString("IDescription", description)
+        cs.registerOutParameter("OReturnCode", Types.Integer);
+        boolean hadResults = cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureAddRestaurantUser(String username, String password, String newUsername, String newPassword, String newEmail, String newType)
+    {
+        String query = "{CALL AddMenu(?,?,?,?,?,?,?)}"
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("INewUsername", newUsername);
+        cs.setString("INewPassword", newPassword);
+        cs.setString("INewEmail", newEmail);
+        cs.setString("INewType", newType);
         cs.registerOutParameter("OReturnCode", Types.Integer);
         boolean hadResults = cs.execute();
         int outputValue = cs.getInt("OReturnCode");
