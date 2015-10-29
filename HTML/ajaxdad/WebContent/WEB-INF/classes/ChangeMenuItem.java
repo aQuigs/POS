@@ -43,55 +43,8 @@ public class ChangeMenuItem extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-
-            // Ensure new menuId is valid for particular restaurant
-            ResultSet rs = sql
-                    .SelectSQL(String
-                            .format("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.restaurantId=MenuList.restaurantId AND MenuList.menuId=%s;",
-                                    username, password, menuId));
-            if (!rs.next())
-            {
-                writer.append("invalid");
-                return;
-            }
-
-            StringBuilder statement = new StringBuilder();
-            statement.append("UPDATE UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='");
-            statement.append(username);
-            statement
-                    .append("' AND UserInfo.restaurantId=MenuList.restaurantId INNER JOIN MenuDetails ON MenuList.menuId=MenuDetails.menuId AND MenuDetails.menuItemId=");
-            statement.append(menuItemId);
-            statement.append(" SET MenuDetails.menuId=");
-            statement.append(menuId);
-            statement.append(",MenuDetails.itemName='");
-            statement.append(itemName);
-            statement.append("',MenuDetails.cost=");
-            statement.append(cost);
-            if (description != null)
-            {
-                statement.append(",MenuDetails.itemDescription='");
-                statement.append(description);
-                statement.append("'");
-            }
-            if (submenu != null)
-            {
-                statement.append(",MenuDetails.submenu='");
-                statement.append(submenu);
-                statement.append("'");
-            }
-
-            statement.append(';');
-
-            int rowsChanged = sql.UpdateSQL(statement.toString());
-
-            if (rowsChanged != 0)
-            {
-                writer.append("success");
-            }
-            else
-            {
-                writer.append("failed");
-            }
+            int result = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description);
+            writer.append(result);
         }
         catch (ClassNotFoundException e)
         {
