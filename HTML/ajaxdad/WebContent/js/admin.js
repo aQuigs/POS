@@ -2,6 +2,11 @@ var users = [];
 var menuItems = [];
 var oldUsername;
 
+if(getCookie("username") == "" || getCookie("password") == "")
+{
+	window.location.replace("/POS/login.html");
+}
+
 function logOff()
 {
 	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
@@ -227,7 +232,6 @@ function updateMenuInfo()
 	var menuVal = $('#menuSearch').val()
 	
 	$('#item').val(menuItems[menuVal].item);
-	$('#itemId').val(menuItems[menuVal].itemId);
 	$('#submenu').val(menuItems[menuVal].subMenu);
 	$('#description').val(menuItems[menuVal].description);
 	$('#price').val(menuItems[menuVal].price);
@@ -332,6 +336,88 @@ function changeItem()
      }
 }
 
+function getSubMenus()
+{
+	//myApp.alert(getCookie("username"));
+    xmlHttpRequest.open("POST", "ListMenus?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password") + "&restaurantId=1", true);
+    xmlHttpRequest.onreadystatechange = listMenus;
+    xmlHttpRequest.send();
+}
+
+function listMenus()
+{
+    if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+    {
+    	var result = xmlHttpRequest.responseText;
+    	
+    	myApp.alert(result);
+    	return;
+    	
+    	if(result == "error")
+    	{
+    		myApp.alert("An error occurred retrieving the data!");
+    	}
+    	else if(result == "Invalid admin account")
+    	{
+    		myApp.alert("You are not authorized to make changes to account information.");
+    	}
+    	else
+    	{
+    		var menuLines = result.split("\n");
+    		$('#subMenuSearch').html("");
+    		var subMenuSearch = $("#subMenuSearch");
+    		
+    		for(i = 0; i < menuLines.length - 1; i++)
+    		{
+    			var currentMenuItem = menuLines[i].split(",");
+    			if(currentMenuItem[0].length > 0)
+    			{
+	    			var menuItem = {item: currentMenuItem[1], itemId: currentMenuItem[0], subMenu: currentMenuItem[4], description: currentMenuItem[2], price: currentMenuItem[3]};
+	    			menuItems.push(menuItem);
+    			}
+    		
+    			subMenuSearch.append('<option value="' + i + '"selected>' + menuItems[i].item + '</option>');
+    		
+    		}
+    	}
+    	
+    }
+}
+
+function addRestaurantMenu()
+{ 
+	var menuName = document.getElementById('menuName').value.toString();
+	
+    xmlHttpRequest.open("POST", "AddMenu?adminUsername=" + getCookie("username").toString() + "&password=" + getCookie("password") + "&menuName=" + menuName, true);
+    xmlHttpRequest.onreadystatechange = addMenu;
+    xmlHttpRequest.send();
+}
+
+function addMenu()
+{
+    if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+    {
+    	var result = xmlHttpRequest.responseText;
+    	
+    	if(result == "invalid")
+    	{
+    		myApp.alert("You are not authorized to make the requested change.");
+    	}
+        else if (result == "failed")
+        {
+            myApp.alert("The action failed");
+        }
+    	else if(result == "taken")
+    	{
+    		myApp.alert("The menu name selected is already taken. Please choose a different name for this menu.");
+    	}
+    	else
+    	{
+    		myApp.alert("Menu successfully created!");
+    	}
+    }
+}
+
 myApp.onPageInit('manageUsers', function (page) {
 	getRestaurantUsers();
 	$('#usertype').attr('readonly', true);
@@ -345,8 +431,16 @@ myApp.onPageInit('manageUsers', function (page) {
 
 myApp.onPageInit('manageMenu', function (page) {
 	getMenuDetails();
-	$('#itemId').attr('readonly', true);
-	//$('#submenu').attr('readonly', true);
+	
+	$$('.confirm-ok').on('click', function () {
+	    myApp.confirm('Are you sure you want to delete this item?', function () {
+	    	deleteMenuItem();
+	    });
+	});
+});
+
+myApp.onPageInit('getSubMenus', function (page) {
+	getSubMenus();
 	
 	$$('.confirm-ok').on('click', function () {
 	    myApp.confirm('Are you sure you want to delete this item?', function () {

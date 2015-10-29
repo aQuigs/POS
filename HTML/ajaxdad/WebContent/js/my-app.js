@@ -43,27 +43,33 @@ function processLogin()
         if (results.length == 2)
         {
             var accountType = results[0];
-
+            var location = "";
+            
             if(accountType == "admin")
             {
-                window.location.replace("/POS/admin.html");
+                location = "/POS/admin.html";
             }
             else if(accountType == "kitchen")
             {
-                window.location.replace("/POS/kitchen.html");
+                location = "/POS/kitchen.html";
             }
             else if(accountType == "waitstaff")
             {
-                window.location.replace("/POS/waitstaff.html");
+                location = "/POS/waitstaff.html";
             }
             else if(accountType == "customer")
             {
-                window.location.replace("/POS/index.html");
+                location = "/POS/index.html";
+            }
+            else
+            {
+            	myApp.alert("Unable to login with those credentials");
             }
 
             setCookie("username", document.getElementById('username').value, 1);
             setCookie("password", results[1], 1);
             setCookie("accountType", accountType);
+            window.location.replace(location);
         }
         else if(xmlHttpRequest.responseText == "invalid")
         {
