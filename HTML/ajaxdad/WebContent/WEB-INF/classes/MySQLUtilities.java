@@ -317,6 +317,53 @@ public class MySQLUtilities{
 		return true;
 	}
 	
+
+    public int ProcedureAddMenu(String username, String password, String menuName) throws SQLException
+    {
+        String query = "{CALL AddMenu(?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("IMenuName", menuName);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        // boolean hadResults = cs.execute();
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureAddMenuItem(String username, String password, int menuId, String itemName, double cost, String subMenu, String description) throws SQLException
+    {
+        String query = "{CALL AddMenuItem(?,?,?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setInt("IMenuId", menuId);
+        cs.setString("IItemName", itemName);
+        cs.setDouble("ICost", cost);
+        cs.setString("ISubMenu", subMenu);
+        cs.setString("IDescription", description);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureAddRestaurantUser(String username, String password, String newUsername, String newPassword, String newEmail, String newType) throws SQLException
+    {
+        String query = "{CALL AddRestaurantUser(?,?,?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("INewUsername", newUsername);
+        cs.setString("INewPassword", newPassword);
+        cs.setString("INewEmail", newEmail);
+        cs.setString("INewType", newType);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
 	
 	/**
 	 * Closes the connection

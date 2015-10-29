@@ -20,12 +20,12 @@ public class AddMenu extends HttpServlet
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuName", "password" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuName", "adminPassword" }))
         {
             writer.append("error");
             return;
@@ -33,33 +33,12 @@ public class AddMenu extends HttpServlet
 
         String username = request.getParameter("adminUsername");
         String menuName = request.getParameter("menuName");
-        String password = request.getParameter("password");
+        String password = request.getParameter("adminPassword");
         try
         {
-
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL(String.format("SELECT restaurantId FROM UserInfo WHERE type='admin' AND username='%s' AND password='%s';",
-                    username, password));
-            if (rs.next())
-            {
-                String restaurantId = rs.getString(1);
-                if (restaurantId != null)
-                {
-                    int rowsAdded = sql.InsertSQL(String.format("INSERT MenuList (restaurantId,menuName) VALUES (%s,'%s');", restaurantId, menuName));
-                    if (rowsAdded != 0)
-                    {
-                        rs = sql.SelectSQL("SELECT LAST_INSERT_ID();");
-                        if (rs.next())
-                        {
-                            writer.append(rs.getString(1));
-                            return;
-                        }
-                    }
-                    writer.append("failed");
-                    return;
-                }
-            }
-            writer.append("invalid");
+            int retCode = sql.ProcedureAddMenu(username, password, menuName);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
         }
         catch (ClassNotFoundException e)
         {

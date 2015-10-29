@@ -20,7 +20,7 @@ IF(userType = 'admin')
             ELSE
                 
                 INSERT MenuList (restaurantId,menuName) VALUES (VRestaurantId, IMenuName);
-                IF ROW_COUNT() = -1
+                IF ROW_COUNT() = 1
                     THEN
                         SET OReturnCode = 0;
                     ELSE

@@ -182,4 +182,35 @@ public class ServletUtilities
     {
         return sql.SelectSQL(String.format("SELECT username FROM UserInfo WHERE username='%s' AND password='%s';", username, password)).next();
     }
+
+    public static String decodeErrorCode(int errorCode)
+    {
+        switch (errorCode)
+        {
+            case -1:
+                return "Could not add menu name";
+            case -2:
+                return "Could not find valid restaurant id";
+            case -3:
+                return "Returned kitchen user type when needed admin";
+            case -4:
+                return "Returned customer user type when needed admin";
+            case -5:
+                return "Returned waitstaff user type when needed admin";
+            case -6:
+                return "Invalid credentials given; may have been logged out";
+            case -7:
+                return "Menu name already in use in restaurant";
+            case -8:
+                return "Failed to insert menu item";
+            case -9:
+                return "Admin not connected to menu";
+            case -10:
+                return "Failed to insert user";
+            case -11:
+                return "Duplicate username/email";
+            default:
+                return null;
+        }
+    }
 }
