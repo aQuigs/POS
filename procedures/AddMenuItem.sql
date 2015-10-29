@@ -17,7 +17,7 @@ IF(userType = 'admin')
         INSERT INTO MenuDetails (menuId,itemName,cost,itemDescription, submenu) VALUES (IMenuId, IItemName, ICost, IDescription, ISubMenu);
         IF ROW_COUNT() > 0
             THEN
-                SET OReturnCode = 0;
+                SELECT LAST_INSERT_ID() INTO OReturnCode;
             ELSE
                 SET OReturnCode = -8;
         END IF;
@@ -39,7 +39,7 @@ END IF;
 
 END //
 DELIMITER ;
-                    
+
 
 \c
 

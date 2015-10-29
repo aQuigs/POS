@@ -245,17 +245,13 @@ function addItem()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
     	var result = xmlHttpRequest.responseText;
-    	if(result == "failed")
-    	{
-    		myApp.alert("Adding the item failed");
-    	}
-    	else if(result == "error")
-    	{
-    		myApp.alert("There was an error adding the item.");
-    	}
-    	else if (parseInt(result) != NaN)
+        if (!isNaN(Number(result)))
     	{
             myApp.alert("Item successfully created!");
+        }
+        else if (result == "invalid")
+        {
+            myApp.alert("Invalid entry");
         }
         else
         {

@@ -55,5 +55,9 @@ public class AddMenuItem extends HttpServlet
             writer.append("error");
             e.printStackTrace(writer);
         }
+        catch (NumberFormatException e)
+        {
+            writer.append("invalid");
+        }
     }
 }

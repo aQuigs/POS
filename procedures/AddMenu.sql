@@ -22,7 +22,7 @@ IF(userType = 'admin')
                 INSERT MenuList (restaurantId,menuName) VALUES (VRestaurantId, IMenuName);
                 IF ROW_COUNT() = 1
                     THEN
-                        SET OReturnCode = 0;
+                        SELECT LAST_INSERT_ID() INTO OReturnCode;
                     ELSE
                         SET OReturnCode = -1;
                     END IF;
