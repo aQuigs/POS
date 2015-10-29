@@ -37,19 +37,8 @@ public class ChangeMenu extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int rowsChanged = sql
-                    .UpdateSQL(String
-                            .format("UPDATE UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.restaurantId=MenuList.restaurantId SET menuName='%s' WHERE menuId=%s;",
-                                    username, password, menuName, menuId));
-
-            if (rowsChanged != 0)
-            {
-                writer.append("success");
-            }
-            else
-            {
-                writer.append("failed");
-            }
+            int retCode = sql.ProcedureChangeMenu(username, password, menuName, menuId);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
         }
         catch (ClassNotFoundException e)
         {

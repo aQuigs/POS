@@ -36,22 +36,8 @@ public class DeleteMenu extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int rowsChanged = sql
-                    .DeleteSQL("DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.username='" + username
-                            + "' AND UserInfo.password='" + password + "' AND UserInfo.type='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
-                            + "INNER JOIN MenuDetails ON MenuDetails.menuId=MenuList.menuId "
-                            + "WHERE MenuList.menuId=" + menuId + ";");
-            rowsChanged += sql.DeleteSQL("DELETE MenuList FROM UserInfo INNER JOIN MenuList ON UserInfo.type='admin' AND UserInfo.username='"
-                    + username + "' AND UserInfo.restaurantId=MenuList.restaurantId AND menuId=" + menuId + ";");
-
-            if (rowsChanged != 0)
-            {
-                writer.append("success");
-            }
-            else
-            {
-                writer.append("failed");
-            }
+            int retCode = sql.ProcedureDeleteMenu(username, password, menuId);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
         }
         catch (ClassNotFoundException e)
         {

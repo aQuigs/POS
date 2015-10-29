@@ -32,24 +32,12 @@ public class DeleteMenuItem extends HttpServlet
 
         String username = request.getParameter("adminUsername");
         String password = request.getParameter("adminPassword");
-        String itemId = request.getParameter("menuItemId");
+        String menuItemId = request.getParameter("menuItemId");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int rowsChanged = sql
-                    .DeleteSQL("DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.username='" + username
-                            + "' AND UserInfo.password='" + password + "' AND UserInfo.type='admin' AND UserInfo.restaurantId=MenuList.restaurantId "
-                            + "INNER JOIN MenuDetails ON MenuDetails.menuId=MenuList.menuId "
-                            + "WHERE MenuDetails.menuItemId=" + itemId + ";");
-
-            if (rowsChanged != 0)
-            {
-                writer.append("success");
-            }
-            else
-            {
-                writer.append("failed");
-            }
+            int retCode = sql.ProcedureDeleteMenuItem(username, password, menuItemId);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
         }
         catch (ClassNotFoundException e)
         {

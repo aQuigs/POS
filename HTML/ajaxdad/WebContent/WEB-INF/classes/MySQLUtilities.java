@@ -371,6 +371,61 @@ public class MySQLUtilities
         int outputValue = cs.getInt("OReturnCode");
         return outputValue;
     }
+    
+    public int ProcedureChangeMenu(String username, String password, String newMenuName, String menuId) throws SQLException
+    {
+        String query = "{CALL ChangeMenu(?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("INewMenuName", newMenuName);
+        cs.setInt("IMenuId", StringUtilities.parseMenuId(menuId));
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureChangeMenuItem(String username, String password, String menuItemId, String menuId, String itemName, String cost, String subMenu, String description)throws SQLException{
+        String query = "{CALL ChangeMenu(?,?,?,?,?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setInt("IMenuItemId", StringUtilities.parseMenuId(menuItemId));
+        cs.setInt("IMenuId", StringUtilities.parseMenuId(menuId));
+        cs.setString("IItemName", itemName);
+        cs.setDouble("ICost", StringUtilities.parseMenuItemCost(cost));
+        cs.setString("ISubMenu", StringUtilities.makeEmptyStringNull(subMenu));
+        cs.setString("IDescription", StringUtilities.makeEmptyStringNull(description));
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureDeleteMenu(String username, String password, String menuId)throws SQLException{
+        String query = "{CALL ChangeMenu(?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setInt("IMenuId", StringUtilities.parseMenuId(menuId));
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureDeleteMenuItem(String username, String password, String menuItemId)throws SQLException{
+        String query = "{CALL ChangeMenu(?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setInt("IMenuItemId", StringUtilities.parseMenuId(menuItemId));
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
 
     /**
      * Closes the connection
