@@ -107,7 +107,7 @@ function getUsers()
     	{
     		myApp.alert("An error occurred retrieving the data!");
     	}
-    	else if(result == "Invalid admin account")
+    	else if(result == "invalid")
     	{
     		myApp.alert("You are not authorized to make changes to account information.");
     	}
@@ -158,7 +158,7 @@ function changeUser()
      {
      	var result = xmlHttpRequest.responseText;
      	
-     	if(result == "Invalid admin account")
+     	if(result == "invalid")
      	{
      		myApp.alert("You don't have access to this. You are now leaving.");
      		setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
@@ -196,7 +196,7 @@ function getMenu()
     	{
     		myApp.alert("An error occurred retrieving the data!");
     	}
-    	else if(result == "Invalid admin account")
+    	else if(result == "invalid")
     	{
     		myApp.alert("You are not authorized to make changes to account information.");
     	}
@@ -219,7 +219,6 @@ function getMenu()
     		
     		}
     	}
-    	
     }
 }
 
@@ -246,21 +245,21 @@ function addItem()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
     	var result = xmlHttpRequest.responseText;
-    	if(result == "Invalid admin account")
+    	if(result == "failed")
     	{
-    		myApp.alert("You are not authorized to make the requested change.");
+    		myApp.alert("Adding the item failed");
     	}
-    	else if(result == "taken")
+    	else if(result == "error")
     	{
-    		myApp.alert("The item name selected is already taken. Please choose a different name.");
+    		myApp.alert("There was an error adding the item.");
     	}
-    	else if(result == "success")
+    	else if (parseInt(result) != NaN)
     	{
-    		myApp.alert("Item successfully created!");
-    	}
-    	else
-    	{
-    		myApp.alert("Whoops! Something went wrong. Your request could not be processed");
+            myApp.alert("Item successfully created!");
+        }
+        else
+        {
+            myApp.alert(result);
     	}
     }
 }
@@ -279,7 +278,7 @@ function deleteItem()
      {
      	var result = xmlHttpRequest.responseText;
      	
-     	if(result == "Invalid admin account")
+     	if(result == "invalid")
      	{
      		myApp.alert("You don't have access to this. You are now leaving.");
      		setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
@@ -313,7 +312,7 @@ function changeItem()
      {
      	var result = xmlHttpRequest.responseText;
      	
-     	if(result == "Invalid admin account")
+     	if(result == "invalid")
      	{
      		myApp.alert("You don't have access to this. You are now leaving.");
      		setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete

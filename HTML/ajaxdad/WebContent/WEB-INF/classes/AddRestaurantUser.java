@@ -27,7 +27,7 @@ public class AddRestaurantUser extends HttpServlet
         if (!ServletUtilities.checkSingletonInputs(request, new String[]
         { "adminUsername", "adminPassword", "username", "password", "email", "accountType" }))
         {
-            writer.append("error1");
+            writer.append("error");
             return;
         }
 
@@ -37,45 +37,33 @@ public class AddRestaurantUser extends HttpServlet
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String type = request.getParameter("accountType");
+
+        String salt = ServletUtilities.generateSalt();
+        String passwordHash = ServletUtilities.generateHash(password, salt);
+
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
-            if (restaurantId == null)
-            {
-                writer.append("invalid");
-                return;
-            }
-
-            if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
+            int rv = sql.ProcedureAddRestaurantUser(adminUsername, adminPassword, username, password, passwordHash, salt, email, type);
+            if (rv == -11)
             {
                 writer.append("taken");
-                return;
             }
-
-            String salt = ServletUtilities.generateSalt();
-            String passwordHash = ServletUtilities.generateHash(password, salt);
-            int result = sql.InsertSQL(String.format(
-                    "INSERT INTO UserInfo (username,restaurantPassword,password,salt,type,email,restaurantId) VALUES ('%s','%s','%s','%s','%s','%s',%s);",
-                    username, password, passwordHash, salt, type, email, restaurantId));
-
-            if (result == 0)
+            else if (rv == 0)
             {
-                writer.append("failed");
+                writer.append("success");
             }
             else
             {
-                writer.append("success");
+                writer.append(ServletUtilities.decodeErrorCode(rv));
             }
         }
         catch (ClassNotFoundException e)
         {
-            e.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
-            e.printStackTrace(writer);
             writer.append("error");
         }
     }

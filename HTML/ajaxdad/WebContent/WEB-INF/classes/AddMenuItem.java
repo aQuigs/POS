@@ -25,7 +25,7 @@ public class AddMenuItem extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuId", "itemName", "cost", "password" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "menuId", "itemName", "cost", "adminPassword" }))
         {
             writer.append("error");
             return;
@@ -37,67 +37,23 @@ public class AddMenuItem extends HttpServlet
         String cost = request.getParameter("cost");
         String submenu = request.getParameter("submenu");
         String description = request.getParameter("description");
-        String password = request.getParameter("password");
+        String password = request.getParameter("adminPassword");
 
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql
-                  .SelectSQL(String
-                            .format("SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON MenuList.restaurantId=UserInfo.restaurantId AND UserInfo.type='admin' AND UserInfo.username='%s' AND UserInfo.password='%s' AND MenuList.menuId=%s;",
-                                    username, password, menuId));
-            if (rs.next())
-            {
-                StringBuilder insertStatement = new StringBuilder();
-                insertStatement.append("INSERT INTO MenuDetails (menuId,itemName,cost");
-                if (description != null)
-                    insertStatement.append(",itemDescription");
-                if (submenu != null)
-                    insertStatement.append(",submenu");
-
-                insertStatement.append(") VALUES (");
-                insertStatement.append(menuId);
-                insertStatement.append(",'");
-                insertStatement.append(itemName);
-                insertStatement.append("',");
-                insertStatement.append(cost);
-                if (description != null)
-                {
-                    insertStatement.append(",'");
-                    insertStatement.append(description);
-                    insertStatement.append("'");
-                }
-                if (submenu != null)
-                {
-                    insertStatement.append(",'");
-                    insertStatement.append(submenu);
-                    insertStatement.append("'");
-                }
-                insertStatement.append(");");
-
-                int rowsAdded = sql.InsertSQL(insertStatement.toString());
-
-                if (rowsAdded != 0)
-                {
-                    rs = sql.SelectSQL("SELECT LAST_INSERT_ID();");
-                    if (rs.next())
-                    {
-                        writer.append("success");
-                        return;
-                    }
-                }
-                writer.append("failed");
-                return;
-            }
-            writer.append("invalid");
+            int retCode = sql.ProcedureAddMenuItem(username, password, menuId, itemName, cost, submenu, description);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
         }
         catch (ClassNotFoundException e)
         {
             writer.append("error");
+            e.printStackTrace(writer);
         }
         catch (SQLException e)
         {
             writer.append("error");
+            e.printStackTrace(writer);
         }
     }
 }

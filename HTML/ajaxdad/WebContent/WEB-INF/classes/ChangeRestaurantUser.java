@@ -44,7 +44,7 @@ public class ChangeRestaurantUser extends HttpServlet
             String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
             if (restaurantId == null)
             {
-                writer.append("Invalid admin account");
+                writer.append("invalid");
                 return;
             }
 
