@@ -1,10 +1,5 @@
-/* Your app custom files in this file */
-.page-content {
-	background-image: url(images/phoodieBackground.jpg);
-}
 .textAlignCenter {
 	text-align:center;
-	background-image: url(phoodieBackground.jpg);
 }
 .view-left {
   border-right: 1px solid #b2b2b2;
@@ -60,4 +55,19 @@ body.with-panel-right-reveal .panel-overlay {
   .view-main .navbar .open-panel {
     display: none;
   }
+}
+
+.booth {
+	width: 150px; 
+	height: 150px; 
+	padding: 0.5em;
+	background-color: blue;
+}
+
+#table {
+	width: 150px; 
+	height: 150px; 
+	padding: 0.5em;
+	background-color: red;
+	border-radius: 100%;
 }

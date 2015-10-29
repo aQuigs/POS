@@ -260,6 +260,7 @@ function addItem()
     	else if (parseInt(result) != NaN)
     	{
             myApp.alert("Item successfully created!");
+            getMenuDetails();
         }
         else
         {
