@@ -21,12 +21,12 @@ myApp.onPageInit('about', function (page) {
   
 })
 
-$("#password").keyup(function(event){
-    if(event.keyCode == 13){
+function enterLogin(event)
+{
+	if(event.keyCode == 13){
         $("#sign-in").click();
     }
-});
-
+}
 
 function login()
 {
