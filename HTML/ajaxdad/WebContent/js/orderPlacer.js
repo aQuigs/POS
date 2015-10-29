@@ -106,7 +106,7 @@ function fillMenu()
         
         var menuItems = result.split("\n");
         var subMenuCount = 0;
-        var currentSubMenu = "";//currentItem[currentItem.length - 1];    
+        var currentSubMenu;   
         var fullMenu= $('#fullMenu');
         var currentAccordian;
         
