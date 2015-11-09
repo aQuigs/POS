@@ -1,10 +1,11 @@
-DROP PROCEDURE AddMenu;
+DROP PROCEDURE DeleteMenu;
 DELIMITER //
-CREATE PROCEDURE AddMenu(IN IUsername VARCHAR(64), IN IPassword VARCHAR(256), IN IMenuName VARCHAR(256), OUT OReturnCode int(3))
+CREATE PROCEDURE DeleteMenu(IN IUsername VARCHAR(64), IN IPassword VARCHAR(256), IN IMenuId int(11), OUT OReturnCode int(3))
 
 BEGIN
 DECLARE userType varchar(10);
 DECLARE VRestaurantId int(11);
+DECLARE tempValue int(10);
 Select userType, VRestaurantId;
 CALL ValidateUser(IUsername, IPassword, userType);
 
@@ -14,19 +15,15 @@ IF(userType = 'admin')
     
     IF (VRestaurantId > 0)
         THEN
-        IF EXISTS(SELECT * FROM MenuList WHERE MenuList.restaurantId = VRestaurantId AND MenuList.menuName = IMenuName)
+        DELETE MenuDetails FROM UserInfo INNER JOIN MenuList ON UserInfo.username=IUsername AND UserInfo.password=IPassword AND UserInfo.type=userType AND UserInfo.restaurantId=MenuList.restaurantId INNER JOIN MenuDetails ON MenuDetails.menuId=MenuList.menuId WHERE MenuList.menuId=IMenuId;
+        DELETE MenuList FROM UserInfo INNER JOIN MenuList ON UserInfo.type=userType AND UserInfo.username=IUserName AND UserInfo.restaurantId=MenuList.restaurantId AND menuId=IMenuId;
+        
+        IF ROW_COUNT() > 0
             THEN
-                SET OReturnCode = -7;
+            SET OReturnCode = 0;
             ELSE
-                
-                INSERT MenuList (restaurantId,menuName) VALUES (VRestaurantId, IMenuName);
-                IF ROW_COUNT() = 1
-                    THEN
-                        SELECT LAST_INSERT_ID() INTO OReturnCode;
-                    ELSE
-                        SET OReturnCode = -1;
-                    END IF;
-            END IF;
+            SET OReturnCode = -1;
+        END IF;
         ELSE
             SET OReturnCode = -2;
         END IF;
@@ -46,3 +43,9 @@ END IF;
 
 END //
 DELIMITER ;
+                    
+
+\c
+
+
+
