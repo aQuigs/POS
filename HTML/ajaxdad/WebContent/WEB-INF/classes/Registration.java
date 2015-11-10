@@ -41,22 +41,26 @@ public class Registration extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
+            /*
             if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
             {
                 writer.append("taken");
                 return;
             }
+            */
 
             String unverifiedHash = ServletUtilities.generateHash(email, ServletUtilities.generateSalt());
 
             String salt = ServletUtilities.generateSalt();
             String passwordHash = ServletUtilities.generateHash(password, salt);
-            if (1 == sql.InsertSQL(String.format(
-                    "INSERT INTO UserInfo (username,password,salt,email,type,unverifiedHash) VALUES ('%s','%s','%s','%s','customer','%s');",
-                    username, passwordHash, salt, email, unverifiedHash)))
+            
+            int rv = sql.ProcedureRegistration(username, passwordHash, salt, email, unverifiedHash);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
+            
+            if (retCode == 0)
             {
                 writer.append("success");
-                try
+                                try
                 {
                     EmailSender.sendEmail(email, "Verify Your Email Address",
                             "To verify your email, please go to the following URL: http://ec2-54-152-96-171.compute-1.amazonaws.com:8080/POS/ValidateEmail?validatecode="
@@ -67,10 +71,7 @@ public class Registration extends HttpServlet
                     e.printStackTrace(writer);
                 }
             }
-            else
-            {
-                writer.append("failure");
-            }
+             
         }
         catch (ClassNotFoundException e)
         {

@@ -458,6 +458,33 @@ public class MySQLUtilities
         int outputValue = cs.getInt("OReturnCode");
         return outputValue;
     }
+    
+    public int ProcedureRegistration(String username, String passwordHash, String salt, String email, String unverifiedHash)throws SQLException{
+        String query = "{CALL Registration(?,?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("INewUsername", username);
+        cs.setString("INewPasswordHash", passwordHash);
+        cs.setString("ISalt", salt);
+        cs.setString("INewEmail", email);
+        cs.setString("IUnverifiedHash", unverifiedHash);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureValidateEmail(String unverifiedHash)throws SQLException{
+        String query = "{CALL ValidateEmail(?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUnverifiedHash ", username);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    
+    
 
     /**
      * Closes the connection

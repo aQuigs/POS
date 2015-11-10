@@ -37,19 +37,8 @@ public class DeleteRestaurantUser extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int rv = sql.ProcedureDeleteRestaurantUser(adminUsername, adminPassword, todelete);
-            if (rv == -22)
-            {
-                writer.append("failedtodelete");
-            }
-            else if (rv == 0)
-            {
-                writer.append("success");
-            }
-            else
-            {
-                writer.append(ServletUtilities.decodeErrorCode(rv));
-            }
+            int retCode = sql.ProcedureDeleteRestaurantUser(adminUsername, adminPassword, todelete);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
         }
         catch (ClassNotFoundException e)
         {

@@ -215,6 +215,19 @@ public class ServletUtilities
                 return "Failed to insert user";
             case -11:
                 return "Duplicate username/email";
+            case -20:
+                return "Failed to update user from the admin page"
+            case -22:
+                return "Failed to delete user from admin page";
+            case -24: 
+                return "User exists already with username or email from registration page";
+            case -25:
+                return "Could not add user from registration";
+            case -26:
+                return "Unverified Hash does not exist";
+            case -27:
+                return "Failed to update unverifiedHash to Null";
+            
             default:
                 return null;
         }

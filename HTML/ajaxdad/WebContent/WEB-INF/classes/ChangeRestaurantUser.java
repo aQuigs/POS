@@ -64,19 +64,8 @@ public class ChangeRestaurantUser extends HttpServlet
             String salt = ServletUtilities.generateSalt();
             String passwordHash = ServletUtilities.generateHash(password, salt);
             
-            int rv = sql.ProcedureChangeRestaurantUser(adminUsername, adminPassword,oldUsername, username, password, passwordHash, salt, email, type);
-            if (rv == -11)
-            {
-                writer.append("taken");
-            }
-            else if (rv == 0)
-            {
-                writer.append("success");
-            }
-            else
-            {
-                writer.append(ServletUtilities.decodeErrorCode(rv));
-            }
+            int retCode = sql.ProcedureChangeRestaurantUser(adminUsername, adminPassword,oldUsername, username, password, passwordHash, salt, email, type);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
             
         }
         catch (ClassNotFoundException e)
