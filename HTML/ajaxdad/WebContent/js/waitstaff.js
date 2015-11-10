@@ -8,8 +8,11 @@ $(document).ready(function () {
     getMenus();
 });
 
-myApp.onPageInit('seating', function (page) {
-	$(function() {
-	    $( "#table" ).draggable();
-	  });
-});
+function tableTaken(tableNum)
+{
+	var tableVar = "#table" + tableNum;
+	//myApp.alert("shalom!");
+	$(tableVar).toggleClass("taken");
+}
+
+
