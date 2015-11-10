@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +46,7 @@ public class ChangeMenuItem extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             int retCode = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description);
-            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
         }
         catch (ClassNotFoundException e)
         {
@@ -53,6 +55,10 @@ public class ChangeMenuItem extends HttpServlet
         catch (SQLException e)
         {
             writer.append("error");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace(writer);
         }
     }
 }

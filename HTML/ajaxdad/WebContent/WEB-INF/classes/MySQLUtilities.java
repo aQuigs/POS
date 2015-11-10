@@ -27,7 +27,7 @@ public class MySQLUtilities
     /**
      * MySQL connection, global so every function can use it
      */
-    private static Connection theConnection = null;
+    public  static Connection theConnection = null;
 
     /**
      * Public constructor
@@ -387,7 +387,7 @@ public class MySQLUtilities
     }
     
     public int ProcedureChangeMenuItem(String username, String password, String menuItemId, String menuId, String itemName, String cost, String subMenu, String description)throws SQLException{
-        String query = "{CALL ChangeMenu(?,?,?,?,?,?,?,?,?)}";
+        String query = "{CALL ChangeMenuItem(?,?,?,?,?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
@@ -404,7 +404,7 @@ public class MySQLUtilities
     }
     
     public int ProcedureDeleteMenu(String username, String password, String menuId)throws SQLException{
-        String query = "{CALL ChangeMenu(?,?,?,?)}";
+        String query = "{CALL DeleteMenu(?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
@@ -416,7 +416,7 @@ public class MySQLUtilities
     }
     
     public int ProcedureDeleteMenuItem(String username, String password, String menuItemId)throws SQLException{
-        String query = "{CALL ChangeMenu(?,?,?,?)}";
+        String query = "{CALL DeleteMenuItem(?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);

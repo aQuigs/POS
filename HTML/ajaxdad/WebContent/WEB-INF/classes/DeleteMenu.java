@@ -37,7 +37,7 @@ public class DeleteMenu extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             int retCode = sql.ProcedureDeleteMenu(username, password, menuId);
-            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
         }
         catch (ClassNotFoundException e)
         {
