@@ -15,4 +15,11 @@ function tableTaken(tableNum)
 	$(tableVar).toggleClass("taken");
 }
 
+function doubleTaken(tableNum)
+{
+	var tableVar = ".double" + tableNum;
+	//myApp.alert("shalom!");
+	$(tableVar).toggleClass("taken");
+}
+
 

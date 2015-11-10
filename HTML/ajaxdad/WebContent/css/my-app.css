@@ -59,7 +59,10 @@ body.with-panel-right-reveal .panel-overlay {
 
 .table {
 	background-color: #00FF00;
-	border-radius: 100%;
+	border-top-left-radius: 40%;
+	border-top-right-radius: 40%;
+	border-bottom-left-radius: 40%;
+	border-bottom-right-radius: 40%;
 	height: 75px;
 }
 
@@ -69,6 +72,18 @@ body.with-panel-right-reveal .panel-overlay {
 
 .empty {
 	background-color: white;
+}
+
+.doubleTop {
+	border-radius: 0;
+	border-top-left-radius: 50%;
+	border-top-right-radius: 50%;
+}
+
+.doubleBottom {
+	border-radius: 0;
+	border-bottom-left-radius: 50%;
+	border-bottom-right-radius: 50%;
 }
 
 #table {
