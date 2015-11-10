@@ -25,14 +25,14 @@ public class GetTableLayout extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "adminPassword" }))
+        if (!ServletUtilities.checkSingletonInputs(request, new String[] { "username", "password" }))
         {
             writer.append("error");
             return;
         }
 
-        String username = request.getParameter("adminUsername");
-        String password = request.getParameter("adminPassword");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
         try
         {
