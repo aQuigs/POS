@@ -273,7 +273,7 @@ function addItem()
 
 function deleteMenuItem()
 {
-    xmlHttpRequest.open("POST", "DeleteMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + document.getElementById('itemId').value.toString(), true);
+    xmlHttpRequest.open("POST", "DeleteMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + currentItemId, true);
     xmlHttpRequest.onreadystatechange = deleteItem;
     xmlHttpRequest.send();
 }
