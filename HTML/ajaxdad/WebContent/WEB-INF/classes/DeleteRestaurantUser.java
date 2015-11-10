@@ -37,23 +37,18 @@ public class DeleteRestaurantUser extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
-            // String restaurantId = "1";
-            if (restaurantId == null)
+            int rv = sql.ProcedureDeleteRestaurantUser(adminUsername, adminPassword, todelete);
+            if (rv == -22)
             {
-                writer.append("invalid");
-                return;
+                writer.append("failedtodelete");
             }
-
-            int numDeleted = sql.DeleteSQL("DELETE FROM UserInfo WHERE username='" + todelete + "' AND restaurantId=" + restaurantId
-                    + " AND username!='" + adminUsername + "';");
-            if (numDeleted == 0)
+            else if (rv == 0)
             {
-                writer.append("failed");
+                writer.append("success");
             }
             else
             {
-                writer.append("success");
+                writer.append(ServletUtilities.decodeErrorCode(rv));
             }
         }
         catch (ClassNotFoundException e)

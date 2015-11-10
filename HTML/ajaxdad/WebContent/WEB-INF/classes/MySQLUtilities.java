@@ -403,6 +403,26 @@ public class MySQLUtilities
         return outputValue;
     }
     
+    public int ProcedureChangeRestaurantUser(String username, String password, String oldUsername, String newUsername, String restaurantPassword, String newPassword, String salt, String newEmail, String newType)
+            throws SQLException
+    {
+        String query = "{CALL ChangeRestaurantUser(?,?,?,?,?,?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("IOldUsername", newUsername);
+        cs.setString("INewUsername", newUsername);
+        cs.setString("INewRestaurantPassword", restaurantPassword);
+        cs.setString("INewPassword", newPassword);
+        cs.setString("ISalt", salt);
+        cs.setString("INewEmail", newEmail);
+        cs.setString("INewType", newType);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
     public int ProcedureDeleteMenu(String username, String password, String menuId)throws SQLException{
         String query = "{CALL DeleteMenu(?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
@@ -421,6 +441,18 @@ public class MySQLUtilities
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
         cs.setInt("IMenuItemId", StringUtilities.parseMenuId(menuItemId));
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+    
+    public int ProcedureDeleteRestaurantUser(String username, String password, String usernameToDelete)throws SQLException{
+        String query = "{CALL DeleteRestaurantUser(?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setString("IUsernameToDelete", usernameToDelete);
         cs.registerOutParameter("OReturnCode", Types.INTEGER);
         cs.execute();
         int outputValue = cs.getInt("OReturnCode");

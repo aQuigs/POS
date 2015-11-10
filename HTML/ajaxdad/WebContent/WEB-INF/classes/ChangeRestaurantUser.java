@@ -41,18 +41,18 @@ public class ChangeRestaurantUser extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
-            if (restaurantId == null)
-            {
-                writer.append("invalid");
-                return;
-            }
+            //String restaurantId = ServletUtilities.getRestaurantFromAdmin(sql, adminUsername, adminPassword);
+            //if (restaurantId == null)
+            //{
+            //    writer.append("invalid");
+            //    return;
+            //}
 
-            if (oldUsername.equals(adminUsername) && !type.equals("admin"))
-            {
-                writer.append("admin");
-                return;
-            }
+            //if (oldUsername.equals(adminUsername) && !type.equals("admin"))
+            //{
+            //    writer.append("admin");
+            //   return;
+            //}
 
             // TODO
             // if (ServletUtilities.isUsernameEmailTaken(sql, username, email))
@@ -63,20 +63,21 @@ public class ChangeRestaurantUser extends HttpServlet
 
             String salt = ServletUtilities.generateSalt();
             String passwordHash = ServletUtilities.generateHash(password, salt);
-            int result = sql
-                    .UpdateSQL(String
-                            .format(
-                                    "UPDATE UserInfo SET username='%s',restaurantPassword='%s',password='%s',salt='%s',type='%s',email='%s' WHERE restaurantId=%s AND username='%s';",
-                                    username, password, passwordHash, salt, type, email, restaurantId, oldUsername));
-
-            if (result == 0)
+            
+            int rv = sql.ProcedureChangeRestaurantUser(adminUsername, adminPassword,oldUsername, username, password, passwordHash, salt, email, type);
+            if (rv == -11)
             {
-                writer.append("invalid");
+                writer.append("taken");
             }
-            else
+            else if (rv == 0)
             {
                 writer.append("success");
             }
+            else
+            {
+                writer.append(ServletUtilities.decodeErrorCode(rv));
+            }
+            
         }
         catch (ClassNotFoundException e)
         {

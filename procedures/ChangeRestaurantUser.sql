@@ -1,8 +1,8 @@
-DROP PROCEDURE AddRestaurantUser;
+DROP PROCEDURE ChangeRestaurantUser;
 DELIMITER //
-CREATE PROCEDURE AddRestaurantUser(IN IUsername VARCHAR(64), IN IPassword VARCHAR(256), IN INewUsername VARCHAR(64), IN INewRestaurantPassword VARCHAR(255), IN INewPassword VARCHAR(256), IN ISalt VARCHAR(255), IN INewEmail VARCHAR(255), IN INewType VARCHAR(10), OUT OReturnCode int(3))
+CREATE PROCEDURE ChangeRestaurantUser(IN IUsername VARCHAR(64), IN IPassword VARCHAR(256), IN IOldUsername VARCHAR(64), IN INewUsername VARCHAR(64), IN INewRestaurantPassword VARCHAR(255), IN INewPassword VARCHAR(256), IN ISalt VARCHAR(255), IN INewEmail VARCHAR(255), IN INewType VARCHAR(10), OUT OReturnCode int(3))
 
-add_restaurant_user:BEGIN
+change_restaurant_user:BEGIN
 DECLARE userType varchar(10);
 DECLARE VRestaurantId int(11);
 
@@ -19,12 +19,12 @@ IF(userType = 'admin')
             THEN
             SET OReturnCode = -11;
         ELSE
-            INSERT INTO UserInfo (username,restaurantPassword,password,salt,type,email,restaurantId) VALUES (INewUsername, INewRestaurantPassword, INewPassword, ISalt, INewType, INewEmail, VRestaurantId);             
+            UPDATE UserInfo SET username = INewUsername, restaurantPassword=INewPassword, password= INewRestaurantPassword,salt=ISalt,type=INewType,email=INewEmail WHERE restaurantId=VRestaurantId AND username=IOldUsername;
             IF ROW_COUNT() > 0
                 THEN
                 SET OReturnCode = 0;         
             ELSE
-                SET OReturnCode = -10;
+                SET OReturnCode = -20;
             END IF;
         END IF;
     ELSE
@@ -44,3 +44,7 @@ ELSE
 END IF;
 END //
 DELIMITER ;
+                    
+
+\c
+
