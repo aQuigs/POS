@@ -183,6 +183,12 @@ public class ServletUtilities
         return sql.SelectSQL(String.format("SELECT username FROM UserInfo WHERE username='%s' AND password='%s';", username, password)).next();
     }
 
+    public static String getLastInsertId(MySQLUtilities sql) throws SQLException
+    {
+        ResultSet rs = sql.SelectSQL("SELECT LAST_INSERT_ID();");
+        return rs.next() ? rs.getString(1) : null;
+    }
+
     public static String decodeErrorCode(int errorCode)
     {
         switch (errorCode)
