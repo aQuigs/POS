@@ -48,12 +48,10 @@ public class ChangeMenuItem extends HttpServlet
         }
         catch (ClassNotFoundException e)
         {
-        	e.printStackTrace(writer);
             writer.append("error");
         }
         catch (SQLException e)
         {
-        	e.printStackTrace(writer);
             writer.append("error");
         }
     }
