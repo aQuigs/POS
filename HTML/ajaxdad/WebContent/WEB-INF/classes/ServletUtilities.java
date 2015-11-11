@@ -216,7 +216,7 @@ public class ServletUtilities
             case -11:
                 return "Duplicate username/email";
             case -20:
-                return "Failed to update user from the admin page"
+                return "Failed to update user from the admin page";
             case -22:
                 return "Failed to delete user from admin page";
             case -24: 
@@ -227,6 +227,10 @@ public class ServletUtilities
                 return "Unverified Hash does not exist";
             case -27:
                 return "Failed to update unverifiedHash to Null";
+            case -28:
+                return "Failed to update userInfo to reset password";
+            case -29:
+                return "Failed to find user to reset password";
             
             default:
                 return null;

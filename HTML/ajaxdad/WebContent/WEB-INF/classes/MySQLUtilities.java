@@ -473,10 +473,23 @@ public class MySQLUtilities
         return outputValue;
     }
     
+    public int ProcedureResetPassword(String email, String newGeneratedPassword, String newSalt, String newHashedPassword)throws SQLException{
+        String query = "{CALL ResetPassword(?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IEmail", email);
+        cs.setString("INewGeneratedPassword", newGeneratedPassword);
+        cs.setString("INewGeneratedSalt", newSalt);
+        cs.setString("INewGeneratedHashedPassword", newHashedPassword);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
+  
     public int ProcedureValidateEmail(String unverifiedHash)throws SQLException{
         String query = "{CALL ValidateEmail(?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
-        cs.setString("IUnverifiedHash ", username);
+        cs.setString("IUnverifiedHash ", unverifiedHash);
         cs.registerOutParameter("OReturnCode", Types.INTEGER);
         cs.execute();
         int outputValue = cs.getInt("OReturnCode");

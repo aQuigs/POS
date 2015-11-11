@@ -37,6 +37,19 @@ public class ResetPassword extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
+            String password = ServletUtilities.generatePassword();
+            String salt = ServletUtilities.generateSalt();
+            String hashedPassword = ServletUtilities.generateHash(password, salt);
+            
+            int retCode = sql.ProcedureResetPassword(email, password, salt, hashedPassword);
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
+            
+            if (retCode ==0)
+            {
+                EmailSender.sendEmail(email, "Password Reset", "Per your request, your password has been reset to " + password);
+            }
+            
+            /*
             ResultSet rs = sql.SelectSQL("SELECT username,email FROM UserInfo WHERE email='" + email + "';");
             if (!rs.next())
             {
@@ -52,6 +65,7 @@ public class ResetPassword extends HttpServlet
             ServletUtilities.storePasswordAndSalt(sql, username, hashedPassword, salt);
             EmailSender.sendEmail(email, "Password Reset", "Per your request, your password has been reset to " + password);
             writer.append("success");
+            */
         }
         catch (MessagingException e)
         {

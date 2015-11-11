@@ -54,7 +54,7 @@ public class Registration extends HttpServlet
             String salt = ServletUtilities.generateSalt();
             String passwordHash = ServletUtilities.generateHash(password, salt);
             
-            int rv = sql.ProcedureRegistration(username, passwordHash, salt, email, unverifiedHash);
+            int retCode = sql.ProcedureRegistration(username, passwordHash, salt, email, unverifiedHash);
             writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
             
             if (retCode == 0)
