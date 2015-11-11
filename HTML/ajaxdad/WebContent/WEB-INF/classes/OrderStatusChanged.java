@@ -34,6 +34,9 @@ public abstract class OrderStatusChanged extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
+            int retCode = sql.ProcedureOrderStatusChanged(username, password, orderId, newStatus.name(), prevStatus.name());
+            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
+            /*
             int rowsAffected = sql
                     .UpdateSQL(String
                             .format("UPDATE UserInfo INNER JOIN OrderList ON UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kitchen' AND UserInfo.restaurantId=OrderList.restaurantId INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId SET OrderList.status='%s',OrderDetails.status='%s' WHERE OrderList.orderId=%s AND OrderDetails.orderId=%s AND OrderList.status='%s';",
@@ -47,6 +50,7 @@ public abstract class OrderStatusChanged extends HttpServlet
             {
                 writer.append("invalidOrderToChange:" + orderId + ":" + newStatus.name());
             }
+            */
         }
         catch (ClassNotFoundException e)
         {

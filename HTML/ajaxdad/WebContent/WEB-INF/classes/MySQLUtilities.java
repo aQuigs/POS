@@ -410,7 +410,7 @@ public class MySQLUtilities
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
-        cs.setString("IOldUsername", newUsername);
+        cs.setString("IOldUsername", oldUsername);
         cs.setString("INewUsername", newUsername);
         cs.setString("INewRestaurantPassword", restaurantPassword);
         cs.setString("INewPassword", newPassword);
@@ -496,8 +496,20 @@ public class MySQLUtilities
         return outputValue;
     }
     
-    
-    
+    public int ProcedureOrderStatusChanged(String username, String password, String orderId, String newStatusName, String previousStatusName)throws SQLException
+    {
+        String query = "{CALL OrderStatusChanged(?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.setInt("IOrderId", StringUtilities.parseMenuId(orderId));
+        cs.setString("INewStatusName", newStatusName);
+        cs.setString("ICurrentStatusName", previousStatusName);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.execute();
+        int outputValue = cs.getInt("OReturnCode");
+        return outputValue;
+    }
 
     /**
      * Closes the connection

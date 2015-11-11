@@ -15,11 +15,11 @@ IF(userType = 'admin')
     
     IF (VRestaurantId > 0)
         THEN
-        IF EXISTS(SELECT username FROM UserInfo WHERE UserInfo.username = INewUsername OR UserInfo.email = INewEmail)
+        IF EXISTS(SELECT username FROM UserInfo WHERE UserInfo.username = INewUsername OR (UserInfo.email = INewEmail AND UserInfo.username != IOldUsername))
             THEN
             SET OReturnCode = -11;
         ELSE
-            UPDATE UserInfo SET username = INewUsername, restaurantPassword=INewPassword, password= INewRestaurantPassword,salt=ISalt,type=INewType,email=INewEmail WHERE restaurantId=VRestaurantId AND username=IOldUsername;
+            UPDATE UserInfo SET username = INewUsername, restaurantPassword=INewRestaurantPassword, password=INewPassword,salt=ISalt,type=INewType,email=INewEmail WHERE restaurantId=VRestaurantId AND username=IOldUsername;
             IF ROW_COUNT() > 0
                 THEN
                 SET OReturnCode = 0;         

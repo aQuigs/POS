@@ -215,6 +215,12 @@ public class ServletUtilities
                 return "Failed to insert user";
             case -11:
                 return "Duplicate username/email";
+            case -12:
+                return "Failed to update order";
+            case -13:
+                return "Menu does not exist in when changing order stuats";
+            case -14:
+                return "Tried to change order status when not a waitress or kitchen";
             case -20:
                 return "Failed to update user from the admin page";
             case -22:
