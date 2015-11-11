@@ -242,9 +242,11 @@ function updateMenuInfo()
 function addMenuItem()
 { 
 	var imageUpload = document.getElementById('imageUpload');
-	var image = imageUpload.files[0];
 	var formData = new FormData();
-	formData.append("file", imageUpload.files[0]);
+	if(imageUpload.files.length > 0)
+	{
+		formData.append("file", imageUpload.files[0]);
+	}
 	
     xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=1&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addItem;
@@ -256,6 +258,7 @@ function addItem()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
     	var result = xmlHttpRequest.responseText;
+    	console.log(result);
     	if(result == "failed")
     	{
     		myApp.alert("Adding the item failed");
@@ -313,9 +316,11 @@ function deleteItem()
 function changeMenuItem()
 {
 	var imageUpload = document.getElementById('imageUpload');
-	var image = imageUpload.files[0];
 	var formData = new FormData();
-	formData.append("file", imageUpload.files[0]);
+	if(imageUpload.files.length > 0)
+	{
+		formData.append("file", imageUpload.files[0]);
+	}
 	
 	xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + currentItemId + "&menuId=1&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = changeItem;

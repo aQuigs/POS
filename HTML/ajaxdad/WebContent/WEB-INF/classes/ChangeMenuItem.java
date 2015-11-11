@@ -42,10 +42,11 @@ public class ChangeMenuItem extends HttpServlet
         String cost = request.getParameter("cost");
         String subMenu = request.getParameter("submenu");
         String description = request.getParameter("description");
+        String imageUrl = request.getParameter("imageUrl");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int retCode = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description);
+            int retCode = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description, imageUrl);
             writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
         }
         catch (ClassNotFoundException e)

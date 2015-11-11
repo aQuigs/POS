@@ -36,7 +36,8 @@ public class DeleteMenuItem extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int retCode = sql.ProcedureDeleteMenuItem(username, password, menuItemId);
+            String[] returnString = sql.ProcedureDeleteMenuItem(username, password, menuItemId);
+            int retCode = Integer.parseInt(returnString[0]);
             writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
         }
         catch (ClassNotFoundException e)
