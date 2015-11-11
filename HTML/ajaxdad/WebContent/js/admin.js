@@ -241,9 +241,12 @@ function updateMenuInfo()
 
 function addMenuItem()
 { 
+	var imageUpload = $('#imageUpload');
+	var image = imageUpload.files[0];
+	
     xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=1&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addItem;
-    xmlHttpRequest.send();
+    xmlHttpRequest.send(image);
 }
 
 function addItem()
