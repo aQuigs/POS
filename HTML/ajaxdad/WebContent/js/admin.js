@@ -241,12 +241,14 @@ function updateMenuInfo()
 
 function addMenuItem()
 { 
-	var imageUpload = $('#imageUpload');
+	var imageUpload = document.getElementById('imageUpload');
 	var image = imageUpload.files[0];
+	var formData = new FormData();
+	formData.append("file", imageUpload.files[0]);
 	
     xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=1&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addItem;
-    xmlHttpRequest.send(image);
+    xmlHttpRequest.send(formData);
 }
 
 function addItem()
@@ -310,12 +312,14 @@ function deleteItem()
 
 function changeMenuItem()
 {
-	var imageUpload = $('#imageUpload');
+	var imageUpload = document.getElementById('imageUpload');
 	var image = imageUpload.files[0];
+	var formData = new FormData();
+	formData.append("file", imageUpload.files[0]);
 	
 	xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + currentItemId + "&menuId=1&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = changeItem;
-    xmlHttpRequest.send(image);
+    xmlHttpRequest.send(formData);
 }
 
 function changeItem()
