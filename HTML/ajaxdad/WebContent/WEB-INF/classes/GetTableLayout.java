@@ -37,11 +37,32 @@ public class GetTableLayout extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            ResultSet rs = sql.SelectSQL(String.format(
-                    "SELECT TableList.tableId,TableList.x,TableList.y,TableList.width,TableList.height,TableList.capacity,TableList.filledSeats,TableList.booth "
-                    + "FROM UserInfo INNER JOIN TableList ON UserInfo.restaurantId=TableList.restaurantId AND UserInfo.username='%s' AND UserInfo.password='%s' "
-                    + "AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');", username, password));
-            
+
+            ResultSet rs = sql.SelectSQL(String.format("SELECT RestaurantList.tableGridWidth,RestaurantList.tableGridHeight "
+                    + "FROM RestaurantList INNER JOIN UserInfo ON UserInfo.restaurantId=RestaurantList.restaurantId AND "
+                    + "UserInfo.username='%s' AND UserInfo.password='%s' AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');",
+                    username, password));
+
+            if (!rs.next())
+            {
+                writer.append("error");
+                return;
+            }
+
+            String gridWidth = rs.getString(1);
+            String gridHeight = rs.getString(2);
+
+            rs = sql.SelectSQL(String
+                    .format(
+                            "SELECT TableList.tableId,TableList.x,TableList.y,TableList.width,TableList.height,TableList.capacity,TableList.filledSeats,TableList.booth "
+                                    + "FROM UserInfo INNER JOIN TableList ON UserInfo.restaurantId=TableList.restaurantId AND UserInfo.username='%s' AND UserInfo.password='%s' "
+                                    + "AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');", username, password));
+
+            writer.append(gridWidth);
+            writer.append(',');
+            writer.append(gridHeight);
+            writer.append('\n');
+
             while (rs.next())
             {
                 writer.append(rs.getString(1));
