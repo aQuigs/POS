@@ -1,13 +1,14 @@
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 @WebServlet("/AddMenuItem")
 public class AddMenuItem extends HttpServlet
@@ -39,26 +40,49 @@ public class AddMenuItem extends HttpServlet
         String description = request.getParameter("description");
         String password = request.getParameter("adminPassword");
         String imageUrl = request.getParameter("imageUrl");
+        Part file = request.getPart("file");
+        StringBuilder sb = new StringBuilder();
+        for (String s : file.getHeader("content-dispotion").split(";"))
+        {
+            sb.append(s + "\n");
+        }
+        
+        
+        writer.append(sb.toString());
+        return;
 
-        try
+//        try
+//        {
+//            MySQLUtilities sql = new MySQLUtilities();
+//            int retCode = sql.ProcedureAddMenuItem(username, password, menuId, itemName, cost, submenu, description, imageUrl);
+//            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
+//        }
+//        catch (ClassNotFoundException e)
+//        {
+//            writer.append("error");
+//        }
+//        catch (SQLException e)
+//        {
+//            writer.append("error");
+//        }
+//        catch (NumberFormatException e)
+//        {
+//            writer.append("invalid");
+//        }
+    }
+    
+    private String getFilename(Part file)
+    {
+        if (file != null)
         {
-            MySQLUtilities sql = new MySQLUtilities();
-            int retCode = sql.ProcedureAddMenuItem(username, password, menuId, itemName, cost, submenu, description, imageUrl);
-            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
+            for (String cd : file.getHeader("content-disposition").split(";")) {
+                if (cd.trim().startsWith("filename")) {
+                    return cd;
+//                    String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+//                    return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+                }
+            }
         }
-        catch (ClassNotFoundException e)
-        {
-            writer.append("error");
-            e.printStackTrace(writer);
-        }
-        catch (SQLException e)
-        {
-            writer.append("error");
-            e.printStackTrace(writer);
-        }
-        catch (NumberFormatException e)
-        {
-            writer.append("invalid");
-        }
+        return null;
     }
 }

@@ -310,9 +310,12 @@ function deleteItem()
 
 function changeMenuItem()
 {
+	var imageUpload = $('#imageUpload');
+	var image = imageUpload.files[0];
+	
 	xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&menuItemId=" + currentItemId + "&menuId=1&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = changeItem;
-    xmlHttpRequest.send();
+    xmlHttpRequest.send(image);
 }
 
 function changeItem()

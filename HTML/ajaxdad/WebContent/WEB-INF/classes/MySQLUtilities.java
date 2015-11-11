@@ -347,7 +347,7 @@ public class MySQLUtilities
         cs.setDouble("ICost", StringUtilities.parseMenuItemCost(cost));
         cs.setString("ISubMenu", StringUtilities.makeEmptyStringNull(subMenu));
         cs.setString("IDescription", StringUtilities.makeEmptyStringNull(description));
-        cs.setString("IImageUrl", image,Url);
+        cs.setString("IImageUrl", imageUrl);
         cs.registerOutParameter("OReturnCode", Types.INTEGER);
         cs.execute();
         int outputValue = cs.getInt("OReturnCode");
