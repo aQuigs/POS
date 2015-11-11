@@ -1,63 +1,56 @@
 import java.io.File;
-import java.util.Iterator;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import javax.servlet.http.Part;
 
 public class FileUploadUtility
 {
     private static final String filePath = "/home/ubuntu/images/";
-    private static final int MAX_FILE_SIZE = 5000 * 1024;
-    private static final int MAX_MEM_SIZE = 64 * 1024;
 
-    public static String uploadFile(HttpServletRequest request, String filename) throws FileUploadException
+    public static boolean uploadFile(String filename, Part filePart) throws IOException
     {
-        File file;
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-
-        if (isMultipart)
+        FileOutputStream out = null;
+        InputStream filecontent = null;
+        try
         {
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            factory.setSizeThreshold(MAX_MEM_SIZE);
-            factory.setRepository(new File("/home/ubuntu/images"));
+            out = new FileOutputStream(filePath + filename);
+            filecontent = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
 
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            upload.setSizeMax(MAX_FILE_SIZE);
-
-            List<FileItem> fileItems = upload.parseRequest(request);
-            Iterator<FileItem> i = fileItems.iterator();
-
-            while (i.hasNext())
+            while ((read = filecontent.read(bytes)) != -1)
             {
-                FileItem fi = (FileItem) i.next();
-                if (!fi.isFormField())
-                {
-                    long sizeInBytes = fi.getSize();
-                    if (sizeInBytes > MAX_FILE_SIZE)
-                    {
-                        throw new FileSizeLimitExceededException("File exceeds max size of " + MAX_FILE_SIZE + " bytes", sizeInBytes, MAX_FILE_SIZE);
-                    }
-
-                    file = new File(filePath + filename);
-
-                    try
-                    {
-                        fi.write(file);
-                    }
-                    catch (Exception e)
-                    {
-                        return null;
-                    }
-                }
+                out.write(bytes, 0, read);
+            }
+            return true;
+        }
+        catch (FileNotFoundException fne)
+        {
+            return false;
+        }
+        finally
+        {
+            if (out != null)
+            {
+                out.close();
+            }
+            if (filecontent != null)
+            {
+                filecontent.close();
             }
         }
+    }
 
-        return null;
+    public static boolean renameFile(String oldname, String newname)
+    {
+        return new File(filePath + oldname).renameTo(new File(filePath + newname));
+    }
+
+    public static void deleteFile(String filename)
+    {
+        new File(filePath + filename).delete();
     }
 }

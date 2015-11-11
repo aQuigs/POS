@@ -6,12 +6,15 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 @WebServlet("/ChangeMenuItem")
+@MultipartConfig
 public class ChangeMenuItem extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -42,7 +45,26 @@ public class ChangeMenuItem extends HttpServlet
         String cost = request.getParameter("cost");
         String subMenu = request.getParameter("submenu");
         String description = request.getParameter("description");
-        String imageUrl = request.getParameter("imageUrl");
+        String imageUrl = null;
+
+        Part file = request.getPart("file");
+        if (file != null)
+        {
+            String ext = ServletUtilities.getExtension(file);
+            if (!ServletUtilities.isImageExtension(ext))
+            {
+                writer.append("Invalid image extension");
+                return;
+            }
+
+            imageUrl = "menuItem-" + menuItemId + ext;
+            if (!FileUploadUtility.uploadFile(imageUrl, file))
+            {
+                writer.append("error");
+                return;
+            }
+        }
+
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
@@ -59,7 +81,7 @@ public class ChangeMenuItem extends HttpServlet
         }
         catch (Exception e)
         {
-            e.printStackTrace(writer);
+            writer.append("error");
         }
     }
 }

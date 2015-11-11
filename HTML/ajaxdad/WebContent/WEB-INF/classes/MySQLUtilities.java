@@ -338,7 +338,7 @@ public class MySQLUtilities
 
     public int ProcedureAddMenuItem(String username, String password, String menuId, String itemName, String cost, String subMenu, String description, String imageUrl) throws SQLException
     {
-        String query = "{CALL AddMenuItem(?,?,?,?,?,?,?,?)}";
+        String query = "{CALL AddMenuItem(?,?,?,?,?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
@@ -388,7 +388,7 @@ public class MySQLUtilities
     }
     
     public int ProcedureChangeMenuItem(String username, String password, String menuItemId, String menuId, String itemName, String cost, String subMenu, String description, String imageUrl)throws SQLException{
-        String query = "{CALL ChangeMenuItem(?,?,?,?,?,?,?,?,?)}";
+        String query = "{CALL ChangeMenuItem(?,?,?,?,?,?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
@@ -438,7 +438,7 @@ public class MySQLUtilities
     }
     
     public String[] ProcedureDeleteMenuItem(String username, String password, String menuItemId)throws SQLException{
-        String query = "{CALL DeleteMenuItem(?,?,?,?)}";
+        String query = "{CALL DeleteMenuItem(?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);

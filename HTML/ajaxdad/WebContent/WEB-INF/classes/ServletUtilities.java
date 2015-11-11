@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
 
 public class ServletUtilities
@@ -189,6 +190,31 @@ public class ServletUtilities
         return rs.next() ? rs.getString(1) : null;
     }
 
+    public static String getExtension(Part file)
+    {
+        if (file != null)
+        {
+            for (String cd : file.getHeader("content-disposition").split(";"))
+            {
+                if (cd.trim().startsWith("filename"))
+                {
+                    int extensionStart = cd.lastIndexOf('.');
+                    if (extensionStart != -1)
+                    {
+                        return cd.substring(extensionStart, cd.length() - 1);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean isImageExtension(String str)
+    {
+        return str.equalsIgnoreCase(".png") || str.equalsIgnoreCase(".jpg") || str.equalsIgnoreCase(".jpeg") || str.equalsIgnoreCase(".gif")
+                || str.equalsIgnoreCase(".bmp") || str.equalsIgnoreCase(".tiff");
+    }
+
     public static String decodeErrorCode(int errorCode)
     {
         switch (errorCode)
@@ -225,7 +251,7 @@ public class ServletUtilities
                 return "Failed to update user from the admin page";
             case -22:
                 return "Failed to delete user from admin page";
-            case -24: 
+            case -24:
                 return "User exists already with username or email from registration page";
             case -25:
                 return "Could not add user from registration";
@@ -237,7 +263,7 @@ public class ServletUtilities
                 return "Failed to update userInfo to reset password";
             case -29:
                 return "Failed to find user to reset password";
-            
+
             default:
                 return null;
         }
