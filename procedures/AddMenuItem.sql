@@ -1,6 +1,6 @@
 DROP PROCEDURE AddMenuItem;
 DELIMITER //
-CREATE PROCEDURE AddMenuItem(IN IUsername VARCHAR(64), IN IPassword VARCHAR(256), IN IMenuId INT(11), IN IItemName VARCHAR(100), IN ICost DECIMAL(6,2), IN ISubMenu VARCHAR(64), IN IDescription VARCHAR(255), OUT OReturnCode int(3))
+CREATE PROCEDURE AddMenuItem(IN IUsername VARCHAR(64), IN IPassword VARCHAR(256), IN IMenuId INT(11), IN IItemName VARCHAR(100), IN ICost DECIMAL(6,2), IN ISubMenu VARCHAR(64), IN IDescription VARCHAR(255), IN IImageUrl VARCHAR(255),  OUT OReturnCode int(3))
 
 BEGIN
 DECLARE userType varchar(10);
@@ -14,7 +14,7 @@ IF(userType = 'admin')
     THEN
      IF EXISTS(SELECT MenuList.menuId FROM UserInfo INNER JOIN MenuList ON MenuList.restaurantId=UserInfo.restaurantId AND UserInfo.type='admin' AND UserInfo.username=IUsername AND UserInfo.password=IPassword AND MenuList.menuId=IMenuID)
         THEN
-        INSERT INTO MenuDetails (menuId,itemName,cost,itemDescription, submenu) VALUES (IMenuId, IItemName, ICost, IDescription, ISubMenu);
+        INSERT INTO MenuDetails (menuId,itemName,cost,itemDescription, submenu, imageUrl) VALUES (IMenuId, IItemName, ICost, IDescription, ISubMenu, IImageUrl);
         IF ROW_COUNT() > 0
             THEN
                 SELECT LAST_INSERT_ID() INTO OReturnCode;

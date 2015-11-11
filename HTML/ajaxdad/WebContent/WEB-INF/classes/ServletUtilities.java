@@ -218,7 +218,7 @@ public class ServletUtilities
             case -12:
                 return "Failed to update order";
             case -13:
-                return "Menu does not exist in when changing order stuats";
+                return "Failed to update order as waitress";
             case -14:
                 return "Tried to change order status when not a waitress or kitchen";
             case -20:

@@ -38,11 +38,12 @@ public class AddMenuItem extends HttpServlet
         String submenu = request.getParameter("submenu");
         String description = request.getParameter("description");
         String password = request.getParameter("adminPassword");
+        String imageUrl = request.getParameter("imageUrl");
 
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int retCode = sql.ProcedureAddMenuItem(username, password, menuId, itemName, cost, submenu, description);
+            int retCode = sql.ProcedureAddMenuItem(username, password, menuId, itemName, cost, submenu, description, imageUrl);
             writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "" + retCode);
         }
         catch (ClassNotFoundException e)

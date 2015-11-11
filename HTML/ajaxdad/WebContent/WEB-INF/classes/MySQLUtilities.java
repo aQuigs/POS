@@ -336,7 +336,7 @@ public class MySQLUtilities
         return outputValue;
     }
 
-    public int ProcedureAddMenuItem(String username, String password, String menuId, String itemName, String cost, String subMenu, String description) throws SQLException
+    public int ProcedureAddMenuItem(String username, String password, String menuId, String itemName, String cost, String subMenu, String description, String imageUrl) throws SQLException
     {
         String query = "{CALL AddMenuItem(?,?,?,?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
@@ -347,6 +347,7 @@ public class MySQLUtilities
         cs.setDouble("ICost", StringUtilities.parseMenuItemCost(cost));
         cs.setString("ISubMenu", StringUtilities.makeEmptyStringNull(subMenu));
         cs.setString("IDescription", StringUtilities.makeEmptyStringNull(description));
+        cs.setString("IImageUrl", image,Url);
         cs.registerOutParameter("OReturnCode", Types.INTEGER);
         cs.execute();
         int outputValue = cs.getInt("OReturnCode");
