@@ -8,13 +8,65 @@
     <title>Phood Ordering Service</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/my-app.css">
 </head>
 <body>
 	<div class="page-content textAlignCenter">
-      <div class="login-screen-title">Phoodie</div>
-      <p><a href="#" class="open-login-screen">Login</a></p>
+	  <nav class="navbar navbar-default navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand em-text" href="index.html">Phoodie</a>
+	        </div>
+	        <div id="navbar" class="collapse navbar-collapse" style="background-color:#F8F8F8;">
+	          <ul class="nav navbar-nav">
+	            <li class="active"><a href="index.html" class="nav-element">Login</a></li>
+	            <li><a href="about.html" class="nav-element">About</a></li>
+	            <li><a href="contact.html" class="nav-element">Contact</a></li>
+	          </ul>
+	        </div><!--/.nav-collapse -->
+	      </div>
+	    </nav>
+	      <div class="jumbotron">
+		      <div class="container">
+		        <div class="row">
+		          <div class="col-md-12">
+		            <h1 id="main-jumbo-header">Phoodie</h1>
+		            <p><a href="#" class="open-login-screen">Login</a></p>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		<section id="middle">
+	      <div class="container">
+	        <div class="row">
+	          <div class="col-md-4">
+	            <h2>Owner</h2>
+	            <p>As a restaurant owner, you will be able to customize your restaurants interface. You can create a table layout, menu, and manage employee accounts with just a few simple clicks</p>
+	            <a href="#" class="btn btn-default">Read More</a>
+	          </div>
+	          <div class="col-md-4">
+	            <h2>Employees</h2>
+	            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lobortis tempus varius. Sed porttitor ex id lectus interdum tristique.</p>
+	            <a href="#" class="btn btn-default">Read More</a>
+	          </div>
+	          <div class="col-md-4">
+	            <h2>Customers</h2>
+	            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lobortis tempus varius. Sed porttitor ex id lectus interdum tristique.</p>
+	            <a href="#" class="btn btn-default">Read More</a>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
     </div>
     
 	  <div class="login-screen">
@@ -51,7 +103,7 @@
 	              </ul>
 	              <div class="list-block-label">
 	                <p>Where the entire restaraunt is connected in one place.</p>
-	                <p><a href="#" class="close-login-screen">Close Login Screen</a></p>
+	                <p><a href="#" class="close-login-screen">Exit Login</a></p>
 	              </div>
 	            </div>
 	          </form>
@@ -62,6 +114,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
+    <script src="js/bootstrap.js"></script>
     <!-- Path to your app js-->
     <script type="text/javascript" src="js/my-app.js"></script>
 </body>
