@@ -263,6 +263,12 @@ public class ServletUtilities
                 return "Failed to update userInfo to reset password";
             case -29:
                 return "Failed to find user to reset password";
+            case -30:
+                return "Failed to select Final Table";
+            case -31:
+                return "Failed to get width and height";
+            case -32:
+                return "Failed to get Table because you are not admin or waitstaff";
 
             default:
                 return null;

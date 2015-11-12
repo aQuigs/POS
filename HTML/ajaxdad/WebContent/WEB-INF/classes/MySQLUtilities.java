@@ -518,6 +518,22 @@ public class MySQLUtilities
         int outputValue = cs.getInt("OReturnCode");
         return outputValue;
     }
+    
+    public ReturnCodeResultSet GetTableLayout(String username, String password)throws SQLException
+    {
+        String query = "{CALL GetTableLayout(?,?,?,?,?)}";
+        CallableStatement cs = theConnection.prepareCall(query);
+        cs.setString("IUsername", username);
+        cs.setString("IPassword", password);
+        cs.registerOutParameter("OReturnCode", Types.INTEGER);cs.registerOutParameter("OGridWidth", Types.INTEGER);
+        cs.registerOutParameter("OGridHeight", Types.INTEGER); 
+        MySQLUtilities.ReturnCodeResultSet rcrs = new MySQLUtilities.ReturnCodeResultSet();
+        rcrs.resultSet = cs.executeQuery();
+        rcrs.returnCode = cs.getInt("OReturnCode");
+        rcrs.gridWidth = cs.getInt("OGridWidth");
+        rcrs.gridHeight = cs.getInt("OGridHeight");
+        return rcrs;
+    }
 
     /**
      * Closes the connection
@@ -542,5 +558,14 @@ public class MySQLUtilities
     {
         close();
     }
+    
+    public class ReturnCodeResultSet
+    {
+        public int returnCode;
+        public int gridWidth;
+        public int gridHeight;
+        public ResultSet resultSet;
+    }
 
 }
+
