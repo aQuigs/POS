@@ -70,7 +70,7 @@ public class ChangeMenuItem extends HttpServlet
             MySQLUtilities sql = new MySQLUtilities();
             String[] returnString = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description, imageUrl);
             int retCode = Integer.parseInt(returnString[0]);
-            if (retCode == 0 && returnString[1] != null)
+            if (retCode == 0 && returnString[1] != null && !returnString[1].equals("NONE"))
             {
                 FileUploadUtility.deleteFile(returnString[1]);
             }
