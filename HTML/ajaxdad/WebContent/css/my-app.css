@@ -64,6 +64,7 @@ body.with-panel-right-reveal .panel-overlay {
 	border-bottom-left-radius: 40%;
 	border-bottom-right-radius: 40%;
 	height: 75px;
+	margin: 0!important;
 }
 
 .taken {
@@ -72,24 +73,53 @@ body.with-panel-right-reveal .panel-overlay {
 
 .empty {
 	background-color: white;
+	height: 75px;
 }
 
-.doubleTop {
+.multi-table-border-left{
+	border-radius: 0;
+	border-top-left-radius: 50%;
+	border-bottom-left-radius: 50%;
+}
+
+.multi-table-border-right{
+	border-radius: 0;
+	border-bottom-right-radius: 50%;
+	border-top-right-radius: 50%;
+}
+
+.multi-table-border-top{
 	border-radius: 0;
 	border-top-left-radius: 50%;
 	border-top-right-radius: 50%;
 }
 
-.doubleBottom {
+.multi-table-border-bottom{
 	border-radius: 0;
 	border-bottom-left-radius: 50%;
 	border-bottom-right-radius: 50%;
 }
 
-#table {
-	width: 150px; 
-	height: 150px; 
-	padding: 0.5em;
-	background-color: red;
-	border-radius: 100%;
+.multi-table-border-none{
+	border-radius: 0;
+}
+
+.multi-table-top-left-corner{
+	border-radius: 0;
+	border-top-left-radius: 50%;
+}
+
+.multi-table-bottom-left-corner{
+	border-radius: 0;
+	border-bottom-left-radius: 50%;
+}
+
+.multi-table-top-right-corner{
+	border-radius: 0;
+	border-top-right-radius: 50%;
+}
+
+.multi-table-bottom-right-corner{
+	border-radius: 0;
+	border-bottom-right-radius: 50%;
 }
