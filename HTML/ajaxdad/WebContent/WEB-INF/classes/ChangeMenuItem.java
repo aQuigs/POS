@@ -1,9 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -70,7 +67,7 @@ public class ChangeMenuItem extends HttpServlet
             MySQLUtilities sql = new MySQLUtilities();
             String[] returnString = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description, imageUrl);
             int retCode = Integer.parseInt(returnString[0]);
-            if (retCode == 0 && returnString[1] != null)
+            if (retCode == 0 && returnString[1] != null && !returnString[1].equals(imageUrl))
             {
                 FileUploadUtility.deleteFile(returnString[1]);
             }
