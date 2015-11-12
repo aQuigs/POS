@@ -37,7 +37,38 @@ public class GetTableLayout extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-
+            MySQLUtilities.ReturnCodeResultSet rcrs = sql.ProcedureGetTableLayout(username, password);
+            
+            writer.append(rcrs.returnCode < 0 ? ServletUtilities.decodeErrorCode(rcrs.returnCode) : "" + rcrs.returnCode);
+            
+            if(rcrs.returnCode == 0){
+                writer.append("" + rcrs.gridWidth);
+                writer.append(',');
+                writer.append("" + rcrs.gridHeight);
+                writer.append('\n');
+                ResultSet rs = rcrs.resultSet;
+                while (rs.next())
+                {
+                    writer.append(rs.getString(1));
+                    writer.append(',');
+                    writer.append(rs.getString(2));
+                    writer.append(',');
+                    writer.append(rs.getString(3));
+                    writer.append(',');
+                    writer.append(rs.getString(4));
+                    writer.append(',');
+                    writer.append(rs.getString(5));
+                    writer.append(',');
+                    writer.append(rs.getString(6));
+                    writer.append(',');
+                    writer.append(rs.getString(7));
+                    writer.append(',');
+                    writer.append(rs.getString(8));
+                    writer.append('\n');
+                }
+            }
+           
+           /*
             ResultSet rs = sql.SelectSQL(String.format("SELECT RestaurantList.tableGridWidth,RestaurantList.tableGridHeight "
                     + "FROM RestaurantList INNER JOIN UserInfo ON UserInfo.restaurantId=RestaurantList.restaurantId AND "
                     + "UserInfo.username='%s' AND UserInfo.password='%s' AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');",
@@ -82,6 +113,7 @@ public class GetTableLayout extends HttpServlet
                 writer.append(rs.getString(8));
                 writer.append('\n');
             }
+            */
         }
         catch (ClassNotFoundException e)
         {

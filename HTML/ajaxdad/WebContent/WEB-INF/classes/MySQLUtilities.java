@@ -519,7 +519,7 @@ public class MySQLUtilities
         return outputValue;
     }
     
-    public ReturnCodeResultSet GetTableLayout(String username, String password)throws SQLException
+    public ReturnCodeResultSet ProcedureGetTableLayout(String username, String password)throws SQLException
     {
         String query = "{CALL GetTableLayout(?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
