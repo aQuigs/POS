@@ -37,8 +37,8 @@ public class GetTableLayout extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
+            /*
             MySQLUtilities.ReturnCodeResultSet rcrs = sql.ProcedureGetTableLayout(username, password);
-            
             writer.append(rcrs.returnCode < 0 ? ServletUtilities.decodeErrorCode(rcrs.returnCode) : "" + rcrs.returnCode);
             
             if(rcrs.returnCode == 0){
@@ -67,8 +67,8 @@ public class GetTableLayout extends HttpServlet
                     writer.append('\n');
                 }
             }
+            */
            
-           /*
             ResultSet rs = sql.SelectSQL(String.format("SELECT RestaurantList.tableGridWidth,RestaurantList.tableGridHeight "
                     + "FROM RestaurantList INNER JOIN UserInfo ON UserInfo.restaurantId=RestaurantList.restaurantId AND "
                     + "UserInfo.username='%s' AND UserInfo.password='%s' AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');",
@@ -113,7 +113,6 @@ public class GetTableLayout extends HttpServlet
                 writer.append(rs.getString(8));
                 writer.append('\n');
             }
-            */
         }
         catch (ClassNotFoundException e)
         {
