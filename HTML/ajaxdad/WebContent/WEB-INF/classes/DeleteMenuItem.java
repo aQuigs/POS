@@ -38,7 +38,7 @@ public class DeleteMenuItem extends HttpServlet
             MySQLUtilities sql = new MySQLUtilities();
             String[] returnString = sql.ProcedureDeleteMenuItem(username, password, menuItemId);
             int retCode = Integer.parseInt(returnString[0]);
-            if (retCode == 0 && returnString[1] != null && !returnString[1].equals("NONE"))
+            if (retCode == 0 && returnString[1] != null)
             {
                 FileUploadUtility.deleteFile(returnString[1]);
             }

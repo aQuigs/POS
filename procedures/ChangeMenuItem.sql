@@ -7,7 +7,6 @@ DECLARE userType varchar(10);
 DECLARE VRestaurantId int(11);
 DECLARE grabImageUrl varchar(255);
 
-SET OReturnImageDeleted = 'NONE';
 CALL ValidateUser(IUsername, IPassword, userType);
 
 
