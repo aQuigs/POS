@@ -7,7 +7,7 @@ DECLARE userType varchar(10);
 DECLARE VRestaurantId int(11);
 DECLARE grabImageUrl varchar(255);
 CALL ValidateUser(IUsername, IPassword, userType);
-SET grabImageUrl = "NONE";
+SET grabImageUrl = 'NONE';
 
 IF(userType = 'admin')
     THEN

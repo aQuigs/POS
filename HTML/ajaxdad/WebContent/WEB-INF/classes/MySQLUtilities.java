@@ -387,8 +387,8 @@ public class MySQLUtilities
         return outputValue;
     }
     
-    public int ProcedureChangeMenuItem(String username, String password, String menuItemId, String menuId, String itemName, String cost, String subMenu, String description, String imageUrl)throws SQLException{
-        String query = "{CALL ChangeMenuItem(?,?,?,?,?,?,?,?,?,?)}";
+    public String[] ProcedureChangeMenuItem(String username, String password, String menuItemId, String menuId, String itemName, String cost, String subMenu, String description, String imageUrl)throws SQLException{
+        String query = "{CALL ChangeMenuItem(?,?,?,?,?,?,?,?,?,?,?)}";
         CallableStatement cs = theConnection.prepareCall(query);
         cs.setString("IUsername", username);
         cs.setString("IPassword", password);
@@ -400,9 +400,12 @@ public class MySQLUtilities
         cs.setString("IDescription", StringUtilities.makeEmptyStringNull(description));
         cs.setString("IImageUrl", imageUrl);
         cs.registerOutParameter("OReturnCode", Types.INTEGER);
+        cs.registerOutParameter("OReturnImageDeleted", Types.VARCHAR);
         cs.execute();
         int outputValue = cs.getInt("OReturnCode");
-        return outputValue;
+        String outputValueString = String.valueOf(outputValue);
+        String outputImage = cs.getString("OReturnImageDeleted");
+        return new String[]{outputValueString, outputImage};
     }
     
     public int ProcedureChangeRestaurantUser(String username, String password, String oldUsername, String newUsername, String restaurantPassword, String newPassword, String salt, String newEmail, String newType)

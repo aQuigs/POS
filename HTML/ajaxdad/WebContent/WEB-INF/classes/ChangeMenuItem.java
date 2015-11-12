@@ -68,7 +68,12 @@ public class ChangeMenuItem extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int retCode = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description, imageUrl);
+            String[] returnString = sql.ProcedureChangeMenuItem(username, password, menuItemId, menuId, itemName, cost, subMenu, description, imageUrl);
+            int retCode = Integer.parseInt(returnString[0]);
+            if (retCode == 0 && returnString[1] != null)
+            {
+                FileUploadUtility.deleteFile(returnString[1]);
+            }
             writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
         }
         catch (ClassNotFoundException e)
