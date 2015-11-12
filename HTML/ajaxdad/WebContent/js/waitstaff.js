@@ -36,7 +36,8 @@ function tableTaken(tableNum, capacity)
 			afterText: '<div class="item-inner">' +
 		                   '<div class="item-input">' + 
 		                       '<div class="range-slider">' + 
-		                           '<input id="sitSlider" type="range" min="0" max="' + capacity + '" value="0" step="1">' + 
+		                       	   '<span id="sliderVal">0</span>' + 
+		                           '<input id="sitSlider" type="range" min="0" max="' + capacity + '" value="0" step="1" onchange="showVal(this.value);">' + 
 		                       '</div></div></div>',
 		    buttons: [
 		    {
@@ -110,7 +111,8 @@ function multiTableTaken(tableNum, capacity)
 			afterText: '<div class="item-inner">' +
 		                   '<div class="item-input">' + 
 		                       '<div class="range-slider">' + 
-		                           '<input id="sitSlider" type="range" min="0" max="' + capacity + '" value="0" step="1">' + 
+		                           '<span id="sliderVal">0</span>' + 
+		                           '<input id="sitSlider" type="range" min="0" max="' + capacity + '" value="0" step="1" onchange="showVal(this.value);">' + 
 		                       '</div></div></div>',
 		    buttons: [
 		    {
@@ -170,6 +172,11 @@ function multiTableTaken(tableNum, capacity)
 		    ]
 		});
 	}
+}
+
+function showVal(value)
+{
+	document.getElementById("sliderVal").innerHTML = value;
 }
 
 function addRow(rowNum)

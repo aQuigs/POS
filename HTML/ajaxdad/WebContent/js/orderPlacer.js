@@ -104,6 +104,8 @@ function fillMenu()
     {
         var result = xmlHttpRequest.responseText;
         
+        console.log(result);
+        
         var menuItems = result.split("\n");
         var subMenuCount = 0;
         var currentSubMenu;   
@@ -116,16 +118,15 @@ function fillMenu()
         {
         	var currentItem = menuItems[i].split(",");
         	
-        	if(currentItem.length == 5)
+        	if(currentItem.length == 6)
         	{
         		if(currentSubMenu != currentItem[4])
             	{
             		currentSubMenu = currentItem[4];
             		subMenuCount++;
-            		
             		fullMenu.append('<li class="accordion-item"><a href="#" class="item-content item-link">'
                         + '<div class="item-inner">'
-                            + '<div class="item-title">' + currentItem[currentItem.length - 1] + '</div>'
+                            + '<div class="item-title">' + currentItem[4] + '</div>'
                         + '</div></a>'
                         + '<div class="accordion-item-content">'
                             + '<div class="content-block">'
@@ -134,7 +135,9 @@ function fillMenu()
             		currentAccordian=$("#subMenu"+subMenuCount);
             	}
             	
+            	var imgElement = currentItem[5].length ? '<img src="/POS/images/'+currentItem[5]+'" style="width: 100%; height: 100%;">' : '';
             	currentAccordian.append('<li class="accordion-item"><a href="#" class="item-content item-link">'
+    	        	       + '<div style="margin-right: 25px; width: 10vw; height: 100%; max-width: 100%; max-height: 100%;">'+imgElement+'</div>'
     	        	       + '<div class="item-inner">'
                            + '<div class="item-title">'
     		                   + '<h3>$' + currentItem[3] + ' <span id="name' + currentItem[0] + '">' +  currentItem[1] + '</span></h3>'
