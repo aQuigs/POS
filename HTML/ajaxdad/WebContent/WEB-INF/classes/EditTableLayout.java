@@ -29,7 +29,8 @@ public class EditTableLayout extends HttpServlet
         PrintWriter writer = response.getWriter();
 
         int inputSize = ServletUtilities.checkEqualSizeInputs(request, new String[] { "tableId", "x", "y", "width", "height", "capacity", "booth" });
-        if (inputSize == 0 || !ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "adminPassword" }))
+        if (inputSize == 0
+                || !ServletUtilities.checkSingletonInputs(request, new String[] { "adminUsername", "adminPassword", "gridWidth", "gridHeight" }))
         {
             writer.append("error");
             return;
@@ -37,6 +38,8 @@ public class EditTableLayout extends HttpServlet
 
         String username = request.getParameter("adminUsername");
         String password = request.getParameter("adminPassword");
+        String gridWidth = request.getParameter("gridWidth");
+        String gridHeight = request.getParameter("gridHeight");
 
         Map<String, String[]> args = request.getParameterMap();
         String[] ids = args.get("tableId");
@@ -112,6 +115,9 @@ public class EditTableLayout extends HttpServlet
                     return;
                 }
             }
+
+            sql.UpdateSQL(String.format("UPDATE RestaurantList SET tableGridWidth=%s,tableGridHeight=%s WHERE restaurantId=%s;", gridWidth,
+                    gridHeight, restaurantId));
 
             writer.append(tableIds.toString());
         }
