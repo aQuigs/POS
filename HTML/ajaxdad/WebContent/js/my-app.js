@@ -59,7 +59,7 @@ function processLogin()
             }
             else if(accountType == "customer")
             {
-                location = "/POS/index.html";
+                location = "/POS/";
             }
             else
             {

@@ -127,7 +127,6 @@ function orderStatusChanged()
     {
     	var result = xmlHttpRequest.responseText;
     	
-    	console.log(result);
     	$('#order-queue').empty();
     	fillOrderQueue();
     }

@@ -104,8 +104,6 @@ function fillMenu()
     {
         var result = xmlHttpRequest.responseText;
         
-        console.log(result);
-        
         var menuItems = result.split("\n");
         var subMenuCount = 0;
         var currentSubMenu;   
