@@ -21,7 +21,7 @@ function tableTaken(tableNum, capacity)
                            '<div class="item-input">' + 
                                '<div class="range-slider">' + 
                                       '<span id="sliderVal">0</span>' + 
-                                   '<input id="sitSlider" type="range" min="0" max="' + capacity + '" value="0" step="1" onchange="showVal(this.value);">' + 
+                                   '<input id="sitSlider" type="range" min="0" max="' + capacity + '" value="0" step="1" oninput="showVal(this.value);">' + 
                                '</div></div></div>',
             buttons: [
             {
