@@ -27,8 +27,8 @@ $(function() {
                 break;
             case "register-form":
                 var $rg_username=$('#register_username').val();
-                var $rg_email=$('#register_email').val();
                 var $rg_password=$('#register_password').val();
+                var $rg_email=$('#register_email').val();
                 
                 register($rg_username, $rg_email, $rg_password);
                 
@@ -144,7 +144,7 @@ $(function() {
         }
     }
     
-    function register(username, password, email)
+    function register(username, email, password)
     {
         xmlHttpRequest.open("POST", "Registration?username=" + username + "&password=" + password + "&email=" + email, true);
         xmlHttpRequest.onreadystatechange = registerAccount;
