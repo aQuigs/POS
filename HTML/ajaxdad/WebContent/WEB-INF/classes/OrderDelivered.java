@@ -18,6 +18,6 @@ public class OrderDelivered extends OrderStatusChanged
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        super.doChange(request, response, ServletUtilities.OrderStatus.COOKED, ServletUtilities.OrderStatus.DELIVERED);
+        super.doChange(request, response, ServletUtilities.OrderStatus.COOKED, ServletUtilities.OrderStatus.DELIVERED, "waitstaff");
     }
 }

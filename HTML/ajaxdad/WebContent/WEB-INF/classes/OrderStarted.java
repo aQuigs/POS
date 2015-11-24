@@ -18,6 +18,6 @@ public class OrderStarted extends OrderStatusChanged
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        super.doChange(request, response, ServletUtilities.OrderStatus.PLACED, ServletUtilities.OrderStatus.STARTED);
+        super.doChange(request, response, ServletUtilities.OrderStatus.PLACED, ServletUtilities.OrderStatus.STARTED, "kitchen");
     }
 }

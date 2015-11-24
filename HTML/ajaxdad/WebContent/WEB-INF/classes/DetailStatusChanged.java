@@ -17,7 +17,7 @@ public abstract class DetailStatusChanged extends HttpServlet
     }
 
     protected void doChange(HttpServletRequest request, HttpServletResponse response, ServletUtilities.OrderStatus prevStatus,
-            ServletUtilities.OrderStatus newStatus) throws ServletException, IOException
+            ServletUtilities.OrderStatus newStatus, String userType) throws ServletException, IOException
     {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
@@ -35,25 +35,25 @@ public abstract class DetailStatusChanged extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             int rowsAffected = sql.UpdateSQL(String.format("UPDATE UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
-                    + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kitchen' "
+                    + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='%s' "
                     + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                     + "SET OrderDetails.status='%s' WHERE OrderDetails.status='%s' AND OrderDetails.detailId=%s;",
-                    username, password, newStatus.name(), prevStatus.name(), detailId));
+                    username, password, userType, newStatus.name(), prevStatus.name(), detailId));
 
             if (rowsAffected != 0)
             {
                 if (ServletUtilities.updateOrderStatusIfNecessary(sql, detailId))
                 {
-                    writer.append("orderFullyChanged:" + detailId + ":" + newStatus.name());
+                    writer.append("orderFullyChanged");
                 }
                 else
                 {
-                    writer.append("itemChanged:" + detailId + ":" + newStatus.name());
+                    writer.append("itemChanged");
                 }
             }
             else
             {
-                writer.append("invalidItemToChange:" + detailId + ":" + newStatus.name());
+                writer.append("invalidItemToChange");
             }
         }
         catch (ClassNotFoundException e)

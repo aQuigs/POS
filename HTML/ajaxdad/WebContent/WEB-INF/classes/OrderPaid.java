@@ -18,6 +18,6 @@ public class OrderPaid extends OrderStatusChanged
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        super.doChange(request, response, ServletUtilities.OrderStatus.DELIVERED, ServletUtilities.OrderStatus.PAID);
+        super.doChange(request, response, ServletUtilities.OrderStatus.DELIVERED, ServletUtilities.OrderStatus.PAID, "waitstaff");
     }
 }
