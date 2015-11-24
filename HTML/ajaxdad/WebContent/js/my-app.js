@@ -68,7 +68,6 @@ function processLogin()
 
             setCookie("username", document.getElementById('username').value, 1);
             setCookie("password", results[1], 1);
-            setCookie("accountType", accountType);
             window.location.replace(location);
         }
         else if(xmlHttpRequest.responseText == "invalid")
@@ -177,4 +176,15 @@ function getCookie(cname) {
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
+}
+
+function performPost(url,callback) {
+    var xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.open("POST", url, true);
+    xmlHttpRequest.onreadystatechange = function () {
+        if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200) {
+            callback(xmlHttpRequest.responseText);
+        }
+    };
+    xmlHttpRequest.send();
 }

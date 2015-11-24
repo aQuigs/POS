@@ -11,7 +11,6 @@ function logOff()
 {
 	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
 	setCookie("password", "", -1);	//Set cookie to expire in -1 days to delete
-	setCookie("accountType", "", -1);	//Set cookie to expire in -1 days to delete
 	window.location.replace("/POS/login.html");
 }
 
@@ -196,7 +195,6 @@ function cookedAccordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 //AJAX for filling order queue
 function fillCookedOrderQueue()
 {
-	//myApp.alert("shalom");
     xmlHttpRequest.open("POST", "GetUnfinishedOrders?username=" + getCookie("username") + "&password=" + getCookie("password"), true);
     xmlHttpRequest.onreadystatechange = fillCookedQueue;
     xmlHttpRequest.send();

@@ -57,12 +57,19 @@ body.with-panel-right-reveal .panel-overlay {
   }
 }
 
+#seating-grid {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  margin: 25px;
+}
+
 .table {
 	background-color: #00FF00;
-	border-top-left-radius: 40%;
-	border-top-right-radius: 40%;
-	border-bottom-left-radius: 40%;
-	border-bottom-right-radius: 40%;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 	height: 75px;
 	margin: 0!important;
 }

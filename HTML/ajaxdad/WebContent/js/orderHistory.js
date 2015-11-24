@@ -4,19 +4,7 @@ function logOff()
 {
     setCookie("username", "", -1);    //Set cookie to expire in -1 days to delete
     setCookie("password", "", -1);    //Set cookie to expire in -1 days to delete
-    setCookie("accountType", "", -1);    //Set cookie to expire in -1 days to delete
     window.location.replace("/POS/login.html");
-}
-
-function performPost(url,callback) {
-    var xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open("POST", url, true);
-    xmlHttpRequest.onreadystatechange = function () {
-        if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200) {
-            callback(xmlHttpRequest.responseText);
-        }
-    };
-    xmlHttpRequest.send();
 }
 
 function getOrderProgress(status) {

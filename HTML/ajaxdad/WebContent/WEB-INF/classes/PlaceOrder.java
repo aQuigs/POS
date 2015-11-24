@@ -28,7 +28,7 @@ public class PlaceOrder extends HttpServlet
         PrintWriter writer = response.getWriter();
 
         int inputSize = ServletUtilities.checkEqualSizeInputs(request, new String[] { "itemId", "quantity" });
-        if (inputSize == 0 || !ServletUtilities.checkSingletonInputs(request, new String[] { "restaurantId" }))
+        if (inputSize == 0 || !ServletUtilities.checkSingletonInputs(request, new String[] { "restaurantId", "username", "password" }))
         {
             writer.append("error");
             return;
@@ -46,29 +46,21 @@ public class PlaceOrder extends HttpServlet
         }
 
         String restaurantId = request.getParameter("restaurantId");
-        String username = request.getParameter("customerUsername");
-        String password = request.getParameter("customerPassword");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            if ((username != null || password != null) && !ServletUtilities.checkPassword(sql, username, password))
+            if (!ServletUtilities.checkPassword(sql, username, password))
             {
                 writer.append("invalid");
                 return;
             }
 
             // TODO make transaction
-            int rowsChanged;
-            if (username == null)
-            {
-                rowsChanged = sql.InsertSQL("INSERT INTO OrderList (restaurantId,status) VALUES (" + restaurantId + ",'PLACED');");
-            }
-            else
-            {
-                rowsChanged = sql.InsertSQL("INSERT INTO OrderList (restaurantId,status,customerUsername) VALUES (" + restaurantId + ",'PLACED','"
-                        + username + "');");
-            }
-
+            int rowsChanged = sql.InsertSQL("INSERT INTO OrderList (restaurantId,status,customerUsername) VALUES (" + restaurantId + ",'PLACED','"
+                    + username + "');");
+            
             if (rowsChanged == 0)
             {
                 writer.append("failed");
