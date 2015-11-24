@@ -95,8 +95,6 @@ function addUser()
 //Load users and store since this will be needed for a couple pages
 function getRestaurantUsers()
 {
-	setCookie("username", "admin", 1);	//Need to take out eventually
-	//myApp.alert(getCookie("username"));
     xmlHttpRequest.open("POST", "GetRestaurantUsers?username=" + getCookie("username") + "&password=" + getCookie("password").toString(), true);
     xmlHttpRequest.onreadystatechange = getUsers;
     xmlHttpRequest.send();

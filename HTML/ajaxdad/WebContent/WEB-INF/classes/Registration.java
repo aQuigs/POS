@@ -60,7 +60,7 @@ public class Registration extends HttpServlet
             if (retCode == 0)
             {
                 writer.append("success");
-                                try
+                try
                 {
                     EmailSender.sendEmail(email, "Verify Your Email Address",
                             "To verify your email, please go to the following URL: http://ec2-54-152-96-171.compute-1.amazonaws.com:8080/POS/ValidateEmail?validatecode="

@@ -74,11 +74,6 @@ function updateOrder(itemNum)
 	myApp.alert("Item added to order!");
 }
 
-function removeOrderItem(itemNum)
-{
-	
-}
-
 function getMenuItems()
 {
     xmlHttpRequest.open("POST", "GetMenuDetails?menuId=1", true);

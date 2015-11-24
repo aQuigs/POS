@@ -38,7 +38,7 @@ public class GetCancelableOrders extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql.SelectSQL(String.format(
-                    "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo "
+                    "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.imageUrl "
                             + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
                             + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='waitstaff' "
                             + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
@@ -57,8 +57,11 @@ public class GetCancelableOrders extends HttpServlet
                 writer.append(',');
                 writer.append(rs.getString(5));
                 writer.append(',');
-                String miscInfo = rs.getString(6);
-                writer.append(miscInfo == null ? "" : miscInfo);
+                String temp = rs.getString(6);
+                writer.append(temp == null ? "" : temp);
+                writer.append(',');
+                temp = rs.getString(7);
+                writer.append(temp == null ? "" : temp);
                 writer.append('\n');
             }
         }
