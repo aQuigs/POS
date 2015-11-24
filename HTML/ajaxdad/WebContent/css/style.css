@@ -42,6 +42,12 @@ section{
 	width:100%;
 }
 
+#login-text{
+	z-index: 2;
+	position: relative;
+	bottom: 150px;
+}
+
 .jumbotron{
 	background:#1b222a url(../img/PhoodieMainBackground.jpg) no-repeat top center;
 	background-size: cover;
@@ -235,6 +241,11 @@ footer p{
 }
 
 @media(max-width: 991px){
+	
+	#login-text{
+		bottom: 120px;
+	}
+	
 	section#user-roles{
 	height:1700px;
 	background:#1b222a url(../img/PhoodieMainBackgroundFlip.jpg) no-repeat top center;
@@ -290,6 +301,10 @@ section#user-roles .container #admin-img h1{
 }
 
 @media(max-width: 768px){
+	#login-text{
+		bottom: 110px;
+	}
+	
 	.jumbotron{
 		height:300px !important;
 		background-size:100% 100%;
@@ -309,6 +324,10 @@ section#user-roles .container #admin-img h1{
 }
 
 @media(max-width: 500px){
+	#login-text{
+		bottom: 60px;
+	}
+	
 	.jumbotron{
 		height:300px !important;
 		text-align: center;
