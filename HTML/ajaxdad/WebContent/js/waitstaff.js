@@ -369,6 +369,7 @@ function showVal(value)
     document.getElementById("sliderVal").innerHTML = value;
 }
 
+
 $(document).ready(function () {
 	$("#welcome-text").val("Welcome" + getCookie("username"));
     restaurantId=1; // TODO get this from server based on credentials

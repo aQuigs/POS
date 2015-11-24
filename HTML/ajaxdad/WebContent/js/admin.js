@@ -434,33 +434,123 @@ function addMenu()
     }
 }
 
-myApp.onPageInit('manageUsers', function (page) {
-	getRestaurantUsers();
-	$('#usertype').attr('readonly', true);
-	
-	$$('.confirm-ok').on('click', function () {
-	    myApp.confirm('Are you sure you want to delete this user?', function () {
-	    	deleteRestaurantUser();
-	    });
-	});
-});
+function tableClicked(tableId) {
+    // TODO adjust capacity
 
-myApp.onPageInit('manageMenu', function (page) {
-	getMenuDetails();
-	
-	$$('.confirm-ok').on('click', function () {
-	    myApp.confirm('Are you sure you want to delete this item?', function () {
-	    	deleteMenuItem();
-	    });
-	});
-});
+}
 
-myApp.onPageInit('getSubMenus', function (page) {
-	getSubMenus();
-	
-	$$('.confirm-ok').on('click', function () {
-	    myApp.confirm('Are you sure you want to delete this item?', function () {
-	    	deleteMenuItem();
-	    });
-	});
+function saveLayout() {
+    var uri = "EditTableLayout?adminUsername=" + getCookie("username").toString() 
+    + "&adminPassword=" + getCookie("password").toString() + "&gridWidth=10&gridHeight=10";
+
+    var tables = $('.table');
+    for (var i = 0; i < tables.length; ++i) {
+        var t = $(tables[i]);
+        if (!t.hasClass('preview')) {
+            uri += '&tableId=' + t.attr('tableId');
+            uri += '&x=' + t.attr('x');
+            uri += '&y=' + t.attr('y');
+            uri += '&width=' + t.attr('w');
+            uri += '&height=' + t.attr('h');
+            uri += '&capacity=' + t.attr('capacity');
+            uri += '&booth=' + t.attr('booth');
+        }
+    }
+
+    performPost(uri, function(responseText) {
+        if (responseText && responseText != "error") {
+            myApp.alert("Layout has been successfully changed");
+        } else {
+            myApp.alert("Error saving layout");
+        }
+    });
+}
+
+var clickStatus = 3;
+var preview;
+
+function beginAddTable() {
+    clickStatus = 1;
+}
+
+$(document).ready(function() {
+
+    myApp.onPageInit('seating', function() {
+        var background = $('#seating-grid');
+        background.mousemove(function(event) {
+            var parentOffset = background.offset(); 
+            var relX = event.pageX - parentOffset.left;
+            var relY = event.pageY - parentOffset.top
+            var mouseC = getColumnFromX(relX);
+            var mouseR = getRowFromY(relY);
+            
+            if (clickStatus == 1) {
+                preview = drawPreviewDiv(mouseC, mouseR, 1, 1, true);
+                if (mouseR != -1 && mouseC != -1) {
+                    preview.css('visibility', 'visible');
+                } else {
+                    preview.css('visibility', 'hidden');
+                }
+            } else if (clickStatus == 2) {
+                if (mouseR != -1 && mouseC != -1) {
+                    var x = preview.attr('x')-1;
+                    var y = preview.attr('y')-1;
+                    var x1 = Math.min(x, mouseC);
+                    var x2 = Math.max(x, mouseC);
+                    var y1 = Math.min(y, mouseR);
+                    var y2 = Math.max(y, mouseR);
+
+                    preview = drawPreviewDiv(x1,y1, x2-x1+1, y2-y1+1, false);
+                }
+            }
+        });
+
+        background.mouseup(function() {
+            if (clickStatus == 1) {
+                if (preview && preview.length && preview.css('visibility') === 'visible') {
+                    clickStatus = 2;
+                }
+            } else if (clickStatus == 2) {
+                preview.removeClass('preview');
+                clickStatus = 3;
+                preview.attr('tableId',0);
+                preview.attr('capacity',5);
+                preview.attr('filledSeats',0);
+                preview.attr('booth','NO');
+                preview.removeAttr('id');
+                preview = undefined;
+            }
+        });
+    });
+
+    myApp.onPageInit('manageUsers', function (page) {
+        getRestaurantUsers();
+        $('#usertype').attr('readonly', true);
+        
+        $$('.confirm-ok').on('click', function () {
+            myApp.confirm('Are you sure you want to delete this user?', function () {
+                deleteRestaurantUser();
+            });
+        });
+    });
+
+    myApp.onPageInit('manageMenu', function (page) {
+        getMenuDetails();
+        
+        $$('.confirm-ok').on('click', function () {
+            myApp.confirm('Are you sure you want to delete this item?', function () {
+                deleteMenuItem();
+            });
+        });
+    });
+
+    myApp.onPageInit('getSubMenus', function (page) {
+        getSubMenus();
+        
+        $$('.confirm-ok').on('click', function () {
+            myApp.confirm('Are you sure you want to delete this item?', function () {
+                deleteMenuItem();
+            });
+        });
+    });
 });

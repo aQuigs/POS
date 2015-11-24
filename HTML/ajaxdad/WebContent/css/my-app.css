@@ -99,12 +99,13 @@ body.with-panel-right-reveal .panel-overlay {
 
 .table {
 	background-color: #00FF00;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-radius: 10px;
 	height: 75px;
 	margin: 0!important;
+}
+
+.table.preview {
+  background-color: rgba(0,255,0,0.5)
 }
 
 .taken {
