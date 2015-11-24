@@ -8,6 +8,13 @@ function logOff()
 	window.location.replace("/POS/login.html");
 }
 
+function showVal(value, itemNum)
+{
+	console.log(value);
+	var sliderNum = "#sliderVal"+ itemNum;
+    document.getElementById(sliderNum).innerHTML = "Not the Problem";
+}
+
 function selectRestaurant(rId, rName) {
 	restaurantId=rId;
 	restaurantName=rName;
@@ -130,7 +137,7 @@ function fillMenu()
                                + '<div class="item-inner">'
                                    + '<div class="item-input">'
                                        + '<div class="range-slider">'
-                                           + '<input type="range" id="sliderItem' + currentItem[0] + '" min="1" max="10" value="0" step="1">'
+                                           + '<input type="range" id="sliderItem' + currentItem[0] + '" min="1" max="10" value="1" step="1">'
                                        + '</div>'
                                    + '</div>'
                                + '</div>'

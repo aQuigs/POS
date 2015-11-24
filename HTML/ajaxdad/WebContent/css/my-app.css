@@ -4,10 +4,41 @@
 .view-left {
   border-right: 1px solid #b2b2b2;
 }
+.navbar{
+	background:#1b222a url(../img/PhoodieMainBackgroundHorizontalFlip.jpg) no-repeat top center;
+  	background-size: cover;
+}
+
+.buttons-row .button {
+	background:#fff;
+}
+
+.page-content{
+	background:#D0D0D0 ;
+}
+
+.panel-left .page-content .list-block li{
+	color:#2CA9FD;
+}
+
+.list-block li{
+	background: #F8F8F8;
+}
+
+.content-block-inner{
+	background:#fff;
+}
+
 /* This will fix flicker navbar in left panel view */
 .panel-left .page-content {
-  padding: 0;
+  	padding: 0;
 }
+
+.list-block .item-link{
+	border-top: solid 1px #A0A0A0;
+	border-bottom: solid 1px #A0A0A0;
+}
+
 .panel-left .page {
   margin-top: 44px;
   padding-bottom: 44px;
@@ -15,6 +46,8 @@
 .panel-left .navbar {
   position: relative;
   margin-bottom: -44px;
+  background:#1b222a url(../img/PhoodieMainBackground.jpg) no-repeat top center;
+  background-size: cover;
 }
 /* Because we have panels-overlay inside of .views we need to fix its open position for right panel */
 body.with-panel-right-reveal .panel-overlay {
