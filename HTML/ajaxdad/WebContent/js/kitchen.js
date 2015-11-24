@@ -21,7 +21,7 @@ function accordItem(orderNum, orderStatus)
 		 		+ '<div class="item-inner">'
 		 			+ '<div class="item-title">'
 		 				+ 'Order ' + orderNum + ': ' + orderStatus
-		 				+ '<p class="buttons-row">'
+		 				+ '<p>'
 		 					+ '<input type="button" value="In Progress" class="button button-fill" onclick="orderStarted(' + orderNum + ')">'
 		 					+ '<input type="button" value="Order Finished" class="button button-fill" onclick="orderCooked(' + orderNum + ')">'
 		 				+ '</p>' 		          	
@@ -147,7 +147,7 @@ function cookedAccordItem(orderNum, orderStatus)
 		 		+ '<div class="item-inner">'
 		 			+ '<div class="item-title">'
 		 				+ 'Order ' + orderNum + ': ' + orderStatus
-		 				+ '<p class="buttons-row">'
+		 				+ '<p>'
 		 					+ '<input type="button" value="Return To Queue" class="button button-fill" onclick="cookedOrderStarted(' + orderNum + ')">'
 		 				+ '</p>' 		          	
 		 			+ '</div>'
