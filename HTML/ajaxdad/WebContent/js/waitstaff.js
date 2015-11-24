@@ -92,7 +92,7 @@ function showVal(value)
     document.getElementById("sliderVal").innerHTML = value;
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
     restaurantId=1; // TODO get this from server based on credentials
     getMenus();
 });
