@@ -35,13 +35,13 @@ public class GetCancelableOrders extends HttpServlet
         String password = request.getParameter("password");
 
         try
-        {
+        { 
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql.SelectSQL(String.format(
                     "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.imageUrl "
                             + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
                             + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='waitstaff' "
-                            + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
+                            + "AND OrderList.customerUsername=UserInfo.username INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                             + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
                             + "WHERE OrderDetails.status != 'PAID'"
                             + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", username, password));
