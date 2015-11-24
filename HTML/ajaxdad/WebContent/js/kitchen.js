@@ -84,7 +84,7 @@ function fillQueue()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
         var result = xmlHttpRequest.responseText;
-        var orders = result.split("\n");
+        var orders = result.split(";;");
         var currentItem;
         var compareItem;
         var currentOrder = 0;
@@ -92,7 +92,7 @@ function fillQueue()
         
         for(i = 0; i < orders.length; i++)
         {
-        	currentItem = orders[i].split(",");
+        	currentItem = orders[i].split("::");
         	
         	if(currentItem[0] != "" && currentItem[2] != "COOKED")
         	{
@@ -205,7 +205,7 @@ function fillCookedQueue()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
         var result = xmlHttpRequest.responseText;
-        var orders = result.split("\n");
+        var orders = result.split(";;");
         var currentItem;
         var compareItem;
         var currentOrder = 0;
@@ -213,7 +213,7 @@ function fillCookedQueue()
         
         for(i = 0; i < orders.length; i++)
         {
-        	currentItem = orders[i].split(",");
+        	currentItem = orders[i].split("::");
         	
         	if(currentItem[0] != "" && currentItem[2] == "COOKED")
         	{

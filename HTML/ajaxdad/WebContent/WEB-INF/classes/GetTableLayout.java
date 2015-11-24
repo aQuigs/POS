@@ -43,28 +43,28 @@ public class GetTableLayout extends HttpServlet
             
             if(rcrs.returnCode == 0){
                 writer.append("" + rcrs.gridWidth);
-                writer.append(',');
+                writer.append("::");
                 writer.append("" + rcrs.gridHeight);
-                writer.append('\n');
+                writer.append(";;");
                 ResultSet rs = rcrs.resultSet;
                 while (rs.next())
                 {
                     writer.append(rs.getString(1));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(2));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(3));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(4));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(5));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(6));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(7));
-                    writer.append(',');
+                    writer.append("::");
                     writer.append(rs.getString(8));
-                    writer.append('\n');
+                    writer.append(";;");
                 }
             }
             */
@@ -90,28 +90,28 @@ public class GetTableLayout extends HttpServlet
                                     + "AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');", username, password));
 
             writer.append(gridWidth);
-            writer.append(',');
+            writer.append("::");
             writer.append(gridHeight);
-            writer.append('\n');
+            writer.append(";;");
 
             while (rs.next())
             {
                 writer.append(rs.getString(1));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(2));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(3));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(4));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(5));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(6));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(7));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(8));
-                writer.append('\n');
+                writer.append(";;");
             }
         }
         catch (ClassNotFoundException e)

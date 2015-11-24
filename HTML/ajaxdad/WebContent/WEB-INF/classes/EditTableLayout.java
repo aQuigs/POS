@@ -68,7 +68,7 @@ public class EditTableLayout extends HttpServlet
             {
                 if (i != 0)
                 {
-                    tableIds.append(',');
+                    tableIds.append("::");
                 }
 
                 if (ids[i].equals("0")) // add

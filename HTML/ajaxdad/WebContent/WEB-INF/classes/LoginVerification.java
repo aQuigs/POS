@@ -55,7 +55,7 @@ public class LoginVerification extends HttpServlet
                     if (hashedPassword != null)
                     {
                         writer.append(rs.getString(1));
-                        writer.append(',');
+                        writer.append("::");
                         writer.append(hashedPassword);
                     }
                     else

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/GetUnfinishedOrders")
+@WebServlet("/GetCancelableOrders")
 public class GetCancelableOrders extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -48,21 +48,21 @@ public class GetCancelableOrders extends HttpServlet
             while (rs.next())
             {
                 writer.append(rs.getString(1));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(2));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(3));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(4));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(5));
-                writer.append(',');
+                writer.append("::");
                 String temp = rs.getString(6);
                 writer.append(temp == null ? "" : temp);
-                writer.append(',');
+                writer.append("::");
                 temp = rs.getString(7);
                 writer.append(temp == null ? "" : temp);
-                writer.append('\n');
+                writer.append(";;");
             }
         }
         catch (ClassNotFoundException e)

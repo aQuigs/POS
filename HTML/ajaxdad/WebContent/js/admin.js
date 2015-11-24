@@ -116,13 +116,13 @@ function getUsers()
     	}
     	else
     	{
-    		var userLines = result.split("\n");
+    		var userLines = result.split(";;");
     		$('#userSearch').html("");
     		var userSearch = $("#userSearch");
     		
     		for(i = 0; i < userLines.length - 1; i++)
     		{
-    			var currentUser = userLines[i].split(",");
+    			var currentUser = userLines[i].split("::");
     			if(currentUser[0].length > 0)
     			{
 	    			var user = {username: currentUser[0], password: currentUser[1], email: currentUser[2], accountType: currentUser[3]};
@@ -205,13 +205,13 @@ function getMenu()
     	}
     	else
     	{
-    		var menuLines = result.split("\n");
+    		var menuLines = result.split(";;");
     		$('#menuSearch').html("");
     		var menuSearch = $("#menuSearch");
     		
     		for(i = 0; i < menuLines.length - 1; i++)
     		{
-    			var currentMenuItem = menuLines[i].split(",");
+    			var currentMenuItem = menuLines[i].split("::");
     			if(currentMenuItem[0].length > 0)
     			{
 	    			var menuItem = {item: currentMenuItem[1], itemId: currentMenuItem[0], subMenu: currentMenuItem[4], description: currentMenuItem[2], price: currentMenuItem[3]};
@@ -379,13 +379,13 @@ function listMenus()
     	}
     	else
     	{
-    		var menuLines = result.split("\n");
+    		var menuLines = result.split(";;");
     		$('#subMenuSearch').html("");
     		var subMenuSearch = $("#subMenuSearch");
     		
     		for(i = 0; i < menuLines.length - 1; i++)
     		{
-    			var currentMenuItem = menuLines[i].split(",");
+    			var currentMenuItem = menuLines[i].split("::");
     			if(currentMenuItem[0].length > 0)
     			{
 	    			var menuItem = {item: currentMenuItem[1], itemId: currentMenuItem[0], subMenu: currentMenuItem[4], description: currentMenuItem[2], price: currentMenuItem[3]};

@@ -57,9 +57,9 @@ public class ListMenus extends HttpServlet
             while (rs.next())
             {
                 writer.append(rs.getString(1));
-                writer.append(',');
+                writer.append("::");
                 writer.append(rs.getString(2));
-                writer.append('\n');
+                writer.append(";;");
             }
         }
         catch (ClassNotFoundException e)

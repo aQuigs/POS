@@ -119,9 +119,9 @@ function handleResize()
 
 function getLayout(responseText)
 {
-    var lastResult = responseText.split("\n");
+    var lastResult = responseText.split(";;");
 
-    gridDimensions = lastResult[0].split(",");
+    gridDimensions = lastResult[0].split("::");
     
     var parent = $('#seating-grid');
     parent.empty();
@@ -130,7 +130,7 @@ function getLayout(responseText)
     {
         if (lastResult[i].length)
         {
-            var attribs = lastResult[i].split(',');
+            var attribs = lastResult[i].split("::");
             var tableId = parseInt(attribs[0]);
             var x = parseInt(attribs[1]);
             var y = parseInt(attribs[2]);

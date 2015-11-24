@@ -39,11 +39,11 @@ function populateHistory(responseText) {
     var currentOrderId = 0;
     var currentAccordion;
 
-    var entries = responseText.split('\n');
+    var entries = responseText.split(";;");
     for (var i = 0; i < entries.length; ++i) {
         var values = entries[i];
         if (values.length) {
-            values = values.split(',');
+            values = values.split("::");
             var restaurantName = values[0];
             var orderId = values[1];
             var orderStatus = values[2];

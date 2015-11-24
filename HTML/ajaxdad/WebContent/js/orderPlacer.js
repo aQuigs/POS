@@ -16,10 +16,10 @@ function selectRestaurant(rId, rName) {
 
 function populateRestaurants(responseText) {
 	var ulParent = $('#restaurantList');
-	var restaurants = responseText.split("\n");
+	var restaurants = responseText.split(";;");
 	ulParent.empty();
 	for (var i = 0; i < restaurants.length; ++i) {
-		var restaurantInfo = restaurants[i].split(',');
+		var restaurantInfo = restaurants[i].split("::");
 		if (restaurantInfo.length == 2) {	
 			ulParent.append('<li><a href="pickMenu.html" onclick="selectRestaurant('+restaurantInfo[0]+',\''+restaurantInfo[1]
 				+'\');" data-view=".view-main" class="item-link close-panel"><div class="item-content"><div class=item-inner><div class="item-title">'
@@ -40,10 +40,10 @@ function selectMenu(mId, mName) {
 
 function populateMenus(responseText) {
 	var ulParent = $('#menuList');
-	var menus = responseText.split("\n");
+	var menus = responseText.split(";;");
 	ulParent.empty();
 	for (var i = 0; i < menus.length; ++i) {
-		var menu = menus[i].split(',');
+		var menu = menus[i].split("::");
 		if (menu.length == 2) {	
 			ulParent.append('<li><a href="ordering.html" onclick="selectMenu('+menu[0]+',\''+menu[1]
 				+'\');" data-view=".view-main" class="item-link close-panel"><div class="item-content"><div class=item-inner><div class="item-title">'
@@ -87,7 +87,7 @@ function fillMenu()
     {
         var result = xmlHttpRequest.responseText;
         
-        var menuItems = result.split("\n");
+        var menuItems = result.split(";;");
         var subMenuCount = 0;
         var currentSubMenu;   
         var fullMenu= $('#fullMenu');
@@ -97,7 +97,7 @@ function fillMenu()
         
         for(i = 0; i < menuItems.length; i++)
         {
-        	var currentItem = menuItems[i].split(",");
+        	var currentItem = menuItems[i].split("::");
         	
         	if(currentItem.length == 6)
         	{
