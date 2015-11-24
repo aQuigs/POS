@@ -59,7 +59,6 @@ public class Registration extends HttpServlet
             
             if (retCode == 0)
             {
-                writer.append("success");
                 try
                 {
                     EmailSender.sendEmail(email, "Verify Your Email Address",

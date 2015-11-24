@@ -139,7 +139,7 @@ function getLayout(responseText)
             var capacity = parseInt(attribs[5]);
             var filledSeats = parseInt(attribs[6]);
             var booth = attribs[7];
-            parent.append("<div class='table' id='table-" + tableId + "' onclick='tableTaken("+tableId+","+capacity+");'>55</div>");
+            parent.append("<div class='table' id='table-" + tableId + "' onclick='tableTaken("+tableId+","+capacity+");'></div>");
 
             var d = $('#table-' + tableId)
 
