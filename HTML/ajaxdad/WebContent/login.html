@@ -7,115 +7,191 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Phood Ordering Service</title>
     <!-- Path to Framework7 Library CSS-->
-    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <!--<link rel="stylesheet" href="css/framework7.ios.min.css">-->
     <link href="css/bootstrap.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/my-app.css">
+    <style>
+	  body {
+	      position: relative; 
+	  }
+	  </style>
 </head>
 <body>
-	<div class="page-content textAlignCenter">
-	  <nav class="navbar navbar-default navbar-fixed-top">
-	      <div class="container">
-	        <div class="navbar-header">
-	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <a class="navbar-brand em-text" href="index.html">Phoodie</a>
-	        </div>
-	        <div id="navbar" class="collapse navbar-collapse" style="background-color:#F8F8F8;">
-	          <ul class="nav navbar-nav">
-	            <li class="active"><a href="index.html" class="nav-element">Login</a></li>
-	            <li><a href="about.html" class="nav-element">About</a></li>
-	            <li><a href="contact.html" class="nav-element">Contact</a></li>
-	          </ul>
-	        </div><!--/.nav-collapse -->
-	      </div>
-	    </nav>
-	      <div class="jumbotron">
+	<div class="page-content textAlignCenter" data-spy="scroll" data-target=".navbar"> 
+	      <div id="jumbo1" class="jumbotron">
 		      <div class="container">
 		        <div class="row">
 		          <div class="col-md-12">
 		            <h1 id="main-jumbo-header">Phoodie</h1>
-		            <p><a href="#" class="open-login-screen">Login</a></p>
+		            <h3>Ordering Services</h3>
+		            <div class="row">
+		            	<div class="col-xs-12">
+		            		<p><a href="#" class="initial-modals" data-toggle="modal" data-target="#login-modal">Login</a></p>
+		            	</div>
+		            </div>
 		          </div>
 		        </div>
 		      </div>
 		    </div>
-		<section id="middle">
-	      <div class="container">
-	        <div class="row">
-	          <div class="col-md-4">
-	            <h2>Owner</h2>
-	            <p>As a restaurant owner, you will be able to customize your restaurants interface. You can create a table layout, menu, and manage employee accounts with just a few simple clicks</p>
-	            <a href="#" class="btn btn-default">Read More</a>
-	          </div>
-	          <div class="col-md-4">
-	            <h2>Employees</h2>
-	            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lobortis tempus varius. Sed porttitor ex id lectus interdum tristique.</p>
-	            <a href="#" class="btn btn-default">Read More</a>
-	          </div>
-	          <div class="col-md-4">
-	            <h2>Customers</h2>
-	            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lobortis tempus varius. Sed porttitor ex id lectus interdum tristique.</p>
-	            <a href="#" class="btn btn-default">Read More</a>
-	          </div>
-	        </div>
+		<section id="description">
+			<div id="description" class="container">
+				<div class="row">
+					<div class="col=md-12">
+						<h1>What's the Deal With Phoodie?</h1>
+						<p>Phoodie is an Online ordering service designed to give a restaurant the necessary functionality to perform at their best, while allowing customers to enjoy a personalized approach to dining.</p>
+					</div>
+					<div class="col-md-12">
+						<br /><br />
+						<p id="quote"><strong>"Phoodie brings the entire restaurant together"</strong></p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="user-roles">
+	      <div id="customer" class="container">
+	      	<div id="cust-img" class="col-md-4">
+	      		<h1 style="margin-top:144px;">Customers</h1>
+	      	</div>
+	      	<div class="col-md-8">
+	      		<h1>Give them an experience they will never forget!</h1>
+	      		<h3>-Order and Pay right from your mobile device</h3>
+	      		<h3>-Track your order from start to finish</h3>
+	      		<h3>-View Previous Orders to relive That tasty new dish you discovered</h3>
+	      	</div>
+	      </div>
+	      <div id="employee" class="container">
+	      	<div class="col-md-8">
+	 
+	      	</div>
+	      	<div id="empl-img" class="col-md-4">
+	      		<h1 style="margin-top:80px;">Employees</h1>
+	      	</div>
+	      </div>
+	      <div id="admin" class="container">
+	      	<div id="admin-img" class="col-md-4">
+	      		<h1 style="margin-top:150px;">Owners</h1>
+	      	</div>
+	      	<div class="col-md-8">
+	      	</div>
 	      </div>
 	    </section>
     </div>
-    
-	  <div class="login-screen">
-	    <div class="view">
-	      <div class="page">
-	        <div class="page-content login-screen-content">
-	          <div class="login-screen-title">Phoodie</div>
-	          <form onsubmit="login()">
-	            <div class="list-block">
-	              <ul>
-	                <li class="item-content">
-	                  <div class="item-inner">
-	                    <div class="item-title label">Username</div>
-	                    <div class="item-input">
-	                      <input type="text" id="username" name="username" placeholder="Your username">
-	                    </div>
-	                  </div>
-	                </li>
-	                <li class="item-content">
-	                  <div class="item-inner">
-	                    <div class="item-title label">Password</div>
-	                    <div class="item-input">
-	                      <input type="password" id="password" name="password" placeholder="Your password" onkeyup="enterLogin(event)">
-	                    </div>
-	                  </div>
-	                </li>
-	              </ul>
-	            </div>
-	            <div class="list-block">
-	              <ul>
-	                <li><a href="#" id="sign-in" class="item-link list-button" onclick="login()">Sign In</a></li>
-                    <li><a href="#" class="item-link list-button" onclick="forgotRedirect()">Forgot Password?</a></li>
-                    <li><a href="#" class="item-link list-button" onclick="registerRedirect()">Create Account</a></li>
-	              </ul>
-	              <div class="list-block-label">
-	                <p>Where the entire restaraunt is connected in one place.</p>
-	                <p><a href="#" class="close-login-screen">Exit Login</a></p>
-	              </div>
-	            </div>
-	          </form>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
+	<footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-xs-12">
+            <ul>
+              <li><a href="#">Phoodie Ordering Service</a></li>
+            </ul>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <p> Pretend Copyright &copy; 2015, All Rights Not Reserved</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" align="center" style="background:#1b222a url(../POS/img/PhoodieMainBackground.jpg) no-repeat top center; background-size: cover;">
+					<img class="img-circle" id="img_logo" src="../POS/img/PhoodieLogo2.png" height="60%" width="60%">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+                
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                
+                    <!-- Begin # Login Form -->
+                    <form id="login-form">
+		                <div class="modal-body">
+				    		<div id="div-login-msg">
+                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-login-msg">Type your username and password.</span>
+                            </div>
+				    		<input id="login_username" class="form-control" type="text" placeholder="Username" required>
+				    		<br />
+				    		<input id="login_password" class="form-control" type="password" placeholder="Password" required>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+        		    	</div>
+				        <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" style="background: #408DFE;">Login</button>
+                            </div>
+				    	    <div>
+                                <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+                                <button id="login_register_btn" type="button" class="btn btn-link">Register</button>
+                            </div>
+				        </div>
+                    </form>
+                    <!-- End # Login Form -->
+                    
+                    <!-- Begin | Lost Password Form -->
+                    <form id="lost-form" style="display:none;">
+    	    		    <div class="modal-body">
+		    				<div id="div-lost-msg">
+                                <div id="icon-lost-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-lost-msg">Type your e-mail.</span>
+                            </div>
+		    				<input id="lost_email" class="form-control" type="text" placeholder="E-Mail" required>
+            			</div>
+		    		    <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" style="background: #408DFE;">Send</button>
+                            </div>
+                            <div>
+                                <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
+                                <button id="lost_register_btn" type="button" class="btn btn-link">Register</button>
+                            </div>
+		    		    </div>
+                    </form>
+                    <!-- End | Lost Password Form -->
+                    
+                    <!-- Begin | Register Form -->
+                    <form id="register-form" style="display:none;">
+            		    <div class="modal-body">
+		    				<div id="div-register-msg">
+                                <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-register-msg">Register an account.</span>
+                            </div>
+		    				<input id="register_username" class="form-control" type="text" placeholder="Username" required>
+                            <br />
+                            <input id="register_email" class="form-control" type="text" placeholder="E-Mail" required>
+                            <br />
+                            <input id="register_password" class="form-control" type="password" placeholder="Password" required>
+            			</div>
+		    		    <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" style="background: #408DFE;" onSubmit="register();">Register</button>
+                            </div>
+                            <div>
+                                <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
+                                <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+                            </div>
+		    		    </div>
+                    </form>
+                    <!-- End | Register Form -->
+                    
+                </div>
+                <!-- End # DIV Form -->
+                
+			</div>
+		</div>
+	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <!-- Path to your app js-->
     <script type="text/javascript" src="js/my-app.js"></script>
+    <script type="text/javascript" src="js/initial.js"></script>
 </body>
 </html>

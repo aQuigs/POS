@@ -1,9 +1,24 @@
 body {
-  padding-top: 50px;
+  position: relative;
+  background:#30A1FD;
 }
 
-p .open-login-screen {
+.initial-modals, .initial-modals:visited{
 	color: #fff;
+	padding:5px;
+	text-decoration: none;
+}
+
+.initial-modals:focus{
+	color: #fff;
+	text-decoration:none;
+	border:solid 2px white;
+}
+
+.initial-modals:hover{
+	color: #fff;
+	text-decoration:none;
+	border:solid 2px white;
 }
 
 .em-text{
@@ -18,30 +33,39 @@ section{
 	padding:40px 0 40px 0;
 }
 
-.nav-element{
-	color: #4DDCA6 !important;
-}
-
 .main-logo{
 	height: 100px;
 	width: 100px;
 }
 
+#myModal{
+	width:100%;
+}
+
 .jumbotron{
-	background:#1b222a url(../img/JumbotronBackground.jpg) no-repeat top center;
+	background:#1b222a url(../img/PhoodieMainBackground.jpg) no-repeat top center;
+	background-size: cover;
 	color:#fff;
-	height:600px;
+	height:650px;
 	overflow:none;
+	margin-bottom:0;
 }
 
 .jumbotron h1{
-	padding-top: 50px;
 	margin-top:50px;
 	font-size: 6.0em;
+	margin-bottom:0;
+}
+
+.jumbotron h3{
+	margin-top:0;
 }
 
 .jumbotron p{
 	margin-bottom:40px;
+	margin-top:20px;
+	font-size: 2.0em;
+	
 }
 
 .jumbotron img.app-btn{
@@ -53,8 +77,91 @@ section{
 	width:75%;
 }
 
-.login-screen, .popup{
-	background:#1b222a url(../img/JumbotronBackground.jpg) no-repeat top center !important;
+section#description{
+	height:500px;
+	/*background:#1b222a url(../img/foodAndWine.jpg) no-repeat top center;*/
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(../img/foodAndWine.jpg);
+	background-size: cover;
+	color: #fff;
+}
+
+section#description p{
+	font-size:1.2em;
+}
+
+section#description #quote{
+	font-size:2.0em;
+}
+
+section#description .container{
+	margin-top: 110px;
+}
+
+section#user-roles{
+	height:1100px;
+	background:#1b222a url(../img/PhoodieMainBackgroundFlip.jpg) no-repeat top center;
+	background-size: cover;
+	color: #fff;
+}
+
+section#user-roles .container{
+	padding-top: 30px;
+}
+
+#customer{
+	border-bottom: 1px solid white;
+}
+
+#cust-list{
+	list-style: none;
+}
+
+#cust-list li{
+	float: left;
+}
+
+#cust-img{
+	background:#1b222a url(../img/happyCustomers.jpg) no-repeat top center;
+	background-size: cover;
+	height: 300px;
+	width:300px;
+	border-radius: 100%;
+}
+
+#employee{
+	border-bottom: 1px solid white;
+}
+
+#empl-img{
+	background:#1b222a url(../img/waitressServing.jpg) no-repeat top center;
+	background-size: cover;
+	height: 300px;
+	width:300px;
+	border-radius: 100%;
+}
+
+#admin-img{
+	background:#1b222a url(../img/restaurantOwner.jpg) no-repeat top center;
+	background-size: cover;
+	height: 300px;
+	width:300px;
+	border-radius: 100%;
+}
+
+.list-block .list-block-label{
+	color:#fff !important;
+}
+
+.list-block .item-link.list-button{
+	color:#fff;
+}
+
+.close-login-screen{
+	color:#fff;
+}
+
+.close-login-screen:hover{
+	color:#fff;
 }
 
 img.demo{
