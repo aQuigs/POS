@@ -102,6 +102,7 @@ body.with-panel-right-reveal .panel-overlay {
 	border-radius: 10px;
 	height: 75px;
 	margin: 0!important;
+  text-align: center;
 }
 
 .table.preview {

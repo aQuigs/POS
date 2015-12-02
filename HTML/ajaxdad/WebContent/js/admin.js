@@ -442,8 +442,10 @@ function changePopupText(value) {
     $('#sitSlider').val(value);
 }
 
-function tableClicked(tableId) {
-    var tbl = $("#table-" + tableId);
+var xx;
+function tableClicked(tbl) {
+    xx = tbl;
+    tbl = $(tbl);
     var modal = myApp.modal({
         title: 'Edit Table',
         text: 'How many guests can be at this table?',
@@ -451,14 +453,14 @@ function tableClicked(tableId) {
                        '<div class="item-input">' + 
                            '<div class="range-slider">' + 
                                   '<input type="number" value="4" id="sliderVal" oninput="changePopupText(this.value);">' + 
-                               '<input id="sitSlider" type="range" min="0" max="15" value="4" step="1" oninput="changePopupSlider(this.value);">' + 
+                               '<input  style="padding-top: 10px; padding-bottom: 10px;" id="sitSlider" type="range" min="0" max="15" value="4" step="1" oninput="changePopupSlider(this.value);">' + 
                            '</div>' +
                        '</div>' +
-                   '</div>' +
-                   '<select id="boothType" class="">' +
-                      '<option id="boothStatusY" value="YES">Booth</option>' +
-                      '<option id="boothStatusN" value="NO">Chairs</option>' +
-                      '<option id="boothStatusP" value="PARTIALLY">Partial Booth</option>' +
+                       '<select id="boothType" class="form-control">' +
+                          '<option id="boothStatusY" value="YES">Booth</option>' +
+                          '<option id="boothStatusN" value="NO">Chairs</option>' +
+                          '<option id="boothStatusP" value="PARTIALLY">Partial Booth</option>' +
+                       '</div>' +
                     '</select>',
         buttons: [
         {
@@ -573,6 +575,7 @@ $(document).ready(function() {
                     var y2 = Math.max(y, mouseR);
 
                     preview = drawPreviewDiv(x1,y1, x2-x1+1, y2-y1+1, false);
+                    preview.attr('onclick','tableClicked(this);');
                 }
             }
         });
@@ -586,7 +589,7 @@ $(document).ready(function() {
                 preview.removeClass('preview');
                 clickStatus = 3;
                 preview.attr('tableId',0);
-                preview.attr('capacity',5);
+                preview.attr('capacity',4);
                 preview.attr('filledSeats',0);
                 preview.attr('booth','NO');
                 preview.removeAttr('id');

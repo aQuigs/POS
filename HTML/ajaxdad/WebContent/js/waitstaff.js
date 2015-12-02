@@ -283,11 +283,12 @@ function ChangeFilledSeats(tableId, filledSeats, callback)
 	performPost("ChangeFilledSeats?username=" + getCookie("username").toString() + "&password=" + getCookie("password") + "&tableId=" + tableId.toString() + "&filledSeats=" + filledSeats.toString(), callback);
 }
 
-function tableClicked(tableNum, capacity)
+function tableClicked(tbl)
 {
-    var tableVar = "#table-" + tableNum;
-    
-    if(!$(tableVar).hasClass("taken"))
+    tbl = $(tbl);
+    var capacity = tbl.attr('capacity');
+    var tableNum = tbl.attr('tableId');
+    if(!tbl.hasClass("taken"))
     {
         var modal = myApp.modal({
             title: 'Seat Table ' + tableNum,
@@ -319,8 +320,8 @@ function tableClicked(tableNum, capacity)
                         ChangeFilledSeats(tableNum, filledSeats, function(responseText) {
                         	if (responseText === "success") {
 		                        myApp.alert('The table has been filled!');
-		                        $(tableVar).addClass("taken");
-		                        $(tableVar).attr('filledSeats', filledSeats);
+		                        tbl.addClass("taken");
+		                        tbl.attr('filledSeats', filledSeats);
 		                        myApp.hideIndicator();
                         	} else {
                         		myApp.alert('An error occurred')
@@ -350,8 +351,8 @@ function tableClicked(tableNum, capacity)
                     myApp.showIndicator();
                     
                     ChangeFilledSeats(tableNum, 0, function() {
-                        $(tableVar).removeClass("taken");
-                        $(tableVar).attr('filledSeats', 0);
+                        tbl.removeClass("taken");
+                        tbl.attr('filledSeats', 0);
                         myApp.alert("The table has been cleared!");
                         myApp.hideIndicator();
                     });
