@@ -434,9 +434,81 @@ function addMenu()
     }
 }
 
-function tableClicked(tableId) {
-    // TODO adjust capacity
+function changePopupSlider(value) {
+    $('#sliderVal').val(value);
+}
 
+function changePopupText(value) {
+    $('#sitSlider').val(value);
+}
+
+function tableClicked(tableId) {
+    var tbl = $("#table-" + tableId);
+    var modal = myApp.modal({
+        title: 'Edit Table',
+        text: 'How many guests can be at this table?',
+        afterText: '<div class="item-inner">' +
+                       '<div class="item-input">' + 
+                           '<div class="range-slider">' + 
+                                  '<input type="number" value="4" id="sliderVal" oninput="changePopupText(this.value);">' + 
+                               '<input id="sitSlider" type="range" min="0" max="15" value="4" step="1" oninput="changePopupSlider(this.value);">' + 
+                           '</div>' +
+                       '</div>' +
+                   '</div>' +
+                   '<select id="boothType" class="">' +
+                      '<option id="boothStatusY" value="YES">Booth</option>' +
+                      '<option id="boothStatusN" value="NO">Chairs</option>' +
+                      '<option id="boothStatusP" value="PARTIALLY">Partial Booth</option>' +
+                    '</select>',
+        buttons: [
+        {
+            text: 'Cancel'
+        },
+        {
+            text: 'Delete',
+            bold: true,
+            onClick: function() {
+                myApp.confirm('Are you sure you want to delete this user?', function () {
+                    tbl.remove();
+                });
+            }
+        },
+        {
+            text: 'Save',
+            bold: true,
+            onClick: function () {
+                tbl.attr('capacity',$("#sliderVal").val());
+                var booth = $("#boothType").val();
+                tbl.attr('booth', booth);
+                addBoothClass(tbl, booth);
+            }
+        }
+        ]
+    });
+
+    var currentBooth = tbl.attr('booth');
+    if (currentBooth == "YES") {
+        $("#boothStatusY").attr('selected','selected');
+    } else if (currentBooth == "PARTIALLY") {
+        $("#boothStatusP").attr('selected','selected');
+    } else {
+        $("#boothStatusN").attr('selected','selected');
+    }
+}
+
+function changeGridSize() {
+    var h = $('#gridHeight').val();
+    var w = $('#gridWidth').val();
+
+    if (h < 1 || w < 1) {
+        h = Math.max(1,h);
+        w = Math.max(1,w);
+        $('#gridHeight').val(h);
+        $('#gridWidth').val(w);
+    } else {
+        newGridDimensions(h, w);
+        handleResize();
+    }
 }
 
 function saveLayout() {

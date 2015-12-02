@@ -278,8 +278,6 @@ function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 		+'</li>';
 }
 
-
-
 function ChangeFilledSeats(tableId, filledSeats, callback)
 {
 	performPost("ChangeFilledSeats?username=" + getCookie("username").toString() + "&password=" + getCookie("password") + "&tableId=" + tableId.toString() + "&filledSeats=" + filledSeats.toString(), callback);

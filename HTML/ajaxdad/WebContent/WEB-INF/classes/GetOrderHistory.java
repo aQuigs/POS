@@ -43,7 +43,7 @@ public class GetOrderHistory extends HttpServlet
                                     + " FROM UserInfo INNER JOIN OrderList ON UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='customer'"
                                     + " AND OrderList.customerUsername=UserInfo.username INNER JOIN RestaurantList ON OrderList.restaurantId=RestaurantList.restaurantId"
                                     + " INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId"
-                                    + " ORDER BY OrderList.orderId;",
+                                    + " ORDER BY OrderList.orderId DESC;",
                                     username, password));
             while (rs.next())
             {

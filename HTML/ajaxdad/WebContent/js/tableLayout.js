@@ -6,6 +6,11 @@ function getTableLayout()
 
 var gridDimensions;
 
+function newGridDimensions(h, w) {
+    gridDimensions[0] = h;
+    gridDimensions[1] = w;
+}
+
 function getColumnFromX(x) {
     var parent = $('#seating-grid');
     var h = parseInt(gridDimensions[0]);
@@ -72,8 +77,24 @@ function handleResize()
             $(this).width($(this).attr('w') *wcol-padding);
             $(this).height($(this).attr('h')*hcol-padding);
 
-            $(this).css({left: ($(this).attr('x')-1)*wcol + "px", top: ($(this).attr('y')-1)*hcol + "px", position: 'absolute'});
+            var x = $(this).attr('x');
+            var y = $(this).attr('y');
+            if (x > parseInt(gridDimensions[1]) || y > parseInt(gridDimensions[0])) {
+                $(this).remove();
+            } else {
+                $(this).css({left: (x-1)*wcol + "px", top: (y-1)*hcol + "px", position: 'absolute'});
+            }
         });
+    }
+}
+
+function addBoothClass(tbl, booth) {
+    tbl.removeClass('booth');
+    tbl.removeClass('partial');
+    if (booth == 'YES') {
+        tbl.addClass('booth');
+    } else if (booth == 'PARTIALLY') {
+        tbl.addClass('partial');
     }
 }
 
@@ -111,9 +132,16 @@ function getLayout(responseText)
             d.attr('capacity',capacity);
             d.attr('filledSeats',filledSeats);
             d.attr('booth',booth);
+            addBoothClass(d, booth);
+
             if (filledSeats !== 0) {
                 d.addClass('taken');
             }
+        }
+
+        if ($('#gridHeight').length) {
+            $('#gridHeight').val(gridDimensions[0]);
+            $('#gridWidth').val(gridDimensions[1]);    
         }
     }
     handleResize();

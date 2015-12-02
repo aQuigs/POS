@@ -10,10 +10,16 @@
     <div class="page-content">
 
     <p class="buttons-column" style="position: absolute; top: 100px; left: 80%;">
-      <input type="button" value="New Table" class="button button-fill" onclick="beginAddTable();" style="z-index: 100;">
-      <input type="button" value="Save Layout" class="button button-fill" onclick="saveLayout();" style="z-index: 100;">
     </p> 
       <div class="content-block-title"></div>
+      <div style="overflow: hidden; width: 100%;">
+        Grid Width:
+        <input type="number" value="0" id="gridWidth" oninput="changeGridSize();" style="width:50px">
+        Grid Height:
+        <input type="number" value="0" id="gridHeight" oninput="changeGridSize();" style="width:50px">
+        <input type="button" value="Save Layout" class="btn btn-info" onclick="saveLayout();" style="z-index: 100; float: right; margin-right: 20px;">
+        <input type="button" value="New Table" class="btn btn-info" onclick="beginAddTable();" style="z-index: 100; float: right; margin-right: 20px;">
+      </div>
       <div id="seating-grid" class="content-block">
         
       </div>

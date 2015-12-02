@@ -105,7 +105,7 @@ body.with-panel-right-reveal .panel-overlay {
 }
 
 .table.preview {
-  background-color: rgba(0,255,0,0.5)
+  background-color: rgba(0,255,0,0.5);
 }
 
 .taken {
@@ -117,50 +117,10 @@ body.with-panel-right-reveal .panel-overlay {
 	height: 75px;
 }
 
-.multi-table-border-left{
-	border-radius: 0;
-	border-top-left-radius: 50%;
-	border-bottom-left-radius: 50%;
+.booth {
+  border: 2px solid black;
 }
 
-.multi-table-border-right{
-	border-radius: 0;
-	border-bottom-right-radius: 50%;
-	border-top-right-radius: 50%;
-}
-
-.multi-table-border-top{
-	border-radius: 0;
-	border-top-left-radius: 50%;
-	border-top-right-radius: 50%;
-}
-
-.multi-table-border-bottom{
-	border-radius: 0;
-	border-bottom-left-radius: 50%;
-	border-bottom-right-radius: 50%;
-}
-
-.multi-table-border-none{
-	border-radius: 0;
-}
-
-.multi-table-top-left-corner{
-	border-radius: 0;
-	border-top-left-radius: 50%;
-}
-
-.multi-table-bottom-left-corner{
-	border-radius: 0;
-	border-bottom-left-radius: 50%;
-}
-
-.multi-table-top-right-corner{
-	border-radius: 0;
-	border-top-right-radius: 50%;
-}
-
-.multi-table-bottom-right-corner{
-	border-radius: 0;
-	border-bottom-right-radius: 50%;
+.partial {
+  border: 2px dashed black;
 }
