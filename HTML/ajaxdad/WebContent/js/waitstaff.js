@@ -212,7 +212,7 @@ function populateHistory(responseText) {
                 
                 var appendString = '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
                         + '<div class="item-inner">'
-                            + '<div class="item-title" style="white-space: normal;"></div>' + userName + ':'
+                            + '<div class="item-title" style="white-space: normal;"></div>'
                             + getProgressBar(orderStatus, "order-" + orderId);
                 
                 appendString += '<p>';
