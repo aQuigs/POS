@@ -98,8 +98,13 @@ public class ServletUtilities
 
     public static boolean updateOrderStatusIfNecessary(MySQLUtilities sql, String detailId) throws SQLException
     {
-        ResultSet rs = sql
-                .SelectSQL("SELECT OrderList.status,OrderDetails.status,OrderList.orderId from OrderList INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId;");
+        ResultSet rs = sql.SelectSQL("SELECT orderId from OrderDetails where detailId=" + detailId + ";");
+        if (rs.next())
+        {
+            String orderId = rs.getString(1);
+            rs = sql.SelectSQL("SELECT OrderList.status,OrderDetails.status,OrderList.orderId from OrderList INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId AND OrderList.orderId="
+                    + orderId + ";");
+        }
 
         String orderId = null;
         OrderStatus os = null;
@@ -114,7 +119,9 @@ public class ServletUtilities
 
             OrderStatus detailStatus = OrderStatus.valueOf(rs.getString(2));
             if (detailStatus.ordinal() < minDetailStatus.ordinal())
+            {
                 minDetailStatus = detailStatus;
+            }
         }
 
         if (os != null && os.ordinal() < minDetailStatus.ordinal())
