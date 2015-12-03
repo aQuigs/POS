@@ -25,12 +25,6 @@ public class ListMenus extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        if (!ServletUtilities.checkExactlyOneSingletonInput(request, new String[] { "adminUsername", "adminPassword", "restaurantId" }))
-        {
-            writer.append("error");
-            return;
-        }
-
         String username = request.getParameter("adminUsername");
         String password = request.getParameter("adminPassword");
         String restaurantId = request.getParameter("restaurantId");
@@ -38,12 +32,7 @@ public class ListMenus extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs;
-            if (username == null && password == null)
-            {
-                // use restaurantId
-                rs = sql.SelectSQL("SELECT menuId,menuName FROM MenuList WHERE restaurantId=" + restaurantId + ";");
-            }
-            else
+            if (username != null && password != null)
             {
                 // use username
                 rs = sql.SelectSQL(String
@@ -53,6 +42,17 @@ public class ListMenus extends HttpServlet
                                 + "WHERE UserInfo.username='%s' AND UserInfo.password='%s';",
                                 username, password));
             }
+            else if (restaurantId != null)
+            {
+                // use restaurantId
+                rs = sql.SelectSQL("SELECT menuId,menuName FROM MenuList WHERE restaurantId=" + restaurantId + ";");
+            }
+            else
+            {
+                writer.append("error");
+                return;
+            }
+
 
             while (rs.next())
             {
