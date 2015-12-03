@@ -56,9 +56,9 @@ function orderDelivered(orderId){
             
             mybutton.attr('onclick', 'orderPaid(' + orderId + ')');
             mybutton.val('Order Paid');
-            var myprogress = $('#progress-order-'+orderItemId);
+            var myprogress = $('#progress-order-'+orderId);
             myprogress.css('width', '75%');
-            var myprogresstext = $('#sr-order-'+orderItemId);
+            var myprogresstext = $('#sr-order-'+orderId);
             myprogresstext.text('DELIVERED');
         }
         else
