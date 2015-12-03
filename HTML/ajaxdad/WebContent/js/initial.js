@@ -130,8 +130,6 @@ $(function() {
                 setCookie("accountType", accountType);
                 setCookie("restaurantId", restaurantId);
                 
-                console.log(restaurantId + " " + getCookie("restaurantId"));
-                
                 window.location.replace(location);
             }
             else if(xmlHttpRequest.responseText == "invalid")
