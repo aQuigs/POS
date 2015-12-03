@@ -210,7 +210,7 @@ function populateHistory(responseText) {
             if (currentOrderId != orderId) {
                 currentOrderId = orderId;
                 
-                var appendString = '<div>Order by:  ' + userName + '</div> +
+                var appendString = '<div>Order by:  ' + userName + '</div>' +
                 '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
                         + '<div class="item-inner">'
                             + '<div class="item-title" style="white-space: normal;"></div>'

@@ -3,6 +3,14 @@ if(getCookie("username") == "" || getCookie("password") == "")
     window.location.replace("/POS/login.html");
 }
 
+function logOff()
+{
+	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
+	setCookie("password", "", -1);	//Set cookie to expire in -1 days to delete
+	setCookie("accountType", "", -1);	//Set cookie to expire in -1 days to delete
+	window.location.replace("/POS/login.html");
+}
+
 function getOrderProgress(status) {
     if (status === "PLACED") {
         return 0;
@@ -44,13 +52,14 @@ function orderCooked(orderId){
 }
 
 function orderStarted(orderId){
-    performPost("OrderUncooked?username=" + getCookie("username") + "&password=" + getCookie("password") + "&orderId=" + orderId, 
+    performPost("OrderStarted?username=" + getCookie("username") + "&password=" + getCookie("password") + "&orderId=" + orderId, 
     function (responseText) {
         if (responseText=="orderStatusChanged")
         {
-            var mybutton = $('#orderCooked-'+orderId);
-            mybutton.attr('onclick', 'orderCooked(' + orderId + ')');
+            var mybutton = $('#orderStarted-'+orderId);
+            mybutton.attr('id', 'orderCooked-'+orderId);
             mybutton.val('Order Cooked');
+            mybutton.attr('onclick', 'orderCooked(' + orderId + ')');
             var myprogress = $('#progress-order-'+orderId);
             myprogress.css('width', '25%');
             var myprogresstext = $('#sr-order-'+orderId);
@@ -60,9 +69,10 @@ function orderStarted(orderId){
             for (var i = 0; i < orderItems.length; ++i) {
                 var itemHistoryId = $(orderItems[i]).attr('id');
                 var itemHistoryValue = itemHistoryId.substring(12);
-                var mybutton = $('#itemCooked-'+itemHistoryValue);
-                mybutton.attr('onclick', 'itemCooked(' + itemHistoryValue + ')');
+                var mybutton = $('#itemStarted-'+itemHistoryValue);
+                mybutton.attr('id', 'itemCooked-' + itemHistoryValue);
                 mybutton.val('Item Cooked');
+                mybutton.attr('onclick', 'itemCooked(' + itemHistoryValue + ')');
                 var myprogress = $('#progress-'+itemHistoryValue);
                 myprogress.css('width', '25%');
                 var myprogresstext = $('#sr-'+itemHistoryValue);
@@ -104,9 +114,10 @@ function itemStarted(orderItemId){
     function (responseText) {
         if (responseText=="itemChanged" || responseText=="orderFullyChanged")
         {
-            var mybutton = $('#itemCooked-'+orderItemId);
-            mybutton.attr('onclick', 'itemCooked(' + orderItemId + ')');
+            var mybutton = $('#itemStarted-'+orderItemId);
+            mybutton.attr('id', 'itemCooked-'+orderItemId);
             mybutton.val('Item Cooked');
+            mybutton.attr('onclick', 'itemCooked(' + orderItemId + ')');
             var myprogress = $('#progress-'+orderItemId);
             myprogress.css('width', '25%');
             var myprogresstext = $('#sr-'+orderItemId);
@@ -115,23 +126,22 @@ function itemStarted(orderItemId){
             var parent = $('#itemHistory-' + orderItemId).parent();
             var listofspans =  parent.parent().parent().parent().parent().find('span');
             for (var i = 0; i < listofspans.length; ++i) {
-                if ($(listofspans[i]).text() == 'STARTED' && i != 0){
+                if ($(listofspans[i]).text() == 'PLACED' && i != 0){
                     break;
                 }
                 if ((i+1) == listofspans.length){
                     var toGetOrderId = parent.parent().parent().parent().parent().attr('id');
                     gotOrderId = toGetOrderId.substring(16);                 
                     
-                    var mybutton = $('#itemStarted-'+gotOrderId);
-                    mybutton.attr('onclick', 'itemCooked(' + gotOrderId + ')');
+                    var mybutton = $('#orderStarted-'+gotOrderId);
+                    mybutton.attr('id', 'orderCooked-'+gotOrderId);
                     mybutton.val('Order Cooked');
+                    mybutton.attr('onclick', 'orderCooked(' + gotOrderId + ')');
                     var myprogress = $('#progress-order-'+gotOrderId);
                     myprogress.css('width', '25%');
                     var myprogresstext = $('#sr-order-'+gotOrderId);
                     myprogresstext.text('STARTED');
-                    
-                    performPost("OrderCooked?username="+getCookie("username").toString() + "&password=" + getCookie("password").toString() + "&orderId=" + gotOrderId, function (responseText) {}); 
-                    
+                   
                 }
                     
             }
@@ -148,7 +158,7 @@ function fillCookedQueue()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
-        var historyList = $('#cooked-order-queue');
+        var historyList = $('#order-queue');
         historyList.empty();
 
         var currentOrderId = 0;
@@ -172,7 +182,7 @@ function fillCookedQueue()
                 if (currentOrderId != orderId) {
                     currentOrderId = orderId;
                     
-                    var appendString = '<div>Order by:  ' + userName + '</div> +
+                    var appendString = 
                     '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
                             + '<div class="item-inner">'
                                 + '<div class="item-title" style="white-space: normal;"></div>'
@@ -182,12 +192,15 @@ function fillCookedQueue()
                     
                     if (orderStatus=="PLACED")
                     {
-                        appendString += '<input type="button" id="orderPlaced-' +orderId+ '" value="Order Placed" class="button button-fill" onclick="orderPlaced(' + orderId + ')">';               
+                        appendString += '<input type="button" id="orderStarted-' +orderId+ '" value="Order STARTED" class="btn btn-info status-button" onclick="orderStarted(' + orderId + ')">';               
                     }
+                    else
+                    {
                     
-                    appendString +='<input type="button" value="Order Cooked" class="button button-fill" onclick="orderCooked(' + orderId + ')">   </p>';
+                    appendString +='<input type="button" value="Order Cooked" class="btn btn-info status-button" onclick="orderCooked(' + orderId + ')">  ';
+                    }
                                 
-                    appendString += '</div></a>'
+                    appendString += ' </p></div></a>'
                             + '<div class="accordion-item-content">'
                                 + '<div class="content-block">'
                                     + '<div class="list-block accordion-list">'
@@ -198,17 +211,14 @@ function fillCookedQueue()
                     currentAccordion = $('#history-'+orderId);
                 }
 
-                // add the item details to the current accordion
-                var imgElement = imageUrl.length ? '<img src="/POS/images/'+imageUrl+'" style="width: 100%; height: 100%;">' : '';
-
-                if(orderItemStatus=="PAID")
+                if(orderItemStatus=="COOKED")
                 {
                     
                 }
                 else
                 {
                     var currentAccordionString = '<li id="itemHistory-' + orderItemId + '" class="accordion-item item-content" style="padding: 10px;">'
-                           + '<div style="margin-right: 25px; width: 10vw; height: 100%; max-width: 100%; max-height: 100%;">'+imgElement+'</div>'
+                           + '<div style="margin-right: 25px; width: 10vw; height: 100%; max-width: 100%; max-height: 100%;"></div>'
                                + '<div class="item-inner">'
                                    + '<div class="item-title" style="width: 100%;">'
                                        + '<h3>' + itemName + '</h3>'
@@ -219,10 +229,14 @@ function fillCookedQueue()
                    
                     if (orderItemStatus=="PLACED")
                     {
-                        currentAccordionString += '<input type="button" id="itemStarted-' +orderItemId+ '"value="Item Started" class="button button-fill" onclick="itemStarted(' + orderItemId + ')">';               
+                        currentAccordionString += '<input type="button" id="itemStarted-' +orderItemId+ '"value="Item Started" class="btn btn-info status-button" onclick="itemStarted(' + orderItemId + ')">';               
+                    }
+                    else
+                    {
+                      currentAccordionString += '<input type="button" value="Item Cooked" class="btn btn-info status-button" onclick="itemCooked(' + orderItemId + ')">';                      
                     }
 
-                    currentAccordionString += '<input type="button" value="Item Cooked" class="button button-fill" onclick="itemCooked(' + orderItemId + ')">';
+
                                                 
                     currentAccordionString += '</p>';
                     '</div>'
@@ -283,7 +297,5 @@ function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 
 $(document).ready(function () {
     restaurantId=1; // TODO get this from server based on credentials    
-    myApp.onPageInit('cookedOrders', function (page) {
-        fillCookedOrderQueue();
-    });
+    fillCookedOrderQueue();
 });
