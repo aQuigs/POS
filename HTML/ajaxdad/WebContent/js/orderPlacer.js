@@ -200,6 +200,17 @@ function getMenus() {
     performPost("ListMenus?restaurantId="+restaurantId,populateMenus);    
 }
 
+function removeOrderItem(id) {
+	$('#ordered-item-'+id).remove();
+	var index = orderItemID.indexOf(id);
+	if (index > -1) {
+	    orderQuantity.splice(index, 1);
+	    orderSpecialInfo.splice(index, 1);
+	    orderItemID.splice(index, 1);
+	    orderItemName.splice(index, 1);
+	}
+}
+
 $(document).ready(function() {
     // populate restaurant list
     myApp.onPageInit("pickMenu", getMenus);
@@ -216,7 +227,7 @@ $(document).ready(function() {
         {
             for(i = 0; i < orderQuantity.length; i++)
             {
-                order.append('<li class="accordion-item"><a href="#" class="item-content item-link">'
+                order.append('<li class="accordion-item" id="ordered-item-'+orderItemID[i]+'"><a href="#" class="item-content item-link">'
                          + '<div class="item-inner">'
                           +  '<div class="item-title">'
                            + '<h4>' + orderItemName[i] + '</h4>'
