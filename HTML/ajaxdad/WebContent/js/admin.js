@@ -485,8 +485,6 @@ function addMenu()
     {
     	var result = xmlHttpRequest.responseText;
     	
-    	myApp.alert(result);
-    	
     	if(result == "invalid")
     	{
     		myApp.alert("You are not authorized to make the requested change.");
