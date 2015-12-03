@@ -65,6 +65,7 @@ body.with-panel-right-reveal .panel-overlay {
 	margin-top: 40px;
 	float: right;
 	border-radius: 5%;
+	z-index: -5000000;
 }
 
 /* iPad Vertical */
