@@ -53,6 +53,17 @@
 body.with-panel-right-reveal .panel-overlay {
   margin-left: 0;
 }
+
+#footer-img {
+	background: #1b222a url(../img/BottomCorner.jpg) no-repeat top center;
+	background-size: contain;
+	height: 190px;
+	width: 290px;
+	margin-top: 40px;
+	float: right;
+	border-radius: 5%;
+}
+
 /* iPad Vertical */
 @media (min-width: 569px) {
   .panel.panel-left.panel-cover {
