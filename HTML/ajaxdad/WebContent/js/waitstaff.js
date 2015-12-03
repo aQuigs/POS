@@ -35,7 +35,7 @@ function getProgressBar(status, id) {
 function orderPaid(orderId){
     performPost("OrderPaid?username="+getCookie("username").toString() + "&password=" + getCookie("password").toString() + "&orderId=" + orderId, 
     function (responseText) {
-        if (responseText=="orderFullyChanged")
+        if (responseText=="orderStatusChanged")
         {
             $('#order-accordion-'+orderId).remove();
             myApp.alert('Order Paid');
@@ -50,10 +50,9 @@ function orderPaid(orderId){
 function orderDelivered(orderId){
     performPost("OrderDelivered?username="+getCookie("username").toString() + "&password=" + getCookie("password").toString() + "&orderId=" + orderId, 
     function (responseText) {
-        if (responseText=="orderFullyChanged")
+        if (responseText=="orderStatusChanged")
         {
             var mybutton = $('#orderToDeliveredButton-'+orderId);
-            
             mybutton.attr('onclick', 'orderPaid(' + orderId + ')');
             mybutton.val('Order Paid');
             var myprogress = $('#progress-order-'+orderId);
@@ -61,11 +60,23 @@ function orderDelivered(orderId){
             var myprogresstext = $('#sr-order-'+orderId);
             myprogresstext.text('DELIVERED');
             
+            var orderItems = $('#order-accordion-'+orderId).find('li');
+            for (var i = 0; i < orderItems.length; ++i) {
+                var itemHistoryId = $(orderItems[i]).attr('id');
+                var itemHistoryValue = itemHistoryId.substring(12);
+                var mybutton = $('#orderItemToDeliveredButton-'+itemHistoryValue);
+                mybutton.attr('onclick', 'itemPaid(' + itemHistoryValue + ')');
+                mybutton.val('Item Paid');
+                var myprogress = $('#progress-'+itemHistoryValue);
+                myprogress.css('width', '75%');
+                var myprogresstext = $('#sr-'+itemHistoryValue);
+                myprogresstext.text('DELIVERED');
+            }
 
         }
         else
         {
-            myApp.alert('Failed to mark order as delivered');
+            myApp.alert('Failed to mark order as delivered111');
         }        
     }); 
 }
@@ -123,7 +134,7 @@ function itemDelivered(orderItemId){
             var parent = $('#itemHistory-' + orderItemId).parent();
             var listofspans =  parent.parent().parent().parent().parent().find('span');
             for (var i = 0; i < listofspans.length; ++i) {
-                if (listofspans[i].text() == 'COOKED'){
+                if ($(listofspans[i]).text() == 'COOKED' && i != 0){
                     break;
                 }
                 if ((i+1) == listofspans.length){
@@ -137,6 +148,9 @@ function itemDelivered(orderItemId){
                     myprogress.css('width', '75%');
                     var myprogresstext = $('#sr-order-'+gotOrderId);
                     myprogresstext.text('DELIVERED');
+                    
+                    performPost("OrderDelivered?username="+getCookie("username").toString() + "&password=" + getCookie("password").toString() + "&orderId=" + gotOrderId, function (responseText) {}); 
+                    
                 }
                     
             }
@@ -190,6 +204,7 @@ function populateHistory(responseText) {
             var itemName = values[4];
             var imageUrl = values[6];
             var miscInfo = values[5];
+            var userName = values[7];
 
             // start a new accordion
             if (currentOrderId != orderId) {
@@ -197,7 +212,7 @@ function populateHistory(responseText) {
                 
                 var appendString = '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
                         + '<div class="item-inner">'
-                            + '<div class="item-title" style="white-space: normal;"></div>'
+                            + '<div class="item-title" style="white-space: normal;"></div>' + userName + ':'
                             + getProgressBar(orderStatus, "order-" + orderId);
                 
                 appendString += '<p>';
