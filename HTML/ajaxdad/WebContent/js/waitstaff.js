@@ -53,7 +53,8 @@ function orderDelivered(orderId){
         if (responseText=="orderFullyChanged")
         {
             var mybutton = $('#orderToDeliveredButton-'+orderId);
-            mybutton.empty();
+            mybutton.attr('onclick', 'orderPaid(' + orderId + ')');
+            mybutton.text('Order Paid');
             var myprogress = $('#progress-order-'+orderItemId);
             myprogress.css('width', '75%');
             var myprogresstext = $('#sr-order-'+orderItemId);
@@ -109,7 +110,8 @@ function itemDelivered(orderItemId){
         if (responseText=="itemChanged")
         {
             var mybutton = $('#orderItemToDeliveredButton-'+orderItemId);
-            mybutton.empty();
+            mybutton.attr('onclick', 'orderItemPaid(' + orderItemId + ')');
+            mybutton.text('Item Paid');
             var myprogress = $('#progress-'+orderItemId);
             myprogress.css('width', '75%');
             var myprogresstext = $('#sr-'+orderItemId);
