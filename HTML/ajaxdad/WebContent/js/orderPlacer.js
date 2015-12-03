@@ -187,6 +187,12 @@ function orderSubmissionResponse()
         if(result == "success")
         {
             myApp.alert("You're order has been sent!");
+            
+            orderQuantity = [];
+            orderSpecialInfo = [];
+            orderItemID = [];
+            orderItemName = [];
+            $('#orderItemList').empty();
         }
         else if(result == "error")
         {
