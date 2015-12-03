@@ -216,20 +216,20 @@ function populateHistory(responseText) {
                             + '<div class="item-title" style="white-space: normal;"></div>'
                             + getProgressBar(orderStatus, "order-" + orderId);
                 
-                appendString += '<p>';
+                appendString += '<p style="overflow: hidden; width: 400px;">';
                 
                 if (orderStatus=="DELIVERED")
                 {
-                    appendString += '<input type="button" value="Order Paid" class="button button-fill" onclick="orderPaid(' + orderId + ')"> ';
+                    appendString += '<input type="button" value="Order Paid" class="btn btn-info status-button" onclick="orderPaid(' + orderId + ')"> ';
                 }
                 else if (orderStatus=="COOKED")
                 {
-                    appendString += '<input type="button" id="orderToDeliveredButton-' +orderId+ '" value="Order DELIVERED" class="button button-fill" onclick="orderDelivered(' + orderId + ')">';               
+                    appendString += '<input type="button" id="orderToDeliveredButton-' +orderId+ '" value="Order Delivered" class="btn btn-info status-button" onclick="orderDelivered(' + orderId + ')">';               
                 }
                 
 
 
-                appendString +='<input type="button" value="Order Cancel" class="button button-fill" onclick="orderCanceled(' + orderId + ')">   </p>';
+                appendString +='<input type="button" value="Cancel Order" class="btn btn-info status-button" onclick="orderCanceled(' + orderId + ')">   </p>';
                             
                 appendString += '</div></a>'
                         + '<div class="accordion-item-content">'
@@ -263,14 +263,14 @@ function populateHistory(responseText) {
                
                 if (orderItemStatus=="DELIVERED")
                 {
-                    currentAccordionString += '<input type="button" value="Item Paid" class="button button-fill" onclick="itemPaid(' + orderItemId + ')"> ';
+                    currentAccordionString += '<input type="button" value="Item Paid" class="btn btn-info status-button" onclick="itemPaid(' + orderItemId + ')"> ';
                 }
                 else if (orderItemStatus=="COOKED")
                 {
-                    currentAccordionString += '<input type="button" id="orderItemToDeliveredButton-' +orderItemId+ '"value="Item DELIVERED" class="button button-fill" onclick="itemDelivered(' + orderItemId + ')">';               
+                    currentAccordionString += '<input type="button" id="orderItemToDeliveredButton-' +orderItemId+ '"value="Item Delivered" class="btn btn-info status-button" onclick="itemDelivered(' + orderItemId + ')">';               
                 }
 
-                currentAccordionString += '<input type="button" value="Item Cancel" class="button button-fill" onclick="itemCanceled(' + orderItemId + ')">';
+                currentAccordionString += '<input type="button" value="Cancel Item" class="btn btn-info status-button" onclick="itemCanceled(' + orderItemId + ')">';
                                             
                 currentAccordionString += '</p>';
                 '</div>'
@@ -283,11 +283,6 @@ function populateHistory(responseText) {
         }
     }
 }
-
-
-
-
-
 
 function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 {
@@ -371,7 +366,6 @@ function tableClicked(tbl)
 		                        myApp.hideIndicator();
                         	}
                         });
-                        
                     }
                 }
             },
