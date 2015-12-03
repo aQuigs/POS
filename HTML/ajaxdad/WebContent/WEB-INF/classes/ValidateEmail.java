@@ -39,11 +39,6 @@ public class ValidateEmail extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
-            int retCode = sql.ProcedureValidateEmail(hash);
-            writer.append(retCode < 0 ? ServletUtilities.decodeErrorCode(retCode) : "success");
-            
-            /*
-            MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql.SelectSQL("SELECT unverifiedHash FROM UserInfo WHERE unverifiedHash='" + hash + "';");
             if (rs.next())
             {
@@ -54,7 +49,6 @@ public class ValidateEmail extends HttpServlet
             {
                 writer.append("invalid");
             }
-            */
         }
         catch (ClassNotFoundException e1)
         {

@@ -35,16 +35,27 @@ public class GetCancelableOrders extends HttpServlet
         String password = request.getParameter("password");
 
         try
-        { 
+        {
             MySQLUtilities sql = new MySQLUtilities();
             ResultSet rs = sql.SelectSQL(String.format(
-                    "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.imageUrl "
-                            + "FROM UserInfo INNER JOIN OrderList ON UserInfo.restaurantId=OrderList.restaurantId "
-                            + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='waitstaff' "
-                            + "AND OrderList.customerUsername=UserInfo.username INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
-                            + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
-                            + "WHERE OrderDetails.status != 'PAID'"
-                            + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", username, password));
+                    "SELECT restaurantId FROM UserInfo WHERE username='%s' AND password='%s' AND type='waitstaff';", username, password));
+            if (!rs.next())
+            {
+                writer.append("invalid");
+                return;
+            }
+
+            String restaurantId = rs.getString(1);
+            rs = sql
+                    .SelectSQL(String
+                            .format(
+                                    "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.imageUrl,OrderList.customerUsername "
+                                            + "FROM UserInfo INNER JOIN OrderList ON OrderList.restaurantId=%s "
+                                            + "AND OrderList.customerUsername=UserInfo.username AND (UserInfo.type='waitstaff' OR UserInfo.type='customer')"
+                                            + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
+                                            + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
+                                            + "WHERE OrderDetails.status != 'PAID'"
+                                            + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", restaurantId, username, password));
             while (rs.next())
             {
                 writer.append(rs.getString(1));
@@ -62,6 +73,8 @@ public class GetCancelableOrders extends HttpServlet
                 writer.append("::");
                 temp = rs.getString(7);
                 writer.append(temp == null ? "" : temp);
+                writer.append("::");
+                writer.append(rs.getString(8));
                 writer.append(";;");
             }
         }
