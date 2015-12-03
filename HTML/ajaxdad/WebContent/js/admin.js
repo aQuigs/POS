@@ -234,6 +234,22 @@ function updateMenuInfo()
 	$('#submenu').val(menuItems[menuVal].subMenu);
 	$('#description').val(menuItems[menuVal].description);
 	$('#price').val(menuItems[menuVal].price);
+	
+	$('#save-button').css("display", "inline");
+	$('#add-button').css("display", "none");
+	$('#add-new-button').css("display", "inline");
+}
+
+function addNewDisplay()
+{
+	$('#item').val("");
+	$('#submenu').val("");
+	$('#description').val("");
+	$('#price').val("");
+	
+	$('#save-button').css("display", "none");
+	$('#add-button').css("display", "inline");
+	$('#add-new-button').css("display", "none");
 }
 
 function addMenuItem()
