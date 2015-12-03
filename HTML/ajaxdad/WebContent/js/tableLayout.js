@@ -56,7 +56,6 @@ function drawPreviewDiv(c,r,w,h, changePos) {
     if (changePos) {
         previewDiv.attr('x',c+1);
         previewDiv.attr('y',r+1);
-    } else {
         previewDiv.attr('w',w);
         previewDiv.attr('h',h);
     }
@@ -80,9 +79,9 @@ function handleResize()
             var x = $(this).attr('x');
             var y = $(this).attr('y');
             if (x > parseInt(gridDimensions[1]) || y > parseInt(gridDimensions[0])) {
-                $(this).remove();
+                $(this).css('visibility', 'hidden');
             } else {
-                $(this).css({left: (x-1)*wcol + "px", top: (y-1)*hcol + "px", position: 'absolute'});
+                $(this).css({visibility: 'visible', left: (x-1)*wcol + "px", top: (y-1)*hcol + "px", position: 'absolute'});
             }
         });
     }
