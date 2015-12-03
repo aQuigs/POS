@@ -60,6 +60,8 @@ function orderDelivered(orderId){
             myprogress.css('width', '75%');
             var myprogresstext = $('#sr-order-'+orderId);
             myprogresstext.text('DELIVERED');
+            
+
         }
         else
         {
@@ -117,6 +119,28 @@ function itemDelivered(orderItemId){
             myprogress.css('width', '75%');
             var myprogresstext = $('#sr-'+orderItemId);
             myprogresstext.text('DELIVERED');
+            
+            var parent = $('#itemHistory-' + orderItemId).parent();
+            var listofspans =  parent.parent().parent().parent().parent().find('span');
+            for (var i = 0; i < listofspans.length; ++i) {
+                if (listofspans[i].text() == 'COOKED'){
+                    break;
+                }
+                if ((i+1) == listofspans.length){
+                    var toGetOrderId = parent.parent().parent().parent().parent().attr('id');
+                    gotOrderId = toGetOrderId.substring(16);                 
+                    
+                    var mybutton = $('#orderToDeliveredButton-'+gotOrderId);
+                    mybutton.attr('onclick', 'orderPaid(' + gotOrderId + ')');
+                    mybutton.val('Order Paid');
+                    var myprogress = $('#progress-order-'+gotOrderId);
+                    myprogress.css('width', '75%');
+                    var myprogresstext = $('#sr-order-'+gotOrderId);
+                    myprogresstext.text('DELIVERED');
+                }
+                    
+            }
+            
         }
         else
         {
