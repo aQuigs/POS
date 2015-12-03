@@ -57,6 +57,9 @@ body.with-panel-right-reveal .panel-overlay {
 #footer-img {
 	background: #1b222a url(../img/BottomCorner.jpg) no-repeat top center;
 	background-size: contain;
+	position: fixed;
+	right: 0;
+	bottom: 0;
 	height: 190px;
 	width: 290px;
 	margin-top: 40px;
