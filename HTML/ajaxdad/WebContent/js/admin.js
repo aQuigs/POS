@@ -186,12 +186,14 @@ function changeUser()
 
 function getMenuDetails()
 {
-	$('#username').val("");
-	$('#password').val("");
-	$('#email').val("");
-	$('#usertype').val("");
+	$('#item').val("");
+	$('#submenu').val("");
+	$('#description').val("");
+	$('#price').val("");
+	$('#menu-item-after').text("");
 	
 	menuId = $('#menu-select').val();
+	
 	
 	//myApp.alert(getCookie("username"));
     xmlHttpRequest.open("POST", "GetMenuDetails?menuId=" + menuId, true);
@@ -219,16 +221,21 @@ function getMenu()
     		$('#menuSearch').html("");
     		var menuSearch = $("#menuSearch");
     		
+    		menuItems = [];
+    		
+    		menuSearch.append('<option value="no">Select an Item</option>');
+    		
     		for(i = 0; i < menuLines.length - 1; i++)
     		{
     			var currentMenuItem = menuLines[i].split("::");
+    			
     			if(currentMenuItem[0].length > 0)
     			{
 	    			var menuItem = {item: currentMenuItem[1], itemId: currentMenuItem[0], subMenu: currentMenuItem[4], description: currentMenuItem[2], price: currentMenuItem[3]};
 	    			menuItems.push(menuItem);
     			}
     		
-    			menuSearch.append('<option value="' + i + '"selected>' + menuItems[i].item + '</option>');
+    			menuSearch.append('<option value="' + i + '">' + currentMenuItem[1] + '</option>');
     		
     		}
     	}
@@ -238,6 +245,8 @@ function getMenu()
 function updateMenuInfo()
 {
 	var menuVal = $('#menuSearch').val()
+	
+	console.log(menuItems);
 	
 	currentItemId = menuItems[menuVal].itemId;
 	$('#item').val(menuItems[menuVal].item);
@@ -386,6 +395,34 @@ function changeItem()
      }
 }
 
+function updateSubMenu()
+{
+	var menuName = $('#subMenuSearch option:selected').text();
+	$('#menuName').val(menuName);
+}
+
+function changeSubMenu()
+{
+	xmlHttpRequest.open("POST", "ChangeMenu?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password") + "&menuId=" + $('#subMenuSearch option:selected').val() + "&menuName=" + $('#menuName').val(), true);
+    xmlHttpRequest.onreadystatechange = changeMenu;
+    xmlHttpRequest.send();
+}
+
+function changeMenu()
+{
+	if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+    {
+		var result = xmlHttpRequest.responseText;
+		
+		var newName = $('#menuName').val();
+		console.log();
+		$('#subMenuSearch option:selected').text(newName);
+		$('#sub-menu-item-after').text(newName);
+		
+		myApp.alert("Menu Name Updated Successfully!");
+    }
+}
+
 function getSubMenus()
 {
 	//myApp.alert(getCookie("username"));
@@ -399,9 +436,6 @@ function listMenus()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
     	var result = xmlHttpRequest.responseText;
-    	
-    	myApp.alert(result);
-    	
     	
     	if(result == "error")
     	{
@@ -417,6 +451,8 @@ function listMenus()
     		$('#subMenuSearch').html("");
     		var subMenuSearch = $("#subMenuSearch");
     		
+    		subMenuSearch.append('<option value="no"selected>Select Menu</option>');
+    		
     		for(i = 0; i < menuLines.length - 1; i++)
     		{
     			var currentMenuItem = menuLines[i].split("::");
@@ -426,7 +462,7 @@ function listMenus()
 	    			menuItems.push(menuItem);
     			}
     		
-    			subMenuSearch.append('<option value="' + i + '"selected>' + menuItems[i].item + '</option>');
+    			subMenuSearch.append('<option value="' + menuItems[i].itemId + '"selected>' + menuItems[i].item + '</option>');
     		
     		}
     	}
@@ -649,7 +685,7 @@ function displayMenus()
 			}
 		}
 		
-		getMenuDetails();
+		//getMenuDetails();
 	}
 }
 
@@ -705,8 +741,8 @@ $(document).ready(function() {
         getSubMenus();
         
         $$('.confirm-ok').on('click', function () {
-            myApp.confirm('Are you sure you want to delete this item?', function () {
-                deleteMenuItem();
+            myApp.confirm('Are you sure you want to delete this menu?', function () {
+                deleteMenu();
             });
         });
     });
