@@ -57,6 +57,7 @@ public class LoginVerification extends HttpServlet
                         writer.append(rs.getString(1));
                         writer.append("::");
                         writer.append(hashedPassword);
+                        writer.append("::");
                         String temp = rs.getString(3);
                         writer.append(temp == null ? "" : temp);
                     }

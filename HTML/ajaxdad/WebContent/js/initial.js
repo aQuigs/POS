@@ -91,7 +91,7 @@ $(function() {
         if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
         {
             var results = xmlHttpRequest.responseText.split("::");
-            if (results.length == 2)
+            if (results.length == 3)
             {
             	console.log(results);
                 var accountType = results[0];
