@@ -16,6 +16,18 @@ function logOff()
 	window.location.replace("/POS/login.html");
 }
 
+function hideBackBtn(type)
+{
+	var name = "#" +  type + "-left";
+	$(name).css("display", "none");
+}
+
+function displayBackBtn(type)
+{
+	var name = "#" +  type + "-left";
+	$(name).css("display", "inline");
+}
+
 //AJAX for Adding User
 //Parameters:adminUsername, username, password, email, accountType
 function addRestaurantUser()
@@ -147,6 +159,7 @@ function updateUserInfo()
 	$('#password').val(users[userVal].password);
 	$('#email').val(users[userVal].email);
 	$('#usertype').val(users[userVal].accountType);
+	$('#user-left').css("display", "inline");
 }
 
 function changeRestaurantUser()
@@ -253,6 +266,8 @@ function updateMenuInfo()
 	$('#submenu').val(menuItems[menuVal].subMenu);
 	$('#description').val(menuItems[menuVal].description);
 	$('#price').val(menuItems[menuVal].price);
+	
+	$('#sub-menu-left').css("display", "inline");
 	
 	$('#save-button').css("display", "inline");
 	$('#add-button').css("display", "none");
@@ -399,6 +414,7 @@ function updateSubMenu()
 {
 	var menuName = $('#subMenuSearch option:selected').text();
 	$('#menuName').val(menuName);
+	$('#sub-menu-left').css("display", "inline");
 }
 
 function changeSubMenu()
@@ -716,6 +732,7 @@ $(document).ready(function() {
     myApp.onPageInit('manageUsers', function (page) {
         getRestaurantUsers();
         $('#usertype').attr('readonly', true);
+        $('#user-left').css("display", "inline");
         
         $$('.confirm-ok').on('click', function () {
             myApp.confirm('Are you sure you want to delete this user?', function () {
@@ -727,6 +744,7 @@ $(document).ready(function() {
     myApp.onPageInit('manageMenu', function (page) {
     	getInitMenus();
         //getMenuDetails();
+    	$('#menu-left').css("display", "inline");
         
         $$('.confirm-ok').on('click', function () {
             myApp.confirm('Are you sure you want to delete this item?', function () {
@@ -737,6 +755,8 @@ $(document).ready(function() {
 
     myApp.onPageInit('getSubMenus', function (page) {
         getSubMenus();
+        
+        $('#sub-menu-left').css("display", "inline");
         
         $$('.confirm-ok').on('click', function () {
             myApp.confirm('Are you sure you want to delete this menu?', function () {
