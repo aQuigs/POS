@@ -204,12 +204,14 @@ function populateHistory(responseText) {
             var itemName = values[4];
             var imageUrl = values[6];
             var miscInfo = values[5];
+            var userName = values[7];
 
             // start a new accordion
             if (currentOrderId != orderId) {
                 currentOrderId = orderId;
                 
-                var appendString = '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
+                var appendString = '<div>Order by:  ' + userName + '</div> +
+                '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
                         + '<div class="item-inner">'
                             + '<div class="item-title" style="white-space: normal;"></div>'
                             + getProgressBar(orderStatus, "order-" + orderId);
