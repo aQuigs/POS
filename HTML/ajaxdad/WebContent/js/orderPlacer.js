@@ -83,7 +83,11 @@ function updateOrder(itemNum)
 
 function getMenuItems()
 {
-    xmlHttpRequest.open("POST", "GetMenuDetails?menuId=" + restaurantId, true);
+	if(!menuId)
+	{
+		menuId = 1;
+	}
+    xmlHttpRequest.open("POST", "GetMenuDetails?menuId=" + menuId, true);
     xmlHttpRequest.onreadystatechange = fillMenu;
     xmlHttpRequest.send();
 }

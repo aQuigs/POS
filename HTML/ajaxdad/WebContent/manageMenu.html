@@ -15,6 +15,16 @@
         
         <div class="list-block">
 		  <ul>
+		  	<li class="item-content">
+              <div class="item-inner">
+                <div class="item-title label">Menus</div>
+                <div class="item-input">
+                	<select id="menu-select" onChange="getMenuDetails();">
+
+				  	</select>
+                </div>
+              </div>
+            </li>
 		    <li>
 		      <a href="#" class="item-link smart-select" data-searchbar="true" data-searchbar-placeholder="Search Menu Items" data-back-on-select="true">
 		        <select name="MenuItems" id="menuSearch" onChange="updateMenuInfo()">
@@ -23,7 +33,7 @@
 		        <div class="item-content">
 		          <div class="item-inner">
 		            <div class="item-title">Menu Items</div>
-		            <div id="tester" class="item-after"></div>
+		            <div id="menu-item-after" class="item-after"></div>
 		          </div>
 		        </div>
 		      </a>
@@ -70,9 +80,10 @@
             </li>
 		  </ul>
 		  <p class="buttons-row">
-		  	  <a href="#" class="button button-raised" onclick="addMenuItem()">Add</a>
-			  <a href="#" class="button button-raised" onclick="changeMenuItem()">Save</a>
-			  <a href="#" class="confirm-ok button button-raised" onclick="">Delete</a>
+		      <a href="#" id="add-new-button" class="button button-raised" onclick="addNewDisplay()" style="display: none;">Add New Item</a>
+		  	  <a href="#" id="add-button" class="button button-raised" onclick="addMenuItem()">Add</a>
+			  <a href="#" id="save-button" class="button button-raised" onclick="changeMenuItem()" style="display: none;">Save</a>
+			  <a href="#" id="delete-button" class="confirm-ok button button-raised" onclick="" style="display:none;">Delete</a>
 			</p>  
 		</div>
       </div>

@@ -95,7 +95,7 @@ $(function() {
             {
             	console.log(results);
                 var accountType = results[0];
-                var restaurantId = results[3];
+                var restaurantId = results[2];
                 var location = "";
                 
                 if(accountType == "admin")

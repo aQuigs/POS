@@ -2,6 +2,7 @@ var users = [];
 var menuItems = [];
 var oldUsername;
 var currentItemId = "";
+var menuId = "";
 
 if(getCookie("username") == "" || getCookie("password") == "")
 {
@@ -67,7 +68,6 @@ function addUser()
 
  function deleteUser()
  {
-	 
       if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
       {
       	var result = xmlHttpRequest.responseText;
@@ -84,10 +84,12 @@ function addUser()
       	else if(result == "success")
       	{
       		myApp.alert("Account successfully deleted!");
-      	}
-      	else
-      	{
-      		myApp.alert("Whoops! Something went wrong. Your request could not be processed");
+      		$('#username').val("");
+      		$('#password').val("");
+      		$('#email').val("");
+      		$('#usertype').val("");
+      		getRestaurantUsers();
+      		$('#user-item-after').text("");
       	}
       }
  }
@@ -129,7 +131,7 @@ function getUsers()
 	    			users.push(user);
     			}
     		
-    			userSearch.append('<option value="' + i + '"selected>' + users[i].username + '</option>');
+    			userSearch.append('<option value="' + i + '">' + users[i].username + '</option>');
     		
     		}
     	}
@@ -173,6 +175,7 @@ function changeUser()
      	else if(result == "success")
      	{
      		myApp.alert("Account successfully updated!");
+     		getRestaurantUsers();
      	}
      	else
      	{
@@ -183,8 +186,15 @@ function changeUser()
 
 function getMenuDetails()
 {
+	$('#username').val("");
+	$('#password').val("");
+	$('#email').val("");
+	$('#usertype').val("");
+	
+	menuId = $('#menu-select').val();
+	
 	//myApp.alert(getCookie("username"));
-    xmlHttpRequest.open("POST", "GetMenuDetails?menuId=1", true);
+    xmlHttpRequest.open("POST", "GetMenuDetails?menuId=" + menuId, true);
     xmlHttpRequest.onreadystatechange = getMenu;
     xmlHttpRequest.send();
 }
@@ -238,6 +248,7 @@ function updateMenuInfo()
 	$('#save-button').css("display", "inline");
 	$('#add-button').css("display", "none");
 	$('#add-new-button').css("display", "inline");
+	$('#delete-button').css("display", "inline");
 }
 
 function addNewDisplay()
@@ -250,6 +261,7 @@ function addNewDisplay()
 	$('#save-button').css("display", "none");
 	$('#add-button').css("display", "inline");
 	$('#add-new-button').css("display", "none");
+	$('#delete-button').css("display", "none");
 }
 
 function addMenuItem()
@@ -261,7 +273,7 @@ function addMenuItem()
 		formData.append("file", imageUpload.files[0]);
 	}
 	
-    xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=1&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
+    xmlHttpRequest.open("POST", "AddMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=" + menuId + "&itemName=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addItem;
     xmlHttpRequest.send(formData);
 }
@@ -318,6 +330,12 @@ function deleteItem()
      	else if(result == "success")
      	{
      		myApp.alert("Item successfully deleted!");
+     		$('#item').val("");
+     		$('#submenu').val("");
+     		$('#description').val("");
+     		$('#price').val("");
+     		getMenuDetails();
+     		$('#menu-item-after').text("");
      	}
      	else
      	{
@@ -335,7 +353,7 @@ function changeMenuItem()
         formData.append("file", imageUpload.files[0]);
     }
     
-    xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=1&menuItemId=" + currentItemId + "&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
+    xmlHttpRequest.open("POST", "ChangeMenuItem?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&menuId=" + menuId + "&menuItemId=" + currentItemId + "&name=" + document.getElementById('item').value.toString() + "&cost=" + document.getElementById('price').value.toString() + "&submenu=" + document.getElementById('submenu').value.toString() + "&description=" + document.getElementById('description').value.toString(), true);
     xmlHttpRequest.onreadystatechange = changeItem;
     xmlHttpRequest.send(formData);
 }
@@ -371,7 +389,7 @@ function changeItem()
 function getSubMenus()
 {
 	//myApp.alert(getCookie("username"));
-    xmlHttpRequest.open("POST", "ListMenus?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password") + "&restaurantId=1", true);
+    xmlHttpRequest.open("POST", "ListMenus?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password") + "&restaurantId=" + getCookie("restaurantId"), true);
     xmlHttpRequest.onreadystatechange = listMenus;
     xmlHttpRequest.send();
 }
@@ -383,7 +401,7 @@ function listMenus()
     	var result = xmlHttpRequest.responseText;
     	
     	myApp.alert(result);
-    	return;
+    	
     	
     	if(result == "error")
     	{
@@ -420,7 +438,7 @@ function addRestaurantMenu()
 { 
 	var menuName = document.getElementById('menuName').value.toString();
 	
-    xmlHttpRequest.open("POST", "AddMenu?adminUsername=" + getCookie("username").toString() + "&password=" + getCookie("password") + "&menuName=" + menuName, true);
+    xmlHttpRequest.open("POST", "AddMenu?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password") + "&menuName=" + menuName, true);
     xmlHttpRequest.onreadystatechange = addMenu;
     xmlHttpRequest.send();
 }
@@ -430,6 +448,8 @@ function addMenu()
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
     	var result = xmlHttpRequest.responseText;
+    	
+    	myApp.alert(result);
     	
     	if(result == "invalid")
     	{
@@ -442,6 +462,10 @@ function addMenu()
     	else if(result == "taken")
     	{
     		myApp.alert("The menu name selected is already taken. Please choose a different name for this menu.");
+    	}
+    	else if(result == "error")
+    	{
+    		myApp.alert("Error adding the new sub menu");
     	}
     	else
     	{
@@ -601,6 +625,34 @@ function handleMouseMove(event, changePos) {
     }
 }
 
+function getInitMenus()
+{
+    xmlHttpRequest.open("POST", "ListMenus?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password") + "&restaurantId=" + getCookie("restaurantId"), true);
+    xmlHttpRequest.onreadystatechange = displayMenus;
+    xmlHttpRequest.send();
+}
+
+function displayMenus()
+{
+	if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+	{
+		var result = xmlHttpRequest.responseText;
+		var menuSelect = $('#menu-select');
+		var menus = result.split(";;");
+		
+		for(i = 0; i < menus.length; i++)
+		{
+			var currentMenu = menus[i].split("::");
+			if(currentMenu[1])
+			{
+				menuSelect.append("<option value='" + currentMenu[0] + "'>" + currentMenu[1] + "</option>");
+			}
+		}
+		
+		getMenuDetails();
+	}
+}
+
 $(document).ready(function() {
 
     myApp.onPageInit('seating', function() {
@@ -639,7 +691,8 @@ $(document).ready(function() {
     });
 
     myApp.onPageInit('manageMenu', function (page) {
-        getMenuDetails();
+    	getInitMenus();
+        //getMenuDetails();
         
         $$('.confirm-ok').on('click', function () {
             myApp.confirm('Are you sure you want to delete this item?', function () {
