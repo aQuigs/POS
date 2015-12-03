@@ -7,6 +7,7 @@ if(getCookie("username") == "" || getCookie("password") == "")
 	window.location.replace("/POS/login.html");
 }
 
+
 function logOff()
 {
 	setCookie("username", "", -1);	//Set cookie to expire in -1 days to delete
