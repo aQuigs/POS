@@ -100,7 +100,7 @@ function orderCanceled(orderId){
 function itemPaid(orderItemId){
     performPost("ItemPaid?username="+getCookie("username").toString() + "&password=" + getCookie("password").toString() + "&itemId=" + orderItemId,
     function (responseText) {
-        if (responseText=="itemChanged")
+        if (responseText=="itemChanged" || responseText=="orderFullyChanged")
         {
             var parent = $('#itemHistory-' + orderItemId).parent();
             $('#itemHistory-' + orderItemId).remove();
@@ -121,7 +121,7 @@ function itemPaid(orderItemId){
 function itemDelivered(orderItemId){
     performPost("ItemDelivered?username="+getCookie("username").toString() + "&password=" + getCookie("password").toString() + "&itemId=" + orderItemId,
     function (responseText) {
-        if (responseText=="itemChanged")
+        if (responseText=="itemChanged" || responseText=="orderFullyChanged")
         {
             var mybutton = $('#orderItemToDeliveredButton-'+orderItemId);
             mybutton.attr('onclick', 'itemPaid(' + orderItemId + ')');
@@ -204,7 +204,6 @@ function populateHistory(responseText) {
             var itemName = values[4];
             var imageUrl = values[6];
             var miscInfo = values[5];
-            var userName = values[7];
 
             // start a new accordion
             if (currentOrderId != orderId) {
