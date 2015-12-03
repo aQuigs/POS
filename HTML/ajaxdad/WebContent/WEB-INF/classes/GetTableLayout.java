@@ -89,9 +89,9 @@ public class GetTableLayout extends HttpServlet
                                     + "FROM UserInfo INNER JOIN TableList ON UserInfo.restaurantId=TableList.restaurantId AND UserInfo.username='%s' AND UserInfo.password='%s' "
                                     + "AND (UserInfo.type='admin' OR UserInfo.type='waitstaff');", username, password));
 
-            writer.append(gridWidth);
-            writer.append("::");
             writer.append(gridHeight);
+            writer.append("::");
+            writer.append(gridWidth);
             writer.append(";;");
 
             while (rs.next())

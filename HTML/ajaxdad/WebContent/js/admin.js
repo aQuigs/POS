@@ -442,9 +442,7 @@ function changePopupText(value) {
     $('#sitSlider').val(value);
 }
 
-var xx;
 function tableClicked(tbl) {
-    xx = tbl;
     tbl = $(tbl);
     var modal = myApp.modal({
         title: 'Edit Table',
@@ -496,6 +494,10 @@ function tableClicked(tbl) {
     } else {
         $("#boothStatusN").attr('selected','selected');
     }
+
+    var currentCapacity = tbl.attr('capacity');
+    $('#sliderVal').val(currentCapacity);
+    $('#sitSlider').val(currentCapacity);
 }
 
 function changeGridSize() {
@@ -515,7 +517,7 @@ function changeGridSize() {
 
 function saveLayout() {
     var uri = "EditTableLayout?adminUsername=" + getCookie("username").toString() 
-    + "&adminPassword=" + getCookie("password").toString() + "&gridWidth=10&gridHeight=10";
+    + "&adminPassword=" + getCookie("password").toString() + "&gridWidth="+gridDimensions[1]+"&gridHeight="+gridDimensions[0];
 
     var tables = $('.table');
     for (var i = 0; i < tables.length; ++i) {
@@ -547,51 +549,60 @@ function beginAddTable() {
     clickStatus = 1;
 }
 
+function clearTableLayout() {
+    myApp.confirm('Are you sure you want to clear the table layout?', function () {
+        $(".table").remove();
+    });
+}
+
+function handleMouseMove(event) {
+    var parentOffset = $('#seating-grid').offset(); 
+    var relX = event.pageX - parentOffset.left;
+    var relY = event.pageY - parentOffset.top
+    var mouseC = getColumnFromX(relX);
+    var mouseR = getRowFromY(relY);
+
+    if (clickStatus == 1) {
+        preview = drawPreviewDiv(mouseC, mouseR, 1, 1, true);
+        if (mouseR != -1 && mouseC != -1) {
+            preview.css('visibility', 'visible');
+        } else {
+            preview.css('visibility', 'hidden');
+        }
+    } else if (clickStatus == 2) {
+        if (mouseR != -1 && mouseC != -1) {
+            var x = preview.attr('x')-1;
+            var y = preview.attr('y')-1;
+            var x1 = Math.min(x, mouseC);
+            var x2 = Math.max(x, mouseC);
+            var y1 = Math.min(y, mouseR);
+            var y2 = Math.max(y, mouseR);
+
+            preview = drawPreviewDiv(x1,y1, x2-x1+1, y2-y1+1, false);
+        }
+    }
+}
+
 $(document).ready(function() {
 
     myApp.onPageInit('seating', function() {
         var background = $('#seating-grid');
-        background.mousemove(function(event) {
-            var parentOffset = background.offset(); 
-            var relX = event.pageX - parentOffset.left;
-            var relY = event.pageY - parentOffset.top
-            var mouseC = getColumnFromX(relX);
-            var mouseR = getRowFromY(relY);
-            
-            if (clickStatus == 1) {
-                preview = drawPreviewDiv(mouseC, mouseR, 1, 1, true);
-                if (mouseR != -1 && mouseC != -1) {
-                    preview.css('visibility', 'visible');
-                } else {
-                    preview.css('visibility', 'hidden');
-                }
-            } else if (clickStatus == 2) {
-                if (mouseR != -1 && mouseC != -1) {
-                    var x = preview.attr('x')-1;
-                    var y = preview.attr('y')-1;
-                    var x1 = Math.min(x, mouseC);
-                    var x2 = Math.max(x, mouseC);
-                    var y1 = Math.min(y, mouseR);
-                    var y2 = Math.max(y, mouseR);
+        background.mousemove(handleMouseMove);
 
-                    preview = drawPreviewDiv(x1,y1, x2-x1+1, y2-y1+1, false);
-                    preview.attr('onclick','tableClicked(this);');
-                }
-            }
-        });
-
-        background.mouseup(function() {
+        background.mouseup(function(event) {
             if (clickStatus == 1) {
                 if (preview && preview.length && preview.css('visibility') === 'visible') {
                     clickStatus = 2;
                 }
             } else if (clickStatus == 2) {
+                handleMouseMove(event);
                 preview.removeClass('preview');
                 clickStatus = 3;
                 preview.attr('tableId',0);
                 preview.attr('capacity',4);
                 preview.attr('filledSeats',0);
                 preview.attr('booth','NO');
+                preview.attr('onclick','tableClicked(this);');
                 preview.removeAttr('id');
                 preview = undefined;
             }
