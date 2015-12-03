@@ -40,7 +40,7 @@ public class LoginVerification extends HttpServlet
         {
             MySQLUtilities sql = new MySQLUtilities();
 
-            ResultSet rs = sql.SelectSQL(String.format("SELECT type,unverifiedHash FROM UserInfo WHERE username='%s' AND password='%s';", username,
+            ResultSet rs = sql.SelectSQL(String.format("SELECT type,unverifiedHash,restaurantId FROM UserInfo WHERE username='%s' AND password='%s';", username,
                     ServletUtilities.generateHash(password, ServletUtilities.getSalt(sql, username))));
             if (rs.next())
             {
@@ -57,6 +57,8 @@ public class LoginVerification extends HttpServlet
                         writer.append(rs.getString(1));
                         writer.append("::");
                         writer.append(hashedPassword);
+                        String temp = rs.getString(3);
+                        writer.append(temp == null ? "" : temp);
                     }
                     else
                     {
