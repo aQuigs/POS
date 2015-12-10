@@ -296,6 +296,6 @@ function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 
 
 $(document).ready(function () {
-    restaurantId=1; // TODO get this from server based on credentials    
+    restaurantId = getCookie("restaurantId"); // TODO get this from server based on credentials    
     fillCookedOrderQueue();
 });

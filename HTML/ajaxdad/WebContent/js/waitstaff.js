@@ -408,7 +408,7 @@ function showVal(value)
 
 $(document).ready(function () {
 	$("#welcome-text").val("Welcome" + getCookie("username"));
-    restaurantId=1; // TODO get this from server based on credentials
+    restaurantId= getCookie("restaurantId"); // TODO get this from server based on credentials
     getMenus();
     myApp.onPageInit('ordersInProgress', getHistory);
 });
