@@ -1,3 +1,5 @@
+var queueType = "unfinished";
+
 if(getCookie("username") == "" || getCookie("password") == "")
 {
     window.location.replace("/POS/login.html");
@@ -9,6 +11,12 @@ function logOff()
 	setCookie("password", "", -1);	//Set cookie to expire in -1 days to delete
 	setCookie("accountType", "", -1);	//Set cookie to expire in -1 days to delete
 	window.location.replace("/POS/login.html");
+}
+
+function homeClick()
+{
+	queueType = "unfinished";
+	window.location.replace('/POS/kitchen.html');
 }
 
 function getOrderProgress(status) {
@@ -158,7 +166,90 @@ function fillCookedQueue()
 {
     if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
     {
-        var historyList = $('#order-queue');
+    	var historyList = $('#cooked-order-queue');
+    	
+    	console.log("its getting in here");
+    	
+        historyList.empty();
+
+        var currentOrderId = 0;
+        var currentAccordion;
+    
+        var result = xmlHttpRequest.responseText;
+        console.log(result);
+        var entries = result.split(';;');
+        for (var i = 0; i < entries.length; ++i) {
+            var values = entries[i];
+            if (values.length) {
+                values = values.split('::');
+                //var restaurantName = values[0];
+                var orderId = values[0];
+                var orderItemId = values[1]; 
+                var orderStatus = values[2];
+                var orderItemStatus = values[3];
+                var itemName = values[4];
+                var miscInfo = values[5];
+                var subMenu = values[6];        
+                // start a new accordion
+                if (currentOrderId != orderId) {
+                    currentOrderId = orderId;
+                    
+                    var appendString = 
+                    '<li id="order-accordion-'+orderId+'" class="accordion-item"><a href="#" class="item-content item-link">'
+                            + '<div class="item-inner">'
+                                + '<div class="item-title" style="white-space: normal;"></div>'
+                                + getProgressBar(orderStatus, "order-" + orderId);
+                    
+                    appendString += '<p>';
+                    
+                    if (orderStatus=="COOKED")
+                    {
+                        appendString += '<input type="button" id="orderCooked-' +orderId+ '" value="Return To Order Queue" class="btn btn-info status-button" onclick="orderUncooked(' + orderId + ')">';               
+                    }
+                                
+                    appendString += ' </p></div></a>'
+                            + '<div class="accordion-item-content">'
+                                + '<div class="content-block">'
+                                    + '<div class="list-block accordion-list">'
+                                        + '<ul id="history-' + orderId + '"></ul></div></div></div></li>';
+                                        
+                    
+                    historyList.append(appendString);
+                    currentAccordion = $('#history-'+orderId);
+                }
+
+                if(orderItemStatus=="COOKED")
+                {
+                    var currentAccordionString = '<li id="itemHistory-' + orderItemId + '" class="accordion-item item-content" style="padding: 10px;">'
+                               + '<div class="item-inner">'
+                                   + '<div class="item-title" style="width: 100%;">'
+                                       + '<h3>' + itemName + '</h3>'
+                                       + '<p>' + miscInfo + '</p>'
+                                           + getProgressBar(orderItemStatus, orderItemId)
+                                           + '<p>';
+                                                
+                    currentAccordionString += '</p>';
+                    '</div>'
+                               + '</div>'
+                           + '</div>'
+                          + '</li>';          
+                    currentAccordion.append(currentAccordionString);                
+                }
+
+            }
+        }
+         
+     
+
+    }
+}
+
+function fillQueue()
+{
+    if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+    {
+    	var historyList = $('#order-queue');
+    	
         historyList.empty();
 
         var currentOrderId = 0;
@@ -254,13 +345,45 @@ function fillCookedQueue()
     }
 }
 
-function fillCookedOrderQueue()
+function fillOrderQueue()
 {
     xmlHttpRequest.open("POST", "GetUnfinishedOrders?username=" + getCookie("username") + "&password=" + getCookie("password"), true);
+    xmlHttpRequest.onreadystatechange = fillQueue;
+    xmlHttpRequest.send();
+}
+
+function fillCookedOrderQueue()
+{
+    xmlHttpRequest.open("POST", "GetCookedOrders?username=" + getCookie("username") + "&password=" + getCookie("password"), true);
     xmlHttpRequest.onreadystatechange = fillCookedQueue;
     xmlHttpRequest.send();
 }
 
+function orderUncooked(orderId)
+{
+    xmlHttpRequest.open("POST", "OrderUncooked?username=" + getCookie("username") + "&password=" + getCookie("password") + "&orderId=" + orderId, true);
+    xmlHttpRequest.onreadystatechange = uncooked;
+    xmlHttpRequest.send();
+}
+
+function uncooked()
+{
+	if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200)
+	{
+		var result = xmlHttpRequest.responseText;
+		
+		if(result == "orderStatusChanged")
+		{
+			fillCookedOrderQueue();
+			myApp.alert("Added Back to the Order Queue!");
+			
+		}
+		else
+		{
+			myApp.alert("Something Went Wrong!!");
+		}
+	}
+}
 
 function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 {
@@ -294,8 +417,13 @@ function accordInnerItem(itemNum, itemStatus, itemName, miscInfo, subMenu)
 		+'</li>';
 }
 
+myApp.onPageInit('cookedOrders', function (page) {
+	queueType = "cooked";
+
+	fillCookedOrderQueue();
+});
 
 $(document).ready(function () {
     restaurantId = getCookie("restaurantId"); // TODO get this from server based on credentials    
-    fillCookedOrderQueue();
+    fillOrderQueue();
 });
