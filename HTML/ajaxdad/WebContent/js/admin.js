@@ -73,7 +73,7 @@ function addUser()
   //Parameters:adminUsername, username, password, email, accountType
  function deleteRestaurantUser()
  {
-     xmlHttpRequest.open("POST", "DeleteRestaurantUser?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&username=" + document.getElementById('username').value.toString(), true);
+     xmlHttpRequest.open("POST", "DeleteRestaurantUser?adminUsername=" + getCookie("username") + "&adminPassword=" + getCookie("password").toString() + "&username=" + document.getElementById('add-username').value.toString(), true);
      xmlHttpRequest.onreadystatechange = deleteUser;
      xmlHttpRequest.send();
  }
