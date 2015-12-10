@@ -43,7 +43,7 @@ public class GetCookedOrders extends HttpServlet
                             + "AND UserInfo.username='%s' AND UserInfo.password='%s' AND UserInfo.type='kitchen' "
                             + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                             + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
-                            + "WHERE OrderDetails.status='PLACED' OR OrderDetails.status='STARTED' "
+                            + "WHERE OrderDetails.status='COOKED' "
                             + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", username, password));
             while (rs.next())
             {
