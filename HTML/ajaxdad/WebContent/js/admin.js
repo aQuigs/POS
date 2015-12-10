@@ -35,7 +35,7 @@ function addRestaurantUser()
 	var username = document.getElementById('username').value.toString();
 	var password = document.getElementById('password').value.toString();
 	
-    xmlHttpRequest.open("POST", "AddRestaurantUser?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&username=" + document.getElementById('username').value.toString() + "&password=" + document.getElementById('password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('accountType').value.toString(), true);
+    xmlHttpRequest.open("POST", "AddRestaurantUser?adminUsername=" + getCookie("username").toString() + "&adminPassword=" + getCookie("password").toString() + "&username=" + document.getElementById('add-username').value.toString() + "&password=" + document.getElementById('add-password').value.toString() + "&email=" + document.getElementById('email').value.toString() + "&accountType=" + document.getElementById('accountType').value.toString(), true);
     xmlHttpRequest.onreadystatechange = addUser;
     xmlHttpRequest.send();
 }
