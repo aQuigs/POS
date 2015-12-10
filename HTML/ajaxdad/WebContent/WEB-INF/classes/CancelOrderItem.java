@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -36,12 +37,21 @@ public class CancelOrderItem extends HttpServlet
         try
         {
             MySQLUtilities sql = new MySQLUtilities();
+            ResultSet rs = sql.SelectSQL(String.format(
+                    "SELECT restaurantId FROM UserInfo WHERE username='%s' AND password='%s' AND type='waitstaff';", username, password));
+            if (!rs.next())
+            {
+                writer.append("invalid");
+                return;
+            }
+
+            String restaurantId = rs.getString(1);
             int rowsChanged = sql
-                    .DeleteSQL(String.format(
-                            "DELETE OrderDetails FROM UserInfo INNER JOIN OrderList ON UserInfo.username='%s' AND UserInfo.username=OrderList.customerUsername "
-                                    + "AND UserInfo.password='%s' AND UserInfo.type='waitstaff' AND UserInfo.restaurantId=OrderList.restaurantId "
-                                    + "INNER JOIN OrderDetails ON OrderDetails.orderId=OrderList.orderId "
-                                    + "WHERE OrderDetails.detailId=%s;", username, password, itemId));
+                    .DeleteSQL(String
+                            .format("DELETE OrderDetails FROM UserInfo INNER JOIN OrderList ON OrderList.restaurantId=%s "
+                                        + "AND OrderList.customerUsername=UserInfo.username AND ((UserInfo.type='waitstaff' AND UserInfo.username='%s') OR UserInfo.type='customer')"
+                                        + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
+                                        + "WHERE OrderDetails.detailId=%s;", restaurantId, username, itemId));   
 
             if (rowsChanged != 0)
             {
