@@ -51,11 +51,11 @@ public class GetCancelableOrders extends HttpServlet
                             .format(
                                     "SELECT OrderList.orderId,OrderDetails.detailId,OrderList.status,OrderDetails.status,MenuDetails.itemName,OrderDetails.miscInfo,MenuDetails.imageUrl,OrderList.customerUsername "
                                             + "FROM UserInfo INNER JOIN OrderList ON OrderList.restaurantId=%s "
-                                            + "AND OrderList.customerUsername=UserInfo.username AND (UserInfo.type='waitstaff' OR UserInfo.type='customer')"
+                                            + "AND OrderList.customerUsername=UserInfo.username AND ((UserInfo.type='waitstaff' AND UserInfo.username='%s') OR UserInfo.type='customer')"
                                             + "INNER JOIN OrderDetails ON OrderList.orderId=OrderDetails.orderId "
                                             + "INNER JOIN MenuDetails ON OrderDetails.menuItemId=MenuDetails.menuItemId "
                                             + "WHERE OrderDetails.status != 'PAID'"
-                                            + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", restaurantId, username, password));
+                                            + "ORDER BY OrderList.status,OrderList.orderId,OrderDetails.status;", restaurantId, username));
             while (rs.next())
             {
                 writer.append(rs.getString(1));
